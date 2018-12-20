@@ -1,11 +1,11 @@
 version: "2"
 services:
   web:
-    build: ./app
+    build: ./amicsartromanic/app
     ports:
       - "8080:8080"
     volumes:
-      - /home/alemasar/Projects/amicsartromanic/app:/app:rw
+      - /home/alemasar/Projects/amicsartromanic/amicsartromanic/app:/app:rw
     environment:
       - NODE_ENV=development
     networks:

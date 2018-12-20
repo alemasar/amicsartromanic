@@ -11,6 +11,7 @@ body .icon {
   background-image: url(../images/icon.svg);
   background-repeat: no-repeat;
   background-position: center;
+  border: 1px solid #000;
 }
 
 /*# sourceMappingURL=style.css.map*/
