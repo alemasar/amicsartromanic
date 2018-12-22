@@ -3,13 +3,12 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 const parts = require("./webpack.parts");
 const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin');
-const CleanWebpackPlugin = require("clean-webpack-plugin");
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 
 let p = {}
 p['./js/main'] = './index.js';
 p['./css/style'] = './src/scss/main.scss';
-
+console.log(p)
 const commonConfig = merge({
 	entry: p,
 	mode:"development",
@@ -31,7 +30,8 @@ const PATHS = {
 };
 
 const productionConfig = merge([
-    parts.clean(PATHS.build),
+	parts.clean(PATHS.build),
+	parts.loadCatFile(),
     parts.loadHTML({}),
     parts.extractCSS({
         use: [
@@ -56,7 +56,8 @@ const developmentConfig = merge([
         // Customize host/port here if needed
         host: process.env.HOST,
         port: process.env.PORT,
-    }),
+	}),
+	parts.loadCatFile(),
     parts.loadHTML({}),
     parts.extractCSS({
         use: ["css-loader", "sass-loader"]
@@ -69,6 +70,6 @@ module.exports = mode => {
     if (mode === "production") {
         return merge(commonConfig, productionConfig, { mode });
     }
-
+	console.log(merge(commonConfig, developmentConfig, { mode }))
     return merge(commonConfig, developmentConfig, { mode });
 };

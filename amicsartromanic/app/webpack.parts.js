@@ -84,6 +84,29 @@ exports.onFinished = () => ({
   ],
 });
 
+exports.loadCatFile = ({ include, exclude } = {}) => ({
+	module: {
+	  rules: [
+		{
+		  test: /\.(cat)$/,
+		  include,
+		  exclude,
+		  use: {
+			loader: path.resolve('./loaders/cat-loader.js'),
+			  options: {
+				context: path.join(__dirname, "src")
+//			  name: '[name].[ext]',
+//			  useRelativePath: true,
+//			  outputPath: '../dist/',
+//			  publicPath: '../images/'
+			}
+		  },
+		},
+	  ],
+	},
+  });
+
+
 exports.loadImages = ({ include, exclude } = {}) => ({
   module: {
     rules: [
