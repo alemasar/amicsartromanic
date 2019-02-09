@@ -1,0 +1,7 @@
+[{
+	"config": {
+		"basePath": "components/componentB",
+		"scss": "scss/componentB.scss",
+		"js": "./js/componentB.js"
+	}
+}]

@@ -4,6 +4,7 @@ services:
     build: ./amicsartromanic/app
     ports:
       - "8080:8080"
+      - "3005:3005"
     volumes:
       - /home/alemasar/Projects/amicsartromanic/amicsartromanic/app:/app:rw
     environment:

@@ -1,0 +1,24 @@
+{
+    "routes": [
+        {
+            "template": "route_menu.html",
+            "path": "./tpls",
+            "children": [
+                {
+                    "id":"home",
+                    "label":"Home",
+                    "template": "route_home.html",
+                    "path": "../../../src/tpls",
+                    "data": "service1"
+                },
+                {
+                    "id":"test",
+                    "label":"Test",
+                    "template": "another_route.html",
+                    "path": "../../../src/tpls",
+                    "data": "service1"
+                }
+            ]
+        }
+    ]
+}

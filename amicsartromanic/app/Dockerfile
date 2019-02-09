@@ -5,7 +5,7 @@ RUN npm install -g yarn
 
 VOLUME /app
 
-EXPOSE 8080
+EXPOSE 8080 3005
 
 WORKDIR /app
 

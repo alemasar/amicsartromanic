@@ -11,7 +11,7 @@ else
 fi && 
 
 printf "${GREEN}transpiling website${NC}\n"
-npm run build
+npm run launch
 #npm run clean-server
 #npm run build-server
 # Dont build webpack

@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require("extract-css-chunks-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const GitRevisionPlugin = require("git-revision-webpack-plugin");
 const EventHooksPlugin = require('event-hooks-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 console.log(__dirname)
 
@@ -25,10 +26,10 @@ exports.devServer = ({ host, port } = {}) => ({
   },
   plugins: [
     // Ignore node_modules so CPU usage with poll
-    // watching drops significantly.
+	// watching drops significantly.
     new webpack.WatchIgnorePlugin([
       path.join(__dirname, "node_modules")
-    ])
+	])
   ]
 });
 
@@ -40,7 +41,8 @@ exports.extractCSS = ({ include, exclude, use, hot = [] }) => {
     filename: "[name].css",
     chunkFilename: "[id].css",
     hot: hot, // optional as the plugin cannot automatically detect if you are using HOT, not for production use
-    allChunks: true,
+	allChunks: true,
+
   });
 
   return {
@@ -94,7 +96,8 @@ exports.loadCatFile = ({ include, exclude } = {}) => ({
 		  use: {
 			loader: path.resolve('./loaders/cat-loader.js'),
 			  options: {
-				context: path.join(__dirname, "src")
+				context: path.join(__dirname, "src"),
+				public: path.join(__dirname, "public"),
 //			  name: '[name].[ext]',
 //			  useRelativePath: true,
 //			  outputPath: '../dist/',

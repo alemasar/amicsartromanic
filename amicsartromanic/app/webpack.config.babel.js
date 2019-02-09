@@ -6,7 +6,7 @@ const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plug
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 
 let p = {}
-p['./js/main'] = './index.js';
+p['./js/main'] = './public/index.js';
 p['./css/style'] = './src/scss/main.scss';
 console.log(p)
 const commonConfig = merge({
@@ -17,7 +17,7 @@ const commonConfig = merge({
         new HtmlWebpackPlugin({
             title: "Webpack demo",
             excludeAssets: [/style.js/],
-            template: './index.html'
+            template: './public/index.html'
         }),
         new HtmlWebpackExcludeAssetsPlugin(),
         new HtmlWebpackHarddiskPlugin()
@@ -57,13 +57,13 @@ const developmentConfig = merge([
         host: process.env.HOST,
         port: process.env.PORT,
 	}),
-	parts.loadCatFile(),
     parts.loadHTML({}),
     parts.extractCSS({
         use: ["css-loader", "sass-loader"]
     }, true),
     parts.loadImages({}),
-    parts.onFinished()
+	parts.loadCatFile(),
+	parts.onFinished()
 ]);
 
 module.exports = mode => {
