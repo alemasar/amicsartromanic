@@ -8,7 +8,7 @@ const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 let p = {}
 p['./js/main'] = './public/index.js';
 p['./css/style'] = './src/scss/main.scss';
-console.log(p)
+
 const commonConfig = merge({
 	entry: p,
 	mode:"development",
@@ -23,7 +23,7 @@ const commonConfig = merge({
         new HtmlWebpackHarddiskPlugin()
 	],
 });
-console.log(path.join(__dirname, "src"));
+
 const PATHS = {
     app: path.join(__dirname, "src"),
     build: path.join(__dirname, "dist"),
@@ -70,6 +70,5 @@ module.exports = mode => {
     if (mode === "production") {
         return merge(commonConfig, productionConfig, { mode });
     }
-	console.log(merge(commonConfig, developmentConfig, { mode }))
     return merge(commonConfig, developmentConfig, { mode });
 };

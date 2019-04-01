@@ -1,20 +1,15 @@
 {
-	"view": {
-		"howto-checkbox": {
-			"id": "join-checkbox"
-		},
-		"data":{
-			"url":"service1"
-		}
-	},
-	"dependencies": [
-		{
-			"howto-checkbox": {
-				"basePath": "components/componentA",
-				"scss": "scss/componentA.scss",
-				"js": "js/componentA.js",
-				"template": "html/componentA.html"
-			}
-		}
-	]
+  "tag": "howto-checkbox",
+  "basePath": "components/componentA",
+  "scss": "scss/componentA.scss",
+  "js": "js/componentA.js",
+  "template": "html/componentA.html",
+  "view": {
+    "howto-checkbox": {
+      "id": "join-checkbox"
+    },
+    "data": {
+      "url": "service1"
+    }
+  }
 }

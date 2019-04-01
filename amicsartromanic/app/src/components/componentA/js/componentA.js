@@ -1,5 +1,5 @@
-/* import class HTTP/http/HTTP.get */
-/* import template */
+// import class HTTP/http/HTTP.get
+/* compile scss then write css */
 
 const KEYCODE = {
 	SPACE: 32,

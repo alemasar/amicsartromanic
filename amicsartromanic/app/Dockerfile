@@ -9,4 +9,4 @@ EXPOSE 8080 3005
 
 WORKDIR /app
 
-CMD ["npm", "run", "start"]
+#CMD ["npm", "run", "launch"]

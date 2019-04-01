@@ -6,8 +6,6 @@ const GitRevisionPlugin = require("git-revision-webpack-plugin");
 const EventHooksPlugin = require('event-hooks-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
-console.log(__dirname)
-
 exports.devServer = ({ host, port } = {}) => ({
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
