@@ -6,39 +6,6 @@ const fs = require("fs");
 const Process = require("../../compiler/CompilerProcess");
 
 class RootIndexMethods {
-  importPolyfills(inputs, output) {
-    return (
-      `const polyfills = [];
-    polyfills.push(import(
-        /* webpackChunkName: "webcomponents-bundle" */
-        /* webpackMode: "lazy" */
-        /* webpackPrefetch: true */ 
-        /* webpackPreload: true */` +
-      "`" +
-      "@webcomponents/webcomponentsjs/webcomponents-bundle.js" +
-      "`" +
-      `));
-    polyfills.push(import(
-        /* webpackChunkName: "webcomponents-loader" */
-        /* webpackMode: "lazy" */
-        /* webpackPrefetch: true */ 
-        /* webpackPreload: true */` +
-      "`" +
-      "@webcomponents/webcomponentsjs/webcomponents-loader.js" +
-      "`" +
-      `));
-    polyfills.push(import(
-        /* webpackChunkName: "custom-elements-es5-adapter" */
-        /* webpackMode: "lazy" */
-        /* webpackPrefetch: true */ 
-        /* webpackPreload: true */` +
-      "`" +
-      "@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js" +
-      "`" +
-      `));`
-    );
-  }
-
   writePath(inputs, output) {
     return inputs.json[output];
   }
