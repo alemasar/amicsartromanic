@@ -11,9 +11,9 @@ export default class HowToCheckbox extends HTMLElement {
 	  }
 	  constructor() {
 		  super();
-		  console.log("paso")
+		  console.log("paso component A")
 		  this.attachShadow({ mode: 'open' });
-		  console.log(this.cat)
+		  // console.log(this.cat)
 		  this.shadowRoot.appendChild(template.content.cloneNode(true));
 	  }
 	  _upgradeProperty(prop) {

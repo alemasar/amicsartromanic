@@ -11,7 +11,7 @@ exports.devServer = ({ host, port } = {}) => ({
     contentBase: path.join(__dirname, 'dist'),
     host, // Defaults to `localhost`
     port, // Defaults to 8080
-    open: true,
+    open: false,
     overlay: true,
     watchOptions: {
       // Delay the rebuild after the first change
@@ -78,11 +78,34 @@ exports.onFinished = () => ({
 
     new EventHooksPlugin({
       'done': () => {
-        console.log("As you can see the compiling is finished")
+        console.log("As you can see the compiling is finished", global.catFiles)
       }
     })
   ],
 });
+
+exports.loadTemplateFile = ({ include, exclude } = {}) => ({
+	module: {
+	  rules: [
+		{
+		  test: /\.(template)$/,
+		  include,
+		  exclude,
+		  use: {
+			loader: path.resolve('./loaders/template-loader/template-loader.js'),
+			  options: {
+				context: path.join(__dirname, "src"),
+				public: path.join(__dirname, "public"),
+//			  name: '[name].[ext]',
+//			  useRelativePath: true,
+//			  outputPath: '../dist/',
+//			  publicPath: '../images/'
+			}
+		  },
+		},
+	  ],
+	},
+  });
 
 exports.loadCatFile = ({ include, exclude } = {}) => ({
 	module: {
@@ -92,7 +115,7 @@ exports.loadCatFile = ({ include, exclude } = {}) => ({
 		  include,
 		  exclude,
 		  use: {
-			loader: path.resolve('./loaders/cat-loader.js'),
+			loader: path.resolve('./loaders/cat-loader/cat-loader.js'),
 			  options: {
 				context: path.join(__dirname, "src"),
 				public: path.join(__dirname, "public"),
@@ -119,9 +142,9 @@ exports.loadImages = ({ include, exclude } = {}) => ({
           loader: "file-loader",
           options: {
             name: '[name].[ext]',
-            useRelativePath: true,
-            outputPath: '../dist/',
-            publicPath: '../images/'
+            useRelativePath: false,
+            outputPath: './images',
+            publicPath: '../images'
           }
         },
       },

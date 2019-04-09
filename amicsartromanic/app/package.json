@@ -5,6 +5,7 @@
   "main": "./public/index.js",
   "scripts": {
     "launch": "concurrently \"npm run api\" \"npm run dev\" \"npm run build\" \"npm run server\"",
+    "config": "node app.js",
     "build": "webpack --env production && rm -rf \"./dist/css/style.js\"",
     "server": "webpack-dev-server",
     "api": "node ./server/api.js",
@@ -13,7 +14,7 @@
     "build-webpack": "NODE_ENV=production webpack --config webpack.config.js",
     "clean-server": "rm -rf dist && mkdir dist",
     "clean-webpack": "rm -rf public && mkdir public",
-    "start": "webpack-dev-server --inline --progress --host 0.0.0.0"
+    "start": "npm run launch"
   },
   "repository": {
     "type": "git",
@@ -28,8 +29,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@webcomponents/webcomponentsjs": "^2.2.1",
-    "promise-polyfill": "8.1.0"
+    "@webcomponents/webcomponentsjs": "^2.2.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
@@ -39,9 +39,9 @@
     "clean-webpack-plugin": "^0.1.19",
     "concurrently": "^3.6.0",
     "copy-webpack-plugin": "^4.6.0",
-    "cp": "^0.2.0",
     "css-loader": "^0.28.11",
     "event-hooks-webpack-plugin": "^2.0.0",
+    "express": "^4.16.4",
     "extract-css-chunks-webpack-plugin": "^3.0.6",
     "file-loader": "^1.1.11",
     "git-revision-webpack-plugin": "^3.0.3",

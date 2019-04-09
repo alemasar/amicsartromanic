@@ -27,7 +27,7 @@ export default class HowToCheckboxTwitter extends HTMLElement {
 		  super();
 		  console.log("paso")
 		  this.attachShadow({ mode: 'open' });
-		  console.log(this.cat)
+//		  console.log(this.cat)
 		  this.shadowRoot.appendChild(template.content.cloneNode(true));
 	  }
 	  _upgradeProperty(prop) {

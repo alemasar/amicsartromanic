@@ -3,13 +3,5 @@
   "basePath": "components/componentB",
   "scss": "scss/componentB.scss",
   "js": "js/componentB.js",
-  "template": "html/componentB.html",
-  "view": {
-    "howto-checkbox": {
-      "id": "join-checkbox-twitter"
-    },
-    "data": {
-      "url": "service1"
-    }
-  }
+  "template": "html/componentB.html"
 }

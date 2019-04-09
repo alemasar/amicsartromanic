@@ -11,7 +11,22 @@ services:
       - NODE_ENV=development
     networks:
       - frontend
+    entrypoint: "npm run launch"
+  admin:
+    build: ./amicsartromanic/admin
+    ports:
+      - "3000:3000"
+    volumes:
+      - /home/alemasar/Projects/amicsartromanic/amicsartromanic/admin:/admin:rw
+    environment:
+      - NODE_ENV=development
+    networks:
+      - admin
+    entrypoint: "npm run launch"
 networks:
   frontend:
+    # Use a custom driver
+    driver: bridge
+  admin:
     # Use a custom driver
     driver: bridge

@@ -1,0 +1,7 @@
+{
+  "rootTag": "app",
+  "className": "NewsTemplate",
+  "path": "/news",
+  "basePath": "app/templates/tpls",
+  "template": "news.html"
+}
