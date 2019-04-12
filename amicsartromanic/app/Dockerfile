@@ -1,12 +1,20 @@
 FROM node:10
-MAINTAINER Justin Firth <jmfirth@gmail.com>
 
-RUN npm install -g yarn
+#RUN npm install webpack -g
 
-VOLUME /app
+WORKDIR /tmp/app
+COPY package.json /tmp/app/
+RUN npm config set registry http://registry.npmjs.org/ && npm install
 
-EXPOSE 8080 3005
+WORKDIR /usr/src/app
+COPY . /usr/src/app/
+RUN cp -a /tmp/app/node_modules /usr/src/app/
 
-WORKDIR /app
+#RUN webpack
 
-#CMD ["npm", "run", "launch"]
+ENV NODE_ENV=development
+ENV PORT=8080
+
+#CMD [ "npm", "start" ]
+
+EXPOSE 8080

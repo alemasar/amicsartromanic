@@ -1,32 +1,69 @@
-version: "2"
+version: "3"
 services:
-  web:
-    build: ./amicsartromanic/app
-    ports:
-      - "8080:8080"
-      - "3005:3005"
-    volumes:
-      - /home/alemasar/Projects/amicsartromanic/amicsartromanic/app:/app:rw
-    environment:
-      - NODE_ENV=development
-    networks:
-      - frontend
-    entrypoint: "npm run launch"
   admin:
     build: ./amicsartromanic/admin
     ports:
       - "3000:3000"
     volumes:
-      - /home/alemasar/Projects/amicsartromanic/amicsartromanic/admin:/admin:rw
+      - ./amicsartromanic/admin/:/usr/src/admin/:rw
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=dev
     networks:
-      - admin
-    entrypoint: "npm run launch"
+      - frontend
+    command: >
+      sh -c '
+        if test -d node_modules; 
+        then 
+          echo node_modules_exists ; 
+        else 
+          cp -a /tmp/admin/node_modules /usr/src/admin; 
+        fi && 
+        npm install && 
+        npm run buildDev &&
+        npm start
+      '
+  web:
+    build: ./amicsartromanic/app
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./amicsartromanic/app/:/usr/src/app/:rw
+    environment:
+      - NODE_ENV=dev
+    networks:
+      - frontend
+    command: >
+      sh -c '
+        if test -d node_modules; 
+        then 
+          echo node_modules_exists ; 
+        else 
+          npm install ;
+        fi && 
+        ls -la &&
+        npm run build &&
+        npm run build-server &&
+        npm run server
+      '
+  backend-service:
+    build: ./amicsartromanic/backend-api/observatory  # path is relative to docker-compose.yml localtion
+    links:
+      - db
+    volumes:
+      - ./amicsartromanic/backend-api/observatory:/usr/src/backend-api # mount point
+    ports:
+      - 5000:5000  # host:container
+    networks:
+      - frontend
+  db:
+    image: mysql:5.7
+    ports:
+      - "32000:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/:ro
 networks:
   frontend:
-    # Use a custom driver
-    driver: bridge
-  admin:
     # Use a custom driver
     driver: bridge

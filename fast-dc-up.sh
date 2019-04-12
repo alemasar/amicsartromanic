@@ -1,5 +1,5 @@
-amicsartromanic/admin/start.sh &
-amicsartromanic/app/start.sh &
+#amicsartromanic/admin/start.sh &
+#amicsartromanic/app/start.sh &
 
 echo " ___________________________________________"
 echo "< Welcome to AMICS ART ROMANIC DE SABADELL >"

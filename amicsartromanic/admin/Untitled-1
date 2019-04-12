@@ -1,0 +1,28 @@
+  admin:
+    build: ./amicsartromanic/admin
+    command: npm run launch
+    ports:
+      - "3000:3000"
+    volumes:
+      - /home/alemasar/Projects/amicsartromanic/amicsartromanic/admin:/admin:rw
+    environment:
+      - NODE_ENV=development
+    networks:
+      - admin
+    #entrypoint: "npm run launch"
+  observatory-service:
+    build: ./amicsartromanic/backend-api/observatory  # path is relative to docker-compose.yml localtion
+    volumes:
+      - /home/alemasar/Projects/amicsartromanic/amicsartromanic/backend-api/observatory:/usr/src/app # mount point
+    ports:
+      - "5001:5001"  # host:container
+    networks:
+      - backend-api
+
+
+        admin:
+    # Use a custom driver
+    driver: bridge
+  backend-api:
+    # Use a custom driver
+    driver: bridge

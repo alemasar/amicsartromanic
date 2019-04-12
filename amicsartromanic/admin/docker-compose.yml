@@ -1,0 +1,20 @@
+web:
+  build: .
+  ports:
+  - "3000:3000"
+  volumes:
+  - .:/usr/src/admin/:rw
+  environment:
+  - NODE_ENV=dev
+  command: >
+    sh -c '
+      if test -d node_modules; 
+      then 
+        echo node_modules_exists ; 
+      else 
+        cp -a /tmp/node_modules /usr/src/admin; 
+      fi && 
+      npm install && 
+      npm run buildDev &&
+      npm start
+    '

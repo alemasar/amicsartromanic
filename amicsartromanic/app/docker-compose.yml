@@ -1,0 +1,21 @@
+web:
+  build: .
+  ports:
+  - "8080:8080"
+  volumes:
+  - .:/usr/src/app/:rw
+  environment:
+  - NODE_ENV=dev
+  command: >
+    sh -c '
+      if test -d node_modules; 
+      then 
+        echo node_modules_exists ; 
+      else 
+        npm install ;
+      fi && 
+      ls -la &&
+      npm run build &&
+      npm run build-server &&
+      npm run server
+    '
