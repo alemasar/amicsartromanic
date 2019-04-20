@@ -5,13 +5,13 @@ import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import fs from 'fs';
 import config from '../../webpack.config.babel.js';
-console.log(config())
+
 const c = config();
 const app = express(),
   DIST_DIR = __dirname,
   HTML_FILE = path.join(DIST_DIR, 'index.html'),
   compiler = webpack(c);
-console.log(path.join(DIST_DIR, 'index.html'))
+
 app.use(
   webpackDevMiddleware(compiler, {
    // publicPath: ''

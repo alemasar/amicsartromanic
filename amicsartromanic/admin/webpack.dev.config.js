@@ -8,7 +8,8 @@ module.exports = {
     main: [
       'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
       './src/index.js',
-      './src/css/style.scss'
+      './src/sass/app.scss',
+      './src/css/bootstrap-material-design.css'
     ]
   },
   output: {
@@ -69,6 +70,25 @@ module.exports = {
             loader: 'sass-loader',
             options: {}
           }
+        ]
+      },
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: ExtractCssChunks.loader,
+            options: {
+              hot: true, // if you want HMR - we try to automatically inject hot reloading but if it's not working, add it to the config
+              reloadAll: true // when desperation kicks in - this is a brute force HMR flag
+            }
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              url: true
+            }
+          },
+          'resolve-url-loader'
         ]
       },
       {

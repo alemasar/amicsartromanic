@@ -1,0 +1,6 @@
+Flask==0.12
+connexion
+Flask-Injector
+fastavro
+flask-sqlalchemy
+pymysql

@@ -1,0 +1,23 @@
+#version: '3'
+
+#services:
+  #backend-service:
+    #build: .  # path is relative to docker-compose.yml localtion
+    #links:
+    #  - db
+    #volumes:
+    #  - .:/usr/src/app # mount point
+    #ports:
+    #  - 5000:5000  # host:container
+    #networks:
+    #  - frontend
+
+version: '3'  # version of compose format 
+
+services:
+  api-service:
+    build: .  # path is relative to docker-compose.yml localtion
+    volumes:
+      - .:/usr/src/backend-api # mount point
+    ports:
+      - 5000:5000  # host:container

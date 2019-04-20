@@ -9,7 +9,9 @@
   "version": "1.0.0",
   "main": "./src/index.js",
   "dependencies": {
-    "express": "^4.16.4"
+    "bootstrap": "^4.3.1",
+    "express": "^4.16.4",
+    "form-serialize": "^0.7.2"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
@@ -32,6 +34,7 @@
     "mini-css-extract-plugin": "^0.5.0",
     "node-sass": "^4.11.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "postcss-loader": "^3.0.0",
     "prettier": "^1.16.4",
     "resolve-url-loader": "^3.1.0",
     "sass-loader": "^7.1.0",

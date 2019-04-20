@@ -1,5 +1,23 @@
-version: "3"
+version: "3.3"
 services:
+  mysql:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_DATABASE: 'amicsartromanic'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_HOST: 'localhost'
+      MYSQL_PORT: '3306'
+    ports:
+      - "3306:3306"
+    expose:
+      # Opens port 3306 on the container
+      - '3306'
+      # Where our data will be persisted
+    volumes:
+      - my-db:/var/lib/mysql
   admin:
     build: ./amicsartromanic/admin
     ports:
@@ -9,7 +27,7 @@ services:
     environment:
       - NODE_ENV=dev
     networks:
-      - frontend
+      - amicsartromanic
     command: >
       sh -c '
         if test -d node_modules; 
@@ -31,7 +49,7 @@ services:
     environment:
       - NODE_ENV=dev
     networks:
-      - frontend
+      - amicsartromanic
     command: >
       sh -c '
         if test -d node_modules; 
@@ -46,24 +64,19 @@ services:
         npm run server
       '
   backend-service:
-    build: ./amicsartromanic/backend-api/observatory  # path is relative to docker-compose.yml localtion
-    links:
-      - db
+    build: ./amicsartromanic/api  # path is relative to docker-compose.yml location
+    restart: always
+    environment:
+      DATABASE_URL: 'mysql+pymysql://user:password@mysql:3306/amicsartromanic'
     volumes:
-      - ./amicsartromanic/backend-api/observatory:/usr/src/backend-api # mount point
+      - ./amicsartromanic/api:/usr/src/backend-api # mount point
     ports:
       - 5000:5000  # host:container
-    networks:
-      - frontend
-  db:
-    image: mysql:5.7
-    ports:
-      - "32000:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-    volumes:
-      - ./db:/docker-entrypoint-initdb.d/:ro
+    depends_on:
+      - mysql
 networks:
-  frontend:
+  amicsartromanic:
     # Use a custom driver
     driver: bridge
+volumes:
+  my-db:

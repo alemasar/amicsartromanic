@@ -1,0 +1,5 @@
+Flask==0.12
+flask-restful==0.3.5
+flask-sqlalchemy
+flask-migrate
+python-dotenv

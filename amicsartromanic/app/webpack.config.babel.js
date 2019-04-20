@@ -20,8 +20,6 @@ function getFiles (dir, files_){
     return files_;
 }
 
-console.log()
-
 let p = {}
 p['./js/main'] = './public/index.js';
 p['./js/components'] = getFiles('./src/components');
