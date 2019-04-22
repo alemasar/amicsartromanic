@@ -1,5 +1,4 @@
 import serialize from 'form-serialize';
-
 // eslint-disable-next-line prettier/prettier
 window.addEventListener('DOMContentLoaded', () => {
   // eslint-disable-line no-undef
@@ -8,21 +7,38 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('submitButton').addEventListener('click', e => {
     // eslint-disable-line no-undef
     e.preventDefault();
-    console.log('SUBMIT');
-    console.log(serialize(document.getElementById('newComponentForm'), { hash: true }))
-    const url = 'https://example.com/profile';
+    console.log('SUBMIT one');
+    console.log(serialize(document.getElementById('newComponentForm'), { hash: true }));
+    const url = 'http://admin.localhost:5000/api/add';
     const data = serialize(document.getElementById('newComponentForm'), { hash: true });
-/*
-    fetch(url, {
-      method: 'POST', // or 'PUT'
-      body: JSON.stringify(data), // data can be `string` or {object}!
-      headers: {
-        'Content-Type': 'application/json'
+    console.log(data);
+    /*   const xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true)
+ xhr.withCredentials = true;
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 2) {
+        console.log("HOLA")
       }
-    })
-      .then(res => res.json())
-      .catch(error => console.error('Error:', error))
-      .then(response => console.log('Success:', response));*/
+    }
+    xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.send(data);*/
+
+    const headers = new Headers({ 'content-type': 'application/json' });
+
+    const requestOptions = {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers,
+      mode: 'cors',
+      cache: 'default'
+    };
+
+    fetch(url, requestOptions)
+      .then(res => {
+        return res.json();
+      })
+      .catch(error => console.log('Error:', error))
+      .then(response => console.log('Success:', response));
   });
 });
 

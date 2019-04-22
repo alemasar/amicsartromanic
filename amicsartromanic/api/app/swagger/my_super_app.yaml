@@ -1,0 +1,56 @@
+swagger: "2.0"
+info:
+  description: This is the swagger file that goes with our server code
+  version: "1.0.0"
+  title: Swagger REST Article
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+
+basePath: "/api"
+
+# Paths supported by the server application
+paths:
+  /add:
+    post:
+      operationId: "components.hello_world"
+      consumes:
+        - "application/json"
+      tags:
+        - "hello_world"
+      summary: "The people data structure supported by the server application"
+      description: "Read the list of people"
+      parameters:
+        - name: component
+          in: body
+          description: Component to create
+          schema:
+            $ref: '#/definitions/Component'
+
+      responses:
+        200:
+          description: OK
+
+definitions:
+  Component:
+    type: object
+    properties:
+      component_name:
+        type: string
+        description: First name of person to create
+      component_tag:
+        type: string
+        description: First name of person to create
+      component_base_path:
+        type: string
+        description: First name of person to create
+      component_scss_path:
+        type: string
+        description: First name of person to create
+      component_js_path:
+        type: string
+        description: First name of person to create
+      component_template_path:
+        type: string
+        description: First name of person to create

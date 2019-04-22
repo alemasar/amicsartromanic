@@ -26,8 +26,6 @@ services:
       - ./amicsartromanic/admin/:/usr/src/admin/:rw
     environment:
       - NODE_ENV=dev
-    networks:
-      - amicsartromanic
     command: >
       sh -c '
         if test -d node_modules; 
@@ -69,11 +67,18 @@ services:
     environment:
       DATABASE_URL: 'mysql+pymysql://user:password@mysql:3306/amicsartromanic'
     volumes:
-      - ./amicsartromanic/api:/usr/src/backend-api # mount point
+      - ./amicsartromanic/api:/usr/src/api # mount point
     ports:
       - 5000:5000  # host:container
     depends_on:
       - mysql
+#  swaggerui:
+#    build: ./amicsartromanic/swagger-ui
+#    ports:
+#      - 5001:5001
+#    hostname: swaggerui
+#    volumes:
+#      - ./swagger.json:/app/swagger/swagger.json
 networks:
   amicsartromanic:
     # Use a custom driver

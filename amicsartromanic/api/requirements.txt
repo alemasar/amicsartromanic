@@ -4,3 +4,5 @@ Flask-Injector
 fastavro
 flask-sqlalchemy
 pymysql
+flask-cors
+connexion[swagger-ui]

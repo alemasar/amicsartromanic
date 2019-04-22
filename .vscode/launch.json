@@ -5,14 +5,21 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"type": "node",
+			"name": "Flask",
+			"type": "python",
 			"request": "launch",
-			"name": "Launch Program",
-			"program": "${workspaceFolder}/amicsartromanic/app/node_modules/bin/webpack-cli",
-			"sourceMaps": true,
+			"module": "flask",
+			"env": {
+				"FLASK_APP": "app.py",
+				"FLASK_ENV": "development",
+				"FLASK_DEBUG": "0"
+			},
 			"args": [
-				"--config", "/home/alemasar/Projects/amicsartromanic/amicsartromanic/app/webpack.config.js"
-			 ]
+				"run",
+				"--no-debugger",
+				"--no-reload"
+			],
+			"jinja": true
 		}
 	]
 }
