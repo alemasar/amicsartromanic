@@ -9,7 +9,7 @@ window.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     console.log('SUBMIT one');
     console.log(serialize(document.getElementById('newComponentForm'), { hash: true }));
-    const url = 'http://admin.localhost:5000/api/add';
+    const url = 'http://127.0.0.1:5000/api/add';
     const data = serialize(document.getElementById('newComponentForm'), { hash: true });
     console.log(data);
     /*   const xhr = new XMLHttpRequest();

@@ -6,7 +6,7 @@ WORKDIR /usr/src/api
 COPY . /usr/src/api
 RUN pip install -r requirements.txt
 EXPOSE 5000
-ENV FLASK_APP=api.py
+ENV FLASK_APP=app.py
 ENV DATABASE_URL='mysql+pymysql://user:password@mysql:3306/amicsartromanic'
 RUN ls -la
 

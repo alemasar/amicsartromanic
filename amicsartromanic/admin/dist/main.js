@@ -63,7 +63,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "6d9ef118247f2c2fe0e8";
+/******/ 	var hotCurrentHash = "dfa12b3639c794851611";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -4916,7 +4916,7 @@ module.exports = function(module) {
 
 // extracted by extract-css-chunks-webpack-plugin
     if(true) {
-      // 1555947551053
+      // 1556338334772
       var cssReload = __webpack_require__(/*! ./node_modules/extract-css-chunks-webpack-plugin/dist/hmr/hotModuleReplacement.js */ "./node_modules/extract-css-chunks-webpack-plugin/dist/hmr/hotModuleReplacement.js")(module.i, {"hot":true,"reloadAll":true,"locals":false});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -4949,7 +4949,7 @@ window.addEventListener('DOMContentLoaded', function () {
     console.log(form_serialize__WEBPACK_IMPORTED_MODULE_0___default()(document.getElementById('newComponentForm'), {
       hash: true
     }));
-    var url = 'http://admin.localhost:5000/api/add';
+    var url = 'http://127.0.0.1:5000/api/add';
     var data = form_serialize__WEBPACK_IMPORTED_MODULE_0___default()(document.getElementById('newComponentForm'), {
       hash: true
     });
@@ -4976,7 +4976,7 @@ window.addEventListener('DOMContentLoaded', function () {
       cache: 'default'
     };
     fetch(url, requestOptions).then(function (res) {
-      return res;
+      return res.json();
     })["catch"](function (error) {
       return console.log('Error:', error);
     }).then(function (response) {
@@ -5000,7 +5000,7 @@ if (typeof module.hot !== 'undefined') {
 
 // extracted by extract-css-chunks-webpack-plugin
     if(true) {
-      // 1555947551772
+      // 1556338335534
       var cssReload = __webpack_require__(/*! ./node_modules/extract-css-chunks-webpack-plugin/dist/hmr/hotModuleReplacement.js */ "./node_modules/extract-css-chunks-webpack-plugin/dist/hmr/hotModuleReplacement.js")(module.i, {"hot":true,"reloadAll":true,"locals":false});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);

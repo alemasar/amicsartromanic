@@ -1,19 +1,32 @@
 from flask import Flask
 from config import Config
-from flask_sqlalchemy import SQLAlchemy
 import connexion
-import components
 from flask_cors import CORS
+import orm
+import logging
 
+#import sys
 
+#sys.path.append(r'C:\Users\john')
+
+db_session = None
+
+logging.basicConfig(level=logging.INFO)
+db_session = orm.init_db(Config.SQLALCHEMY_DATABASE_URI)
 app = connexion.App(__name__, specification_dir='swagger/', debug=True)
-CORS(app.app)
 app.add_api('my_super_app.yaml')
-db = SQLAlchemy(app.app)
+# set the WSGI application callable to allow using uWSGI:
+# uwsgi --http :8080 -w app
+application = app.app
 
-from app import models
-app.app.config.from_object(Config)
-db.create_all()
-db.session.commit()
+CORS(application)
+
+@application.teardown_appcontext
+def shutdown_session(exception=None):
+    db_session.remove()
+
+
+#g.db = db
+   # return g.db
 
 app.run(port=5000)

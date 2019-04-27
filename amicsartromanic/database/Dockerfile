@@ -14,4 +14,3 @@ ENV MYSQL_PORT=3306
 RUN ls -la /var/lib/mysql
 
 EXPOSE 3306
-

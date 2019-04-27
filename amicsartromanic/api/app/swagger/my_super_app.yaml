@@ -14,7 +14,7 @@ basePath: "/api"
 paths:
   /add:
     post:
-      operationId: "components.hello_world"
+      operationId: "app.components.hello_world"
       consumes:
         - "application/json"
       tags:

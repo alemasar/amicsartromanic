@@ -1,8 +1,7 @@
 Flask==0.12
-connexion
+connexion>=1.0.97
 Flask-Injector
 fastavro
-flask-sqlalchemy
+flask-sqlalchemy>=1.0.13
 pymysql
 flask-cors
-connexion[swagger-ui]

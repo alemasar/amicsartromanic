@@ -2,6 +2,7 @@ version: "3.3"
 services:
   mysql:
     image: mysql:5.7
+#    command: 
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: 'password'
@@ -10,6 +11,7 @@ services:
       MYSQL_PASSWORD: 'password'
       MYSQL_HOST: 'localhost'
       MYSQL_PORT: '3306'
+    restart: always
     ports:
       - "3306:3306"
     expose:
@@ -17,7 +19,7 @@ services:
       - '3306'
       # Where our data will be persisted
     volumes:
-      - my-db:/var/lib/mysql
+      - ./amicsartromanic/database/db:/var/lib/mysql
   admin:
     build: ./amicsartromanic/admin
     ports:
@@ -72,16 +74,18 @@ services:
       - 5000:5000  # host:container
     depends_on:
       - mysql
+    links:
+      - mysql
 #  swaggerui:
 #    build: ./amicsartromanic/swagger-ui
 #    ports:
 #      - 5001:5001
 #    hostname: swaggerui
 #    volumes:
-#      - ./swagger.json:/app/swagger/swagger.json
+#      - ./swagger.json:/app/swagger/swagger.json:rw
 networks:
   amicsartromanic:
-    # Use a custom driver
+   # Use a custom driver
     driver: bridge
 volumes:
   my-db:

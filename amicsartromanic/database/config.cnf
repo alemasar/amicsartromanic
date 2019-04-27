@@ -6,7 +6,7 @@ general_log_file=/dev/stdout
 log_error=/dev/stderr
 collation-server=utf8_unicode_ci
 character-set-server=utf8
-[client]   # Note: client + host1
+[client]
 user=user
 password=password
 database=amicsartromanic
