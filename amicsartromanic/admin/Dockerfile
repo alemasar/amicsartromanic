@@ -8,7 +8,9 @@ RUN npm config set registry http://registry.npmjs.org/ && npm install
 
 WORKDIR /usr/src/admin
 COPY . /usr/src/admin/
+
 RUN cp -a /tmp/admin/node_modules /usr/src/admin/
+RUN ls -la /usr/src/admin/
 
 #RUN webpack
 

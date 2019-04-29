@@ -34,11 +34,11 @@ services:
         then 
           echo node_modules_exists ; 
         else 
-          cp -a /tmp/admin/node_modules /usr/src/admin; 
+          npm install ;
         fi && 
-        npm install && 
-        npm run buildDev &&
-        npm start
+        npm run build &&
+        npm run build-server &&
+        npm run server
       '
   web:
     build: ./amicsartromanic/app
