@@ -19,6 +19,8 @@ class App{
       
         const event = new Event("event-webcomponents-polyfill-loaded");
         window.dispatchEvent(event);
+        const eventRoute = new Event("popstate");
+        window.dispatchEvent(eventRoute);
         // At this point we are guaranteed that all required polyfills have
         // loaded, and can use web components API's.
         // The standard pattern is to load element definitions that call
