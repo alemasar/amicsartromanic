@@ -6,6 +6,7 @@ const GitRevisionPlugin = require("git-revision-webpack-plugin");
 const EventHooksPlugin = require('event-hooks-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
+const NodemonPlugin = require( 'nodemon-webpack-plugin' );
 
 exports.devServer = ({ host, port } = {}) => ({
   devServer: {
@@ -64,6 +65,9 @@ exports.extractCSS = ({ include, exclude, use, hot = [] }) => {
 
 exports.clean = path => ({
   plugins: [new CleanWebpackPlugin([path])],
+});
+exports.nodemon = () => ({
+  plugins: [new NodemonPlugin()]
 });
 
 exports.attachRevision = () => ({

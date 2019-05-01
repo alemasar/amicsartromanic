@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   entry: './server.js',
   output: {
-    path: path.resolve('./dist'),
+    path: path.resolve('.'),
     filename: 'server.js'
   },
   plugins: [

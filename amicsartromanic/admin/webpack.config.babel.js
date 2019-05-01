@@ -88,6 +88,9 @@ const productionConfig = merge([
     parts.loadCSS(),
     //    parts.attachRevision(),
     parts.loadImages({}),
+/*    parts.nodemon({
+        ext: 'js, template, cat'
+    }),*/
     parts.onFinished()
 ]);
 
@@ -104,7 +107,8 @@ const developmentConfig = merge([
     parts.loadCSS(),
     parts.loadImages({}),
     parts.loadTemplateFile({}),
-	parts.loadCatFile(),
+    parts.loadCatFile(),
+//    parts.nodemon(),
 	parts.onFinished()
 ]);
 
