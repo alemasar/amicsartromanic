@@ -1,3 +1,4 @@
+/* eslint-disable */
 const loader_utils = require("loader-utils");
 const JSParser = require("../../parser/parsers/JSParser");
 const WebComponentJSCompiler = require("../WebComponentJS/WebComponentJSCompiler");

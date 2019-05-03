@@ -1,3 +1,4 @@
+/* eslint-disable */
 const loader_utils = require("loader-utils");
 const sass = require("node-sass");
 const fs = require("fs");

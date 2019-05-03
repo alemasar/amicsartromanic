@@ -1,3 +1,4 @@
+/* eslint-disable */
 class ParseStatement {
   constructor(comment, statement) {
     this.comment = comment;

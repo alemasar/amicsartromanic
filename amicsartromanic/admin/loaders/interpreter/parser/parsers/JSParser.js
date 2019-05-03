@@ -1,3 +1,4 @@
+/* eslint-disable */
 const Parser = require("../Parser");
 const Dictionary = require("../../dictionaries/Dictionary");
 

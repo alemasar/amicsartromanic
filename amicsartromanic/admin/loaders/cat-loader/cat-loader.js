@@ -1,3 +1,4 @@
+/* eslint-disable */
 const loader_utils = require("loader-utils");
 const JSParser = require("../interpreter/parser/parsers/JSParser");
 const path = require("path");

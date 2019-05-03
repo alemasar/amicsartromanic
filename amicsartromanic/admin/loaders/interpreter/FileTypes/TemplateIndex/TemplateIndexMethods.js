@@ -1,8 +1,16 @@
+/* eslint-disable */
 const loader_utils = require("loader-utils");
 const fs = require("fs");
 const path = require("path");
 
 class TemplateIndexMethods {
+  compileTemplate(inputs, output) {
+    const options = loader_utils.getOptions(inputs.webpack);
+    const pathFile =
+      options.context + "/" + inputs.json.basePath + "/" + inputs.json.template;
+    const template = fs.readFileSync(pathFile, "utf8").toString();
+    return template;
+  }
   writePath(inputs, output) {
     return inputs.json["path"];
   }
@@ -35,7 +43,7 @@ class TemplateIndexMethods {
     });
     return events;
   }
-
+// Deprecated: Doesn't compile the template
   writeTemplate(inputs, output) {
     const options = loader_utils.getOptions(inputs.webpack);
     const pathFile =
