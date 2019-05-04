@@ -1,11 +1,11 @@
+
 class Compiler {
   initCompilation(methods) {
     this.dictionaries.reduce((compilation, compilationObj) => {
       const posibleMethods = compilationObj.methods.fileMethods.filter(
         posibleFileMethod =>
-          Object.getPrototypeOf(this.methods).hasOwnProperty(
-            posibleFileMethod.method
-          ) === true
+          // eslint-disable-next-line no-prototype-builtins
+          Object.getPrototypeOf(this.methods).hasOwnProperty(posibleFileMethod.method) === true
       );
       if (posibleMethods.length === compilationObj.methods.fileMethods.length) {
         methods.push(compilationObj.methods);
@@ -20,9 +20,7 @@ class Compiler {
   }
 
   callMethods(methods, inputs) {
-    const result = methods.fileMethods.map(method =>
-      this.callMethod(method, inputs)
-    );
+    const result = methods.fileMethods.map(method => this.callMethod(method, inputs));
     return {
       comment: methods.comment,
       compiledMethodCode: result

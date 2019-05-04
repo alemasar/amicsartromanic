@@ -5,11 +5,9 @@ const path = require("path");
 
 class TemplateIndexMethods {
   compileTemplate(inputs, output) {
-    const options = loader_utils.getOptions(inputs.webpack);
-    const pathFile =
-      options.context + "/" + inputs.json.basePath + "/" + inputs.json.template;
-    const template = fs.readFileSync(pathFile, "utf8").toString();
-    return template;
+    console.log("PASO PER COMPILE TEMPLATE: ")
+
+    return "";
   }
   writePath(inputs, output) {
     return inputs.json["path"];

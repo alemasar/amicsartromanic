@@ -12,7 +12,7 @@ module.exports = function(input) {
 
   const config_string = loader_utils.stringifyRequest(webpack, input);
   const json = JSON.parse(JSON.parse(config_string));
-  console.log("CAT LOADER: ",this.request)
+
   global.WEBComponentsTags.push(json.tag);
   webpack.clearDependencies();
 
