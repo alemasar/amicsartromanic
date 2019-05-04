@@ -1,5 +1,6 @@
 class Compiler {
   initCompilation(methods) {
+    // eslint-disable-next-line array-callback-return
     this.dictionaries.reduce((compilation, compilationObj) => {
       const posibleMethods = compilationObj.methods.fileMethods.filter(
         posibleFileMethod =>
@@ -13,6 +14,7 @@ class Compiler {
   }
 
   callMethod(method, inputs) {
+    // eslint-disable-next-line no-unused-vars
     return new Promise((resolve, reject) => {
       resolve(this.methods[method.method](inputs, method.output));
     });

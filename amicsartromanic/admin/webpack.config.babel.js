@@ -1,3 +1,4 @@
+/* eslint-disable */
 const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
