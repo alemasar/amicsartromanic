@@ -1,4 +1,3 @@
-
 class Compiler {
   initCompilation(methods) {
     this.dictionaries.reduce((compilation, compilationObj) => {
