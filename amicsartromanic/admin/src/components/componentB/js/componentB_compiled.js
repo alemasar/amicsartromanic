@@ -1,19 +1,5 @@
 // import class HTTP/http/HTTP.get
-const template = document.createElement("template");template.innerHTML = `<style>:host {
-  color: #333333;
-  display: inline-block;
-  background: url("../images/unchecked-checkbox.svg") no-repeat;
-  background-size: contain;
-  width: 40px;
-  height: 40px; }
-
-:host([hidden]) {
-  display: none; }
-
-:host([checked]) {
-  background: url("../images/checked-checkbox.svg") no-repeat;
-  background-size: contain; }
-</style>`;
+/* NO BASE PATH PROVIDED FOR howto-checkbox-twitter */
 
 const KEYCODE = {
 	SPACE: 32,

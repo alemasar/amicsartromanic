@@ -3,7 +3,7 @@
 
 class /* write className */{
     constructor(){
-        document.getElementById("/* write rootTag */").innerHTML = ``;
+        document.getElementById("/* write rootTag */").innerHTML = `/* compile template then write template */`;
     }
     loadComponents(){
         console.log("Paso per template loadComponent")

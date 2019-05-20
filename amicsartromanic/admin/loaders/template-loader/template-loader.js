@@ -19,8 +19,11 @@ module.exports = function(input) {
   const compilerProcess = new Process(template, JSParser, TemplateIndexCompiler);
   const promise = compilerProcess.process(json, webpack);
   promise.then(compiledTemplate => {
-    console.log('TEMPLATE LOADER: ', compiledTemplate);
+    // console.log('TEMPLATE LOADER: ', compiledTemplate);
     callback(null, compiledTemplate);
+  }).catch((error)=>{
+    console.log('TEMPLATE LOADER: ', error);
+    throw new Error(error);
   });
   return;
   //callback(null, "compiledTemplate");

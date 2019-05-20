@@ -4,7 +4,6 @@ const dictionary = {
   statements: {
     import: {
       template: function(inputs) {
-        console.log(inputs['css']);
         return (
           `const template = document.createElement("template");` +
           "template.innerHTML = `" +

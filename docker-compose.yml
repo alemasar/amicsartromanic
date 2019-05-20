@@ -40,29 +40,29 @@ services:
         npm run build-server &&
         npm run server
       '
-  web:
-    build: ./amicsartromanic/app
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./amicsartromanic/app/:/usr/src/app/:rw
-    environment:
-      - NODE_ENV=dev
-    networks:
-      - amicsartromanic
-    command: >
-      sh -c '
-        if test -d node_modules; 
-        then 
-          echo node_modules_exists ; 
-        else 
-          npm install ;
-        fi && 
-        ls -la &&
-        npm run build &&
-        npm run build-server &&
-        npm run server
-      '
+#  web:
+#    build: ./amicsartromanic/app
+#    ports:
+#      - "8080:8080"
+#    volumes:
+#      - ./amicsartromanic/app/:/usr/src/app/:rw
+#    environment:
+#      - NODE_ENV=dev
+#    networks:
+#      - amicsartromanic
+#    command: >
+#      sh -c '
+#        if test -d node_modules; 
+#        then 
+#          echo node_modules_exists ; 
+#        else 
+#          npm install ;
+#        fi && 
+#        ls -la &&
+#        npm run build &&
+#        npm run build-server &&
+#        npm run server
+#      '
   backend-service:
     build: ./amicsartromanic/api  # path is relative to docker-compose.yml location
     restart: always

@@ -2,7 +2,7 @@
 const ParseStatement = require("./ParseStatement");
 
 class Parser {
-  constructor(config){
+  constructor(config, inputs){
     this.inputs = config;
   }
   set open(open) {
@@ -20,7 +20,6 @@ class Parser {
 
   initCompilation() {
     this.statements=[];
-
     let pos_ini_comment = this.template.indexOf(this.open);
     do {
       const pos_fi_comment = this.template.indexOf(this.close, pos_ini_comment);
