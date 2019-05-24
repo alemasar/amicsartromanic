@@ -1,0 +1,12 @@
+{
+  "title": "template file",
+  "description": "describes properties required to create a cat file",
+  "type": "object",
+  "properties": {
+    "template": {
+      "type": "string",
+      "description": "path of the template of the web component"
+    }
+  },
+  "required": ["template"]
+}

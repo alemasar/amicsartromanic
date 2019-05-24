@@ -3,7 +3,6 @@ const loader_utils = require("loader-utils");
 const JSParser = require("../../parser/parsers/JSParser");
 const WebComponentJSCompiler = require("../WebComponentJS/WebComponentJSCompiler");
 const fs = require("fs");
-
 const Process = require("../../compiler/CompilerProcess");
 
 class RootIndexMethods {

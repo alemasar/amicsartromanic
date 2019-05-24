@@ -1,4 +1,4 @@
-/* NO BASE PATH PROVIDED FOR input-text */
+/* data should have required property 'scss' */
 /* compile HTML then write HTML */
 
 export default class InputElement extends HTMLInputElement {

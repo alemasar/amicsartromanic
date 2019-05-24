@@ -1,5 +1,4 @@
 {
   "tag": "input-text",
-  "basePath": "components/formElements",
-  "js": "inputElement/inputElement.js"
+  "basePath": "components/formElements"
 }
