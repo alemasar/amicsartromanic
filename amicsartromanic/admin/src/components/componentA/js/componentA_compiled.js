@@ -14,7 +14,9 @@ const templateCss = document.createElement("template");templateCss.innerHTML = `
   background: url("../images/checked-checkbox.svg") no-repeat;
   background-size: contain; }
 </style>`;
-/* compile HTML then write HTML */
+const templateHTML = document.createElement("template");
+           templateHTML.innerHTML = `<howto-checkbox id="<howto-checkbox-id>"></howto-checkbox>
+<howto-label for="<howto-checkbox-id>">Join Newsletter</howto-label>`;
 
 const KEYCODE = {
   SPACE: 32

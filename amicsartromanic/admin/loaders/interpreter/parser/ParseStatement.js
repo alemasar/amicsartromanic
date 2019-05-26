@@ -17,7 +17,6 @@ class ParseStatement {
     const fileMethods = [];
     this.statement.split("then").map(statement => {
       const method = statement.trim().split(" ").reduce((method, parameter) => {
-        // console.log("PARAMETER: ", parameter)
         return ({
           method: method +
           parameter.substring(0, 1).toUpperCase() +

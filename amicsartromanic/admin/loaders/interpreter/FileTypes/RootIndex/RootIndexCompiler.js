@@ -1,7 +1,7 @@
-const Compiler = require("../../compiler/Compiler");
-const Methods = require("./RootIndexMethods");
+const Compiler = require('../../compiler/Compiler');
+const Methods = require('./RootIndexMethods');
 
-class RootIndexCompiler extends Compiler{
+class RootIndexCompiler extends Compiler {
   constructor(dictionaries) {
     super();
     this.methods = new Methods();

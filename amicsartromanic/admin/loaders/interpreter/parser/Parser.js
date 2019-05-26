@@ -28,6 +28,7 @@ class Parser {
           pos_ini_comment,
           pos_fi_comment - pos_ini_comment + this.close.length
         );
+
         const statement = new ParseStatement(statement_with_comments, statement_with_comments.replace(this.open, "").replace(this.close, "").trim());
         statement.setStatement(this.statements)
       }

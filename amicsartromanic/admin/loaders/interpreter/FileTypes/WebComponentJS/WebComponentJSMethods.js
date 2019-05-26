@@ -6,8 +6,47 @@ const path = require('path');
 const Ajv = require('ajv');
 
 class WebComponentJSMethods {
-  compileHTML(inputs, output) {}
+  compileHTML(inputs, output) {
+    const options = loader_utils.getOptions(inputs.webpack);
 
+    const ajv = Ajv({ allErrors: true });
+    const scssSchema = require('./schema/template.schema');
+    ajv.addSchema(scssSchema, 'template-loader');
+    const valid = ajv.validate('template-loader', inputs.json);
+
+    if (!valid) {
+      inputs.json.HTML = new Promise((resolve, reject) =>{
+        reject(ajv.errorsText());
+      });
+    } else {
+      console.log("----------------- "+inputs.json.template+" ------------------------------");
+      const templatePath = options.context + '/' + inputs.json.basePath + '/' + inputs.json.template;
+      let template = fs.readFileSync(templatePath, 'utf8');
+      inputs.webpack.addDependency(templatePath);
+
+      inputs.json.HTML = new Promise((resolve, reject) =>{
+        resolve(template);
+      });
+    }
+    return inputs.json;
+  }
+
+  writeHTML(inputs, output) {
+    console.log("----------------- "+output+" ------------------------------");
+    const getHTML = async () => {
+      try {
+        const html = await inputs.json[output];
+        return (
+          `const templateHTML = document.createElement("template");
+           templateHTML.innerHTML = \`${html}\`;`
+        );
+      } catch (error) {
+        // return new Error(error);
+        return '/* ' + error + ' */';
+      }
+    };
+    return getHTML();
+  }
   searchImages(css, basePath, webpack) {
     const lines = css.split('\n');
     lines.forEach(line => {
