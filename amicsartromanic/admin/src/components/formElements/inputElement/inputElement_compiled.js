@@ -1,4 +1,4 @@
-/* TypeError: Cannot read property 'css' of undefined */
+const templateCss = document.createElement("template");templateCss.innerHTML = `<link rel="stylesheet" href="js/main.css"><style></style>`;
 const templateHTML = document.createElement("template");
            templateHTML.innerHTML = `<input
 type="text"
@@ -16,12 +16,23 @@ export default class InputElement extends HTMLElement {
   constructor() {
     super();
     console.log('paso input element');
-    this.attachShadow({ mode: 'open' });
+    //this.attachShadow({ mode: 'open' });
     // console.log(this.cat)
     // this.shadowRoot.appendChild(templateCss.content.cloneNode(true));
-    const css = new CSSStyleSheet();
-    css.replaceSync('@import url( ~/sass/app.scss )');
-    this.shadowRoot.adoptedStyleSheets = [css];
-    this.shadowRoot.appendChild(templateHTML.content.cloneNode(true));
+    // templateHTML.content.appendChild('<style> @import "../../../../sass/app.scss"; </style>');
+    /* const css = document.createElement('style');
+    css.type = 'text/css';
+
+    const styles = '@import "./main.css"';
+
+    if (css.styleSheet) css.styleSheet.cssText = styles;
+    else css.appendChild(document.createTextNode(styles));
+    templateHTML.content.appendChild(css); */
+    const template = document.createElement("template");
+   // template.appendChild(templateCss.content.cloneNode(true));
+    template.appendChild(templateHTML.content.cloneNode(true));
+    console.log(templateHTML.innerHTML)
+    this.innerHTML = templateHTML.innerHTML;
+   // console.log(this.shadowRoot);
   }
 }

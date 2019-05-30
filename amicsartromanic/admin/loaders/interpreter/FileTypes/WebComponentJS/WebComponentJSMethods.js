@@ -19,7 +19,6 @@ class WebComponentJSMethods {
         reject(ajv.errorsText());
       });
     } else {
-      console.log("----------------- "+inputs.json.template+" ------------------------------");
       const templatePath = options.context + '/' + inputs.json.basePath + '/' + inputs.json.template;
       let template = fs.readFileSync(templatePath, 'utf8');
       inputs.webpack.addDependency(templatePath);
@@ -32,7 +31,6 @@ class WebComponentJSMethods {
   }
 
   writeHTML(inputs, output) {
-    console.log("----------------- "+output+" ------------------------------");
     const getHTML = async () => {
       try {
         const html = await inputs.json[output];
@@ -77,14 +75,16 @@ class WebComponentJSMethods {
       });
     } else {
       const scssPath = options.context + '/' + inputs.json.basePath + '/' + inputs.json.scss;
-      let scss = fs.readFileSync(scssPath, 'utf8');
+      // let scss = fs.readFileSync(scssPath, 'utf8');
       inputs.webpack.addDependency(scssPath);
+      console.log(options.context)
       const compileScssPromise = new Promise((resolve, reject) => {
         sass.render(
           {
-            data: scss
+            file: scssPath
           },
           (err, result) => {
+            console.log(err)
             const css = result.css.toString();
             this.searchImages(css, inputs.json.basePath, inputs.webpack);
             resolve(css);
@@ -93,20 +93,6 @@ class WebComponentJSMethods {
       });
       inputs.json.css = compileScssPromise;
     }
-
-    /*    } else {
-      console.log("NO SCSS PATH PROVIDED FOR ", inputs.json.tag);
-      let errorMessage='';
-      if (!Object.getPrototypeOf(inputs.json).hasOwnProperty(output)){
-        errorMessage = "NO SCSS PATH PROVIDED FOR " + inputs.json.tag;
-      }
-      if (!Object.getPrototypeOf(inputs.json).hasOwnProperty("basePath")){
-        errorMessage = "NO BASE PATH PROVIDED FOR " + inputs.json.tag;
-      }
-      inputs.json.css = new Promise((resolve, reject) =>{
-        reject(errorMessage);
-      });
-    }*/
 
     return inputs.json;
   }
@@ -118,6 +104,7 @@ class WebComponentJSMethods {
         return (
           `const templateCss = document.createElement("template");` +
           'templateCss.innerHTML = `' +
+          '<link rel="stylesheet" href="js/main.css">' +
           '<style>' +
           `${css}` +
           '</style>' +

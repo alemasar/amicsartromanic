@@ -20,7 +20,6 @@ module.exports = function(input) {
   const valid = ajv.validate('cat-loader', json);
 
   if (!valid) {
-    console.log(ajv.errorsText());
     const return_string = `document.addEventListener("DOMContentLoaded", () =>{
       document.body.innerHTML += "${webpack.resourcePath}: ${ajv.errorsText()}";
     })`;

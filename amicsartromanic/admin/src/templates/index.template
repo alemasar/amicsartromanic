@@ -1,0 +1,8 @@
+{
+  "rootTag": "app",
+  "className": "IndexTemplate",
+  "path": "/",
+  "basePath": "templates",
+  "template": "tpls/index.html",
+  "mainStyles": ["scss/main.scss", "css/bootstrap-material-design.css"]
+}

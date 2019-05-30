@@ -5,6 +5,7 @@ const path = require('path');
 const TemplateIndexCompiler = require('../interpreter/FileTypes/TemplateIndex/TemplateIndexCompiler');
 const fs = require('fs');
 const Process = require('../interpreter/compiler/CompilerProcess');
+const Ajv = require('ajv');
 
 module.exports = function(input) {
   const webpack = this;
@@ -12,19 +13,33 @@ module.exports = function(input) {
 
   const config_string = loader_utils.stringifyRequest(webpack, input);
   const json = JSON.parse(JSON.parse(config_string));
-  // webpack.clearDependencies();
 
-  //console.log("TEMPLATE LOADER: ", global.WEBComponentsTags)
-  let template = fs.readFileSync(path.join(__dirname, './tpl/template.js'), 'utf8').toString();
-  const compilerProcess = new Process(template, JSParser, TemplateIndexCompiler);
-  const promise = compilerProcess.process(json, webpack);
-  promise.then(compiledTemplate => {
-    // console.log('TEMPLATE LOADER: ', compiledTemplate);
-    callback(null, compiledTemplate);
-  }).catch((error)=>{
-    console.log('TEMPLATE LOADER: ', error);
-    throw new Error(error);
-  });
+  // webpack.clearDependencies();
+  const ajv = Ajv({ allErrors: true });
+  const templateLoaderSchema = require('./template-loader.schema');
+  ajv.addSchema(templateLoaderSchema, 'template-loader');
+  const valid = ajv.validate('template-loader', json);
+
+  if (!valid) {
+    console.log(ajv.errorsText());
+    const return_string = `document.addEventListener("DOMContentLoaded", () =>{
+      document.body.innerHTML += "${webpack.resourcePath}: ${ajv.errorsText()}";
+    })`;
+    callback(null, return_string);
+  } else {
+    //console.log("TEMPLATE LOADER: ", global.WEBComponentsTags)
+    let template = fs.readFileSync(path.join(__dirname, './tpl/template.js'), 'utf8').toString();
+    const compilerProcess = new Process(template, JSParser, TemplateIndexCompiler);
+    const promise = compilerProcess.process(json, webpack);
+    promise
+      .then(compiledTemplate => {
+        callback(null, compiledTemplate);
+      })
+      .catch(error => {
+        console.log('TEMPLATE LOADER: ', error);
+        throw new Error(error);
+      });
+  }
   return;
   //callback(null, "compiledTemplate");
 };

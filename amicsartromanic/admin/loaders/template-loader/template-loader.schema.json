@@ -1,0 +1,28 @@
+{
+  "title": "template file",
+  "description": "describes properties required to create a template file",
+  "type": "object",
+  "properties": {
+    "rootTag": {
+      "type": "string",
+      "description": "root tag to insert the template"
+    },
+    "basePath": {
+      "type": "string",
+      "description": "base path of the template"
+    },
+    "path": {
+      "type": "string",
+      "description": "path of the router of the template"
+    },
+    "className": {
+      "type": "string",
+      "description": "class name of the template"
+    },
+    "template": {
+      "type": "string",
+      "description": "path of the template file"
+    }
+  },
+  "required": ["rootTag", "basePath", "path", "className", "template"]
+}

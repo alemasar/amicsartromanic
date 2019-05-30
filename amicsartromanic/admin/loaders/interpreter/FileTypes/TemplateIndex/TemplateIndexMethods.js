@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const Process = require("../../compiler/CompilerProcess");
 const HTMLTemplateCompiler = require("../HTMLTemplate/HTMLTemplateCompiler");
-const JSParser = require("../../parser/parsers/JSParser");
+const HTMLParser = require("../../parser/parsers/HTMLParser");
 
 class TemplateIndexMethods {
   writeTemplate(inputs, output) {
@@ -23,14 +23,15 @@ class TemplateIndexMethods {
     const pathFile =
       options.context + "/" + inputs.json.basePath + "/" + inputs.json.template;
       console.log("COMPILED TEMPLATE: ", pathFile)
-    inputs.json.templatePath = pathFile;
-    inputs.webpack.addDependency(pathFile)
+    const completeCompiledPath = options.context + "/" + inputs.json.basePath + "/" + compiledFilePath;
+    inputs.json.templatePath = completeCompiledPath;
     let template = fs.readFileSync(pathFile, "utf8").toString();
-    const compilerProcess = new Process(template, JSParser, HTMLTemplateCompiler)
+    const compilerProcess = new Process(template, HTMLParser, HTMLTemplateCompiler)
     const promise = compilerProcess.process(inputs.json, inputs.webpack)
     promise.then((compiledTemplate)=>{
-      const completeCompiledPath = options.context + "/" + inputs.json.basePath + "/" + compiledFilePath;
+      
       fs.writeFileSync(completeCompiledPath, compiledTemplate);
+     // inputs.webpack.addDependency(completeCompiledPath);
     })
     return inputs.json;
   }
@@ -50,7 +51,7 @@ class TemplateIndexMethods {
         console.log('popstate fired!', document.location.pathname);
         console.log("passsoo popstate event", "${inputs.json['path']}")
         const templateInstance = new ${inputs.json["className"]}();
-        templateInstance.loadComponents();
+        // templateInstance.loadComponents();
       }
     });`;
   }

@@ -1,7 +1,0 @@
-{
-  "rootTag": "app",
-  "className": "IndexTemplate",
-  "path":"/",
-  "basePath": "app/templates/tpls",
-  "template": "index.html"
-}

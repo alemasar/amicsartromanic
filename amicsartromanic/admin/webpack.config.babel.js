@@ -7,15 +7,16 @@ const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plug
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const fs = require('fs');
 
-function getFiles(dir, files_) {
+function getFiles(dir, ext, files_) {
   files_ = files_ || [];
   if (fs.existsSync(dir)) {
     const files = fs.readdirSync(dir);
     for (const i in files) {
       const name = dir + '/' + files[i];
       if (fs.statSync(name).isDirectory()) {
-        getFiles(name, files_);
+        getFiles(name, ext, files_);
       } else {
+        if (name.indexOf('.' + ext) != -1)
         files_.push(name);
       }
     }
@@ -27,18 +28,17 @@ let p = {};
 p['./js/main'] = [
   //    'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
   './public/index.js',
-  './src/sass/app.scss',
-  './src/css/bootstrap-material-design.css'
+  // './src/css/bootstrap-material-design.css'
 ];
-const components_dir = getFiles('./src/components');
+const components_dir = getFiles('./src/components', 'cat');
 if (components_dir.length > 0) {
-  p['./js/components'] = components_dir;
+  p['./components/components'] = components_dir;
 }
-template_dir = getFiles('./src/app/templates');
+template_dir = getFiles('./src/templates', 'template');
 if (template_dir.length > 0) {
-  p['./js/templates'] = template_dir;
+  p['./templates/templates'] = template_dir;
 }
-p['./css/style'] = './src/scss/main.scss';
+
 global.WEBComponentsTags = [];
 const commonConfig = merge({
   entry: p,
@@ -47,9 +47,8 @@ const commonConfig = merge({
   devtool: 'source-map',
   resolve: {
     alias: {
-      TEMPLATE: path.resolve(__dirname, 'src/app/templates/'),
-      COMPONENTS: path.resolve(__dirname, 'src/components/'),
-      APP: path.resolve(__dirname, 'src/app/')
+      TEMPLATE: path.resolve(__dirname, 'src/templates/'),
+      COMPONENTS: path.resolve(__dirname, 'src/components/')
     }
   },
   plugins: [

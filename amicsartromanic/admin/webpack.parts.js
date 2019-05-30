@@ -1,12 +1,12 @@
-const path = require("path");
-const webpack = require("webpack");
-const MiniCssExtractPlugin = require("extract-css-chunks-webpack-plugin");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
-const GitRevisionPlugin = require("git-revision-webpack-plugin");
+const path = require('path');
+const webpack = require('webpack');
+const MiniCssExtractPlugin = require('extract-css-chunks-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const GitRevisionPlugin = require('git-revision-webpack-plugin');
 const EventHooksPlugin = require('event-hooks-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
-const NodemonPlugin = require( 'nodemon-webpack-plugin' );
+const NodemonPlugin = require('nodemon-webpack-plugin');
 
 exports.devServer = ({ host, port } = {}) => ({
   devServer: {
@@ -20,16 +20,14 @@ exports.devServer = ({ host, port } = {}) => ({
       aggregateTimeout: 300,
 
       // Poll using interval (in ms, accepts boolean too)
-      poll: 300,
+      poll: 300
     },
-    historyApiFallback: true,
+    historyApiFallback: true
   },
   plugins: [
     // Ignore node_modules so CPU usage with poll
-	// watching drops significantly.
-    new webpack.WatchIgnorePlugin([
-      path.join(__dirname, "node_modules")
-	])
+    // watching drops significantly.
+    new webpack.WatchIgnorePlugin([path.join(__dirname, 'node_modules')])
   ]
 });
 
@@ -38,11 +36,10 @@ exports.extractCSS = ({ include, exclude, use, hot = [] }) => {
   const plugin = new MiniCssExtractPlugin({
     // Options similar to the same options in webpackOptions.output
     // both options are optional
-    filename: "[name].css",
-    chunkFilename: "[id].css",
+    filename: '[name].css',
+    chunkFilename: '[id].css',
     hot: hot, // optional as the plugin cannot automatically detect if you are using HOT, not for production use
-	allChunks: true,
-
+    allChunks: true
   });
 
   return {
@@ -53,18 +50,16 @@ exports.extractCSS = ({ include, exclude, use, hot = [] }) => {
           include,
           exclude,
 
-          use: [
-            MiniCssExtractPlugin.loader
-          ].concat(use),
-        },
-      ],
+          use: [MiniCssExtractPlugin.loader].concat(use)
+        }
+      ]
     },
-    plugins: [plugin],
+    plugins: [plugin]
   };
 };
 
 exports.clean = path => ({
-  plugins: [new CleanWebpackPlugin([path])],
+  plugins: [new CleanWebpackPlugin([path])]
 });
 exports.nodemon = () => ({
   plugins: [new NodemonPlugin()]
@@ -73,68 +68,67 @@ exports.nodemon = () => ({
 exports.attachRevision = () => ({
   plugins: [
     new webpack.BannerPlugin({
-      banner: new GitRevisionPlugin().version(),
-    }),
-  ],
+      banner: new GitRevisionPlugin().version()
+    })
+  ]
 });
 
 exports.onFinished = () => ({
   plugins: [
-
     new EventHooksPlugin({
-      'done': () => {
-        console.log("As you can see the compiling is finished", global.catFiles)
+      done: () => {
+        console.log('As you can see the compiling is finished', global.catFiles);
       }
     })
-  ],
+  ]
 });
 
 exports.loadTemplateFile = ({ include, exclude } = {}) => ({
-	module: {
-	  rules: [
-		{
-		  test: /\.(template)$/,
-		  include,
-		  exclude,
-		  use: {
-			loader: path.resolve('./loaders/template-loader/template-loader.js'),
-			  options: {
-				context: path.join(__dirname, "src"),
-				public: path.join(__dirname, "public"),
-//			  name: '[name].[ext]',
-//			  useRelativePath: true,
-//			  outputPath: '../dist/',
-//			  publicPath: '../images/'
-			}
-		  },
-		},
-	  ],
-	},
-  });
+  module: {
+    rules: [
+      {
+        test: /\.(template)$/,
+        include,
+        exclude,
+        use: {
+          loader: path.resolve('./loaders/template-loader/template-loader.js'),
+          options: {
+            context: path.join(__dirname, 'src'),
+            public: path.join(__dirname, 'public'),
+            dist: path.join(__dirname, 'dist')
+            //			  name: '[name].[ext]',
+            //			  useRelativePath: true,
+            //			  outputPath: '../dist/',
+            //			  publicPath: '../images/'
+          }
+        }
+      }
+    ]
+  }
+});
 
 exports.loadCatFile = ({ include, exclude } = {}) => ({
-	module: {
-	  rules: [
-		{
-		  test: /\.(cat)$/,
-		  include,
-		  exclude,
-		  use: {
-			loader: path.resolve('./loaders/cat-loader/cat-loader.js'),
-			  options: {
-				context: path.join(__dirname, "src"),
-				public: path.join(__dirname, "public"),
-//			  name: '[name].[ext]',
-//			  useRelativePath: true,
-//			  outputPath: '../dist/',
-//			  publicPath: '../images/'
-			}
-		  },
-		},
-	  ],
-	},
-  });
-
+  module: {
+    rules: [
+      {
+        test: /\.(cat)$/,
+        include,
+        exclude,
+        use: {
+          loader: path.resolve('./loaders/cat-loader/cat-loader.js'),
+          options: {
+            context: path.join(__dirname, 'src'),
+            public: path.join(__dirname, 'public')
+            //			  name: '[name].[ext]',
+            //			  useRelativePath: true,
+            //			  outputPath: '../dist/',
+            //			  publicPath: '../images/'
+          }
+        }
+      }
+    ]
+  }
+});
 
 exports.loadImages = ({ include, exclude } = {}) => ({
   module: {
@@ -144,20 +138,20 @@ exports.loadImages = ({ include, exclude } = {}) => ({
         include,
         exclude,
         use: {
-          loader: "file-loader",
+          loader: 'file-loader',
           options: {
             name: '[name].[ext]',
             useRelativePath: false,
             outputPath: './images',
             publicPath: '../images'
           }
-        },
-      },
-    ],
-  },
+        }
+      }
+    ]
+  }
 });
 
-exports.loadHTML = ({ } = {}) => ({
+exports.loadHTML = ({} = {}) => ({
   module: {
     rules: [
       {
@@ -165,12 +159,12 @@ exports.loadHTML = ({ } = {}) => ({
         use: {
           loader: 'html-loader'
         }
-      },
-    ],
-  },
+      }
+    ]
+  }
 });
 
-exports.loadCSS = ({ } = {}) => ({
+exports.loadCSS = ({} = {}) => ({
   module: {
     rules: [
       {
@@ -191,7 +185,7 @@ exports.loadCSS = ({ } = {}) => ({
           },
           'resolve-url-loader'
         ]
-      },
-    ],
-  },
+      }
+    ]
+  }
 });

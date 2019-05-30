@@ -1,0 +1,12 @@
+{
+  "title": "template file",
+  "description": "describes properties required to create a template file",
+  "type": "object",
+  "properties": {
+    "mainStyles": {
+      "type": "array",
+      "description": "path of the main styles of the template"
+    }
+  },
+  "required": ["mainStyles"]
+}

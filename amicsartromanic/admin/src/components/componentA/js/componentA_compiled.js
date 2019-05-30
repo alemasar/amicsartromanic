@@ -1,5 +1,5 @@
 // import class HTTP/http/HTTP.get
-const templateCss = document.createElement("template");templateCss.innerHTML = `<style>:host {
+const templateCss = document.createElement("template");templateCss.innerHTML = `<link rel="stylesheet" href="js/main.css"><style>:host {
   color: #333333;
   display: inline-block;
   background: url("../images/unchecked-checkbox.svg") no-repeat;
