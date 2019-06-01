@@ -34,7 +34,7 @@ class RootIndexMethods {
   }
 
   writeExtends(inputs, output){
-    console.log("WRITE EXTENDS")
+
     const options = loader_utils.getOptions(inputs.webpack);
 
     const ajv = Ajv({ allErrors: true });
@@ -48,7 +48,8 @@ class RootIndexMethods {
       });
     } else {
       let extendsString = '';      
-      if (Object.getPrototypeOf(inputs.json).hasOwnProperty("extends")) {
+      if (inputs.json.hasOwnProperty("extends")) {
+        console.log("WRITE EXTENDS")
         extendsString = `, {extends: "${inputs.json["extends"]}"}`;
       }
       return extendsString;
