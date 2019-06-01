@@ -30,6 +30,9 @@ p['./js/main'] = [
   './public/index.js',
   // './src/css/bootstrap-material-design.css'
 ];
+p['./css/main'] = [
+  './src/css/main.scss'
+];
 const components_dir = getFiles('./src/components', 'cat');
 if (components_dir.length > 0) {
   p['./components/components'] = components_dir;

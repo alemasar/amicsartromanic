@@ -16,7 +16,7 @@ function defineListener(e) {
   i.loadComponent().then((componentInstance)=>{
     console.log("/* write tag */");
     //if (typeof window.customElements.get("/* write tag */")==="undefined"){
-      window.customElements.define("/* write tag */", componentInstance.default);
+      window.customElements.define("/* write tag */", componentInstance.default /* write extends */);
     //}
   })
 

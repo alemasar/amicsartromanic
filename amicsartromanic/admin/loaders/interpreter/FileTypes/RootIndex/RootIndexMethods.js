@@ -4,6 +4,7 @@ const JSParser = require("../../parser/parsers/JSParser");
 const WebComponentJSCompiler = require("../WebComponentJS/WebComponentJSCompiler");
 const fs = require("fs");
 const Process = require("../../compiler/CompilerProcess");
+const Ajv = require('ajv');
 
 class RootIndexMethods {
   writePath(inputs, output) {
@@ -30,6 +31,28 @@ class RootIndexMethods {
       fs.writeFileSync(completeCompiledPath, compiledTemplate);
     })
     return inputs.json;
+  }
+
+  writeExtends(inputs, output){
+    console.log("WRITE EXTENDS")
+    const options = loader_utils.getOptions(inputs.webpack);
+
+    const ajv = Ajv({ allErrors: true });
+    const extendsSchema = require('./schema/extends.schema');
+    ajv.addSchema(extendsSchema, 'extends-loader');
+    const valid = ajv.validate('extends-loader', inputs.json);
+
+    if (!valid) {
+      inputs.json.css = new Promise((resolve, reject) =>{
+        reject(ajv.errorsText());
+      });
+    } else {
+      let extendsString = '';      
+      if (Object.getPrototypeOf(inputs.json).hasOwnProperty("extends")) {
+        extendsString = `, {extends: "${inputs.json["extends"]}"}`;
+      }
+      return extendsString;
+    }
   }
 }
 

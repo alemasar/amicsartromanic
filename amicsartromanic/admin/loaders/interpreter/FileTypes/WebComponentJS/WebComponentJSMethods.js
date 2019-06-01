@@ -117,6 +117,7 @@ class WebComponentJSMethods {
     };
     return getCss();
   }
+
 }
 
 module.exports = WebComponentJSMethods;
