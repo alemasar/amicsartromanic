@@ -3,9 +3,9 @@
   "description": "describes properties required to create a template file",
   "type": "object",
   "properties": {
-    "rootTag": {
+    "tag": {
       "type": "string",
-      "description": "root tag to insert the template"
+      "description": "tag of the template component"
     },
     "basePath": {
       "type": "string",
@@ -24,5 +24,5 @@
       "description": "path of the template file"
     }
   },
-  "required": ["rootTag", "basePath", "path", "className", "template"]
+  "required": ["tag", "basePath", "path", "className", "template"]
 }

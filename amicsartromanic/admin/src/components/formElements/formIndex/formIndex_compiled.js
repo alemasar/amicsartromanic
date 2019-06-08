@@ -1,12 +1,36 @@
 const templateCss = document.createElement("template");templateCss.innerHTML = `<link rel="stylesheet" href="js/main.css"><style></style>`;
 const templateHTML = document.createElement("template");
-           templateHTML.innerHTML = `<input
-type="text"
-class="form-control"
-id="addFormComponentName"
-name="component_name"
-placeholder="Enter component name"
-/>`;
+           templateHTML.innerHTML = `<!-- write element with index 1 -->
+<div class="form-group">
+  <label for="{{ id }}">{{ label }}</label>
+  {{ tag }}
+</div>
+<!-- end write element -->
+<!-- write element with index 2 -->
+<div class="form-group">
+  <label for="{{ id }}">{{ label }}</label>
+  {{ tag }}
+</div>
+<!-- end write element -->
+<!-- write element with index 3 -->
+<div class="form-group">
+  <label for="{{ id }}">{{ label }}</label>
+  {{ tag }}
+</div>
+<!-- end write element -->
+<!-- write element with index 4 -->
+<div class="form-group">
+  <label for="{{ id }}">{{ label }}</label>
+  {{ tag }}
+</div>
+<!-- end write element -->
+<!-- write element with index 5 -->
+<div class="form-group">
+  <label for="{{ id }}">{{ label }}</label>
+  {{ tag }}
+</div>
+<!-- end write element -->
+`;
 
 export default class InputElement extends HTMLInputElement {
   /* static get observedAttributes() {

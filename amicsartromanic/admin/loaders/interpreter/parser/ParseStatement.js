@@ -16,12 +16,25 @@ class ParseStatement {
   getMethodsFromStatement() {
     const fileMethods = [];
     this.statement.split("then").map(statement => {
-      const method = statement.trim().split(" ").reduce((method, parameter) => {
+      const methodArguments = statement.trim().split("from");
+      let argument = methodArguments[0];
+      let data = {};
+      if (methodArguments.length > 1){
+        const methodData = methodArguments[1].trim().split("with");
+        argument = methodData[0].trim();
+        if (methodData.length > 1) {
+          data = methodData[1].trim();
+        }
+      }
+
+      const method = methodArguments[0].trim().split(" ").reduce((method, parameter) => {
         return ({
           method: method +
           parameter.substring(0, 1).toUpperCase() +
           parameter.substring(1),
-          output: parameter
+          output: parameter,
+          argument: argument,
+          data: data
         });
       });
       fileMethods.push(method);

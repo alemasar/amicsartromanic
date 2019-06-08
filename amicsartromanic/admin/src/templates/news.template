@@ -1,9 +1,9 @@
 {
   "routerTag": "app",
-  "tag": "index-template",
-  "className": "IndexTemplate",
-  "path": "/",
+  "tag": "news-template",
+  "className": "NewsTemplate",
+  "path": "/news",
   "basePath": "templates",
-  "template": "tpls/index.html",
+  "template": "tpls/news.html",
   "mainStyles": ["scss/main.scss", "css/bootstrap-material-design.css"]
 }

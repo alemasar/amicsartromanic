@@ -77,14 +77,14 @@ class WebComponentJSMethods {
       const scssPath = options.context + '/' + inputs.json.basePath + '/' + inputs.json.scss;
       // let scss = fs.readFileSync(scssPath, 'utf8');
       inputs.webpack.addDependency(scssPath);
-      console.log(options.context)
+      // console.log(options.context)
       const compileScssPromise = new Promise((resolve, reject) => {
         sass.render(
           {
             file: scssPath
           },
           (err, result) => {
-            console.log(err)
+            // console.log(err)
             const css = result.css.toString();
             this.searchImages(css, inputs.json.basePath, inputs.webpack);
             resolve(css);

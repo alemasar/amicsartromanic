@@ -9,7 +9,7 @@ const HTMLParser = require("../../parser/parsers/HTMLParser");
 class TemplateIndexMethods {
   writeTemplate(inputs, output) {
     const options = loader_utils.getOptions(inputs.webpack);
-    console.log("WRITE PATH: ", inputs.json.templatePath)
+    // console.log("WRITE PATH: ", inputs.json.templatePath)
 
     const template = fs.readFileSync(inputs.json.templatePath, "utf8").toString();
     return template;
@@ -22,7 +22,7 @@ class TemplateIndexMethods {
     const compiledFilePath = inputs.json.template.replace(".html", "_compiled.html");
     const pathFile =
       options.context + "/" + inputs.json.basePath + "/" + inputs.json.template;
-      console.log("COMPILED TEMPLATE: ", pathFile)
+      // console.log("COMPILED TEMPLATE: ", pathFile)
     const completeCompiledPath = options.context + "/" + inputs.json.basePath + "/" + compiledFilePath;
     inputs.json.templatePath = completeCompiledPath;
     let template = fs.readFileSync(pathFile, "utf8").toString();
@@ -41,8 +41,17 @@ class TemplateIndexMethods {
   writeClassName(inputs, output) {
     return inputs.json["className"];
   }
-  writeRootTag(inputs, output) {
+// Deprecated: Doesn't exist the rootTag
+  /*writeRootTag(inputs, output) {
     return inputs.json["rootTag"];
+  }*/
+
+  writeTag(inputs, output) {
+    return inputs.json["tag"];
+  }
+  
+  writeRouterTag(inputs, output) {
+    return inputs.json["routerTag"];
   }
 
   writeRouter(inputs, output) {

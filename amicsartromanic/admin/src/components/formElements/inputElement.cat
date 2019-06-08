@@ -1,8 +1,0 @@
-{
-  "tag": "input-text",
-  "basePath": "components/formElements",
-  "js": "inputElement/inputElement.js",
-  "template": "inputElement/inputElement.html",
-  "scss":  "inputElement/inputElement.scss",
-  "extends": "input"
-}

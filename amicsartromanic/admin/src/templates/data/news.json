@@ -1,0 +1,40 @@
+{
+  "form": [
+    {
+      "label": "Notícia:",
+      "tag": "input",
+      "attributes": {
+        "is": "input-text",
+        "type": "text",
+        "class": "form-control",
+        "id": "addNew",
+        "name": "new",
+        "placeholder": "Entra la notícia"
+      }
+    },
+    {
+      "label": "Resum de la notícia:",
+      "tag": "input",
+      "attributes": {
+        "is": "input-text",
+        "type": "text",
+        "class": "form-control",
+        "id": "addNewSummary",
+        "name": "summary",
+        "placeholder": "Entra el resum de la notícia"
+      }
+    },
+    {
+      "label": "Imatges de la notícia:",
+      "tag": "input",
+      "attributes": {
+        "is": "input-text",
+        "type": "text",
+        "class": "form-control",
+        "id": "addNewImages",
+        "name": "images",
+        "placeholder": "Entra les imatges de la noticia"
+      }
+    }
+  ]
+}

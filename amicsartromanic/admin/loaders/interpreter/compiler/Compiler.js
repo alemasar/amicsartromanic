@@ -16,8 +16,8 @@ class Compiler {
   callMethod(method, inputs) {
     // eslint-disable-next-line no-unused-vars
     return new Promise((resolve, reject) => {
-      // console.log(this.methods[method.method](inputs, method.output));
-      resolve(this.methods[method.method](inputs, method.output));
+      // console.log("Method: ", method);
+      resolve(this.methods[method.method](inputs, method.output, method.argument, method.data));
     });
   }
 
