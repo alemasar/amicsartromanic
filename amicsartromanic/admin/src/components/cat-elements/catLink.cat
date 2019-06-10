@@ -1,0 +1,8 @@
+{
+  "tag": "cat-link",
+  "basePath": "components/cat-elements",
+  "js": "cat-link/catLink.js",
+  "template": "cat-link/catLink.html",
+  "scss": "cat-link/catLink.scss",
+  "extends": "a"
+}

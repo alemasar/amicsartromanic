@@ -1,0 +1,8 @@
+{
+  "routerTag": "menu",
+  "tag": "nav-template",
+  "className": "MenuTemplate",
+  "basePath": "templates",
+  "template": "tpls/menu.html",
+  "mainStyles": ["scss/main.scss", "css/bootstrap-material-design.css"]
+}
