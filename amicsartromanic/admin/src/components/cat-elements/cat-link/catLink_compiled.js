@@ -5,7 +5,10 @@ export default class InputElement extends HTMLAnchorElement {
   }
 
   goTo(e) {
-   // e.preventDefault();
-    history.pushState({ page: 0 }, 'title 1', this.href);
+    e.preventDefault();
+    console.log(this.getAttribute('data-link'));
+    history.pushState({ page: 0 }, 'title 1', this.getAttribute('data-link'));
+    const popStateEvent = new PopStateEvent('popstate', null);
+    dispatchEvent(popStateEvent);
   }
 }
