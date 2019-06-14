@@ -5,7 +5,7 @@ export default class InputElement extends HTMLAnchorElement {
   }
 
   goTo(e) {
-    e.preventDefault();
+   // e.preventDefault();
     history.pushState({ page: 0 }, 'title 1', this.href);
   }
 }

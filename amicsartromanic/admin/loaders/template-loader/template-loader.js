@@ -28,7 +28,14 @@ module.exports = function(input) {
     callback(null, return_string);
   } else {
     //console.log("TEMPLATE LOADER: ", global.WEBComponentsTags)
-    let template = fs.readFileSync(path.join(__dirname, './tpl/template.js'), 'utf8').toString();
+    let template = "";
+    console.log(json.hasOwnProperty("compilerTemplate")+'    '+json)
+    if (json.hasOwnProperty("compilerTemplate")) {
+      console.log("------------------------ no hay router ---------------------------------------")
+      template = fs.readFileSync(path.join(__dirname, './tpl/' + json.compilerTemplate), 'utf8').toString();
+    } else {
+      template = fs.readFileSync(path.join(__dirname, './tpl/template.js'), 'utf8').toString();
+    }
     const compilerProcess = new Process(template, JSParser, TemplateIndexCompiler);
     const promise = compilerProcess.process(json, webpack);
     promise

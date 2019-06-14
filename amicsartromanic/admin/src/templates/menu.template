@@ -4,5 +4,6 @@
   "className": "MenuTemplate",
   "basePath": "templates",
   "template": "tpls/menu.html",
-  "mainStyles": ["scss/main.scss", "css/bootstrap-material-design.css"]
+  "mainStyles": ["scss/main.scss", "css/bootstrap-material-design.css"],
+  "compilerTemplate": "noRouterTemplate.js"
 }

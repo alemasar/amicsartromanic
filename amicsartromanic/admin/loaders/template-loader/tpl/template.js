@@ -4,7 +4,6 @@ class /* write className */ extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     const template = document.createElement("template");
     template.innerHTML = `/* compile template then write template */`;
-    console.log(template.innerHTML);
     this.shadowRoot.appendChild(template.content.cloneNode(true));
     const elem = document.querySelector('/* write routerTag */-template');
     const parentElement = elem.parentNode;
