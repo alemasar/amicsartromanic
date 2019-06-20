@@ -16,6 +16,7 @@ class /* write className */ extends HTMLElement {
     const hostShadowDOM = document.querySelector('/* write routerTag */-template').attachShadow({mode: 'open'});
     hostShadowDOM.appendChild(this.shadowRoot);
   }
+  /* write js */
 }
 
 class Prova {

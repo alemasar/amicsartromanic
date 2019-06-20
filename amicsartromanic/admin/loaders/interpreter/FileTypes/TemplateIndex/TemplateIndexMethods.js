@@ -7,6 +7,17 @@ const HTMLTemplateCompiler = require("../HTMLTemplate/HTMLTemplateCompiler");
 const HTMLParser = require("../../parser/parsers/HTMLParser");
 
 class TemplateIndexMethods {
+  
+  writeJs(inputs, output){
+    const options = loader_utils.getOptions(inputs.webpack);
+    console.log("PASO PER WRITE JS ", inputs.json);
+    let js ="";
+    if (inputs.json.hasOwnProperty("js")){
+      fs.readFileSync(options.context + '/' + inputs.json.basePath + '/' + inputs.json.js, "utf8").toString();
+    } 
+    return js;
+  }
+
   writeTemplate(inputs, output) {
     const options = loader_utils.getOptions(inputs.webpack);
     // console.log("WRITE PATH: ", inputs.json.templatePath)

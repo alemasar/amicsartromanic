@@ -28,9 +28,9 @@
       "label": "Imatges de la notícia:",
       "tag": "input",
       "attributes": {
-        "is": "input-text",
-        "type": "text",
-        "class": "form-control",
+        "is": "input-file",
+        "type": "file",
+        "class": "form-control-file",
         "id": "addNewImages",
         "name": "images",
         "placeholder": "Entra les imatges de la noticia"

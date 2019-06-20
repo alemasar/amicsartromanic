@@ -1,4 +1,4 @@
-export default class InputElement extends HTMLAnchorElement {
+export default class CATLink extends HTMLAnchorElement {
   constructor() {
     super(); // always call super() first in the constructor.
     this.addEventListener('click', e => this.goTo(e));

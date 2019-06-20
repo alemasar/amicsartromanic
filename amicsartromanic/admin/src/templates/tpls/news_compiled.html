@@ -1,6 +1,6 @@
 <link href="templates/css/main.css" rel="stylesheet" type="text/css"><link href="templates/css/bootstrap-material-design.css" rel="stylesheet" type="text/css">
 <div class="container-fluid">
-  <form id="newComponentForm">
+  <form is="form-element" id="addNewForm">
     <!-- write element with index 1 -->
 <div class="form-group">
     <label for="addNew">Notícia:</label>
@@ -16,7 +16,7 @@
   <!-- write element with index 3 -->
   <div class="form-group">
     <label for="addNewImages">Imatges de la notícia:</label>
-    <input is = "input-text" type = "text" class = "form-control" id = "addNewImages" name = "images" placeholder = "Entra les imatges de la noticia"/>
+    <input is = "input-file" type = "file" class = "form-control-file" id = "addNewImages" name = "images" placeholder = "Entra les imatges de la noticia"/>
   </div>
   <!-- end write element -->
 

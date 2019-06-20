@@ -8,7 +8,6 @@ import logging
 #import sys
 
 #sys.path.append(r'C:\Users\john')
-
 db_session = None
 
 logging.basicConfig(level=logging.INFO)
@@ -18,7 +17,7 @@ app.add_api('my_super_app.yaml')
 # set the WSGI application callable to allow using uWSGI:
 # uwsgi --http :8080 -w app
 application = app.app
-
+application.config['UPLOAD_FOLDER'] = Config.NEWS_IMAGE_UPLOAD_FOLDER
 CORS(application)
 
 @application.teardown_appcontext

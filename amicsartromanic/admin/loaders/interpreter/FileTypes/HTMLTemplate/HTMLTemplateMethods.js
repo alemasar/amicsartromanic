@@ -6,6 +6,7 @@ const Ajv = require('ajv');
 const sass = require('node-sass');
 
 class HTMLTemplateMethods {
+
   compileTemplate(inputs, output, argumentURL, dataURL) {
     const options = loader_utils.getOptions(inputs.webpack);
     const template = fs.readFileSync(options.context + '/' + argumentURL, "utf8").toString();

@@ -31,6 +31,35 @@ paths:
       responses:
         200:
           description: OK
+  /addNew:
+    post:
+      operationId: "app.news.addNew"
+      consumes:
+        - "multipart/form-data"
+      tags:
+        - "addNew"
+      summary: "The people data structure supported by the server application"
+      description: "Read the list of people"
+      parameters:
+        - name: news_summary
+          in: formData
+          description: Additional data to pass to server
+          required: false
+          type: string
+        - name: news_body
+          in: formData
+          description: Additional data to pass to server
+          required: false
+          type: string
+        - name: news_image
+          in: formData
+          description: Additional data to pass to server
+          required: false
+          type: file
+
+      responses:
+        200:
+          description: OK
 
 definitions:
   Component:
@@ -54,3 +83,4 @@ definitions:
       component_template_path:
         type: string
         description: First name of person to create
+
