@@ -9,7 +9,24 @@ import os
 from werkzeug.utils import secure_filename
 from PIL import Image
 
-def addNew(news_summary, news_body, news_image):
+def addNew(new=None):
+
+  newsImage = list()
+  for image in new.get('news_image'):
+    logging.info("FILES: %s" % image.get("images_path"))
+    tempImage = orm.Images(image_path = image.get("images_path"), image_footer = image.get("images_footer"))
+    newsImage.append(tempImage)
+
+  newNew = orm.News(news_summary = new.get('news_summary'), news_body = new.get('news_body'), news_image = newsImage)
+
+  logging.info("FILES: %s" % newNew)
+  db_session.add_all(newsImage)
+  db_session.add(newNew)
+  db_session.commit()
+
+  return jsonify(news_summary = new.get('news_summary'), news_body = new.get('news_body')), 200
+
+def addImage():
   path = os.getcwd()  
 
   images_path = os.path.join(path, app.app.config['UPLOAD_FOLDER'])
@@ -23,15 +40,18 @@ def addNew(news_summary, news_body, news_image):
     else:  
         logging.info("Successfully created the directory %s" % images_path)
 
-  file = connexion.request.files['news_image']
+  file = connexion.request.files['image']
+  logging.info("FILES: %s" % connexion.request.files)
   filename = os.path.join(images_path, secure_filename(file.filename))
   file.save(filename)
   logging.info(filename)
-  newsImage = orm.Images(image_path = secure_filename(file.filename), image_footer = "Image footer")
-  newNew = orm.News(news_summary = connexion.request.form['news_summary'], news_body = connexion.request.form['news_body'], news_image = [newsImage])
+ # newsImage = orm.Images(image_path = secure_filename(file.filename), image_footer = "Image footer")
+ # newImage = orm.Images(image_path = secure_filename(file.filename), image_footer = "Image footer")
+ # logging.info("FILES: %s" % newsImage)
+#
+#  db_session.add(newsImage)
+#  db_session.add(newsImage)
+#  db_session.commit()
 
-  db_session.add(newsImage)
-  db_session.add(newNew)
-  db_session.commit()
-
-  return jsonify(news_summary = connexion.request.form['news_summary'], news_body = connexion.request.form['news_body'], news_image = secure_filename(file.filename)), 200
+  return jsonify(image_path = secure_filename(file.filename)), 200
+  #return "HOLA", 200

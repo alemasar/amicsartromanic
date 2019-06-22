@@ -1,7 +1,11 @@
-/* compile scss then write css */
-/* compile HTML then write HTML */
+const templateCss = document.createElement("template");templateCss.innerHTML = `<style>collection-inputs-file {
+  border: 1px solid #000;
+  display: block; }
+</style>`;
+const templateHTML = document.createElement("template");
+           templateHTML.innerHTML = `<input is="input-file" type="file" class="form-control-file" id="addNewImages" name="images" placeholder="Entra les imatges de la noticia">`;
 
-export default class InputFileElement extends HTMLInputElement {
+export default class CollectionInputsFileElement extends HTMLElement {
   /* static get observedAttributes() {
     return ['checked', 'disabled'];
   } */
@@ -9,6 +13,12 @@ export default class InputFileElement extends HTMLInputElement {
   constructor() {
     super();
     console.log('paso input file element');
+    if (templateCss) {
+      this.appendChild(templateCss.content.cloneNode(true));
+    }
+    if (templateHTML) {
+      this.appendChild(templateHTML.content.cloneNode(true));
+    }
     //this.attachShadow({ mode: 'open' });
     // console.log(this.cat)
     // this.shadowRoot.appendChild(templateCss.content.cloneNode(true));

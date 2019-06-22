@@ -104,7 +104,6 @@ class WebComponentJSMethods {
         return (
           `const templateCss = document.createElement("template");` +
           'templateCss.innerHTML = `' +
-          '<link rel="stylesheet" href="js/main.css">' +
           '<style>' +
           `${css}` +
           '</style>' +

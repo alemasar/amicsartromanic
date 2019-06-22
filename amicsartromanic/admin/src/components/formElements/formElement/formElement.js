@@ -13,18 +13,37 @@ export default class FormElement extends HTMLFormElement {
     this.onsubmit = (e) => {
       e.preventDefault();
       //console.log("Faig submit!!! ", this.values);
-      const formFiles = new FormData();
+      //const data = new FormData();
       const files = this.querySelector('#addNewImages');
-
-      formFiles.append('news_image', files.files[0]);
-      formFiles.append('news_body', this.querySelector('#addNew').value);
-      formFiles.append('news_summary', this.querySelector('#addNewSummary').value);
+      console.log(files.files[0])
+      //data.append('image', files.files[0]);
+      /*formFiles.append('news_body', this.querySelector('#addNew').value);
+      formFiles.append('news_summary', this.querySelector('#addNewSummary').value);*/
       const url = 'http://admin.localhost:5000/api/addNew';
-      console.log(this.querySelector('#addNew').value);
-      const headers = new Headers({ 'content-type': 'multipart/form-data' });
+      // const url = 'http://admin.localhost:5000/api/addImage';
+      //console.log(this.querySelector('#addNew').value);
+      const data = {
+        news_body: this.querySelector('#addNew').value,
+        news_summary: this.querySelector('#addNewSummary').value,
+        news_image: [
+          {
+            images_path: files.files[0].name,
+            images_footer: "Footer de la imatge"
+          },
+          {
+            images_path: files.files[0].name,
+            images_footer: "Footer de la imatge"
+          }
+        ]
+      };
+      console.log(data)
+      //const headers = new Headers({ 'content-type': 'multipart/form-data' });
+      const headers = new Headers({ 'content-type': 'application/json' });
       const requestOptions = {
         method: 'POST',
-        body: formFiles,
+        headers,
+        body: JSON.stringify(data),
+        //body: data,
         mode: 'cors',
         cache: 'default'
       };
@@ -33,7 +52,10 @@ export default class FormElement extends HTMLFormElement {
           return res.json();
         })
         .catch(error => console.log('Error:', error))
-        .then(response => console.log('Success:', response));
+        .then(response => {
+          console.log('Success:', response);
+          
+        });
     };
   }
 }

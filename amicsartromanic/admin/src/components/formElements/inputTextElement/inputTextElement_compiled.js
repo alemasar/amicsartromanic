@@ -1,4 +1,4 @@
-const templateCss = document.createElement("template");templateCss.innerHTML = `<link rel="stylesheet" href="js/main.css"><style></style>`;
+const templateCss = document.createElement("template");templateCss.innerHTML = `<style></style>`;
 /* data should have required property 'template' */
 
 export default class InputElement extends HTMLInputElement {

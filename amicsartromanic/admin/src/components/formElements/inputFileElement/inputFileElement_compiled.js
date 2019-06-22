@@ -1,7 +1,7 @@
-const templateCss = document.createElement("template");templateCss.innerHTML = `<link rel="stylesheet" href="js/main.css"><style></style>`;
+const templateCss = document.createElement("template");templateCss.innerHTML = `<style></style>`;
 /* data should have required property 'template' */
 
-export default class InputElement extends HTMLInputElement {
+export default class InputFileElement extends HTMLInputElement {
   /* static get observedAttributes() {
     return ['checked', 'disabled'];
   } */

@@ -26,14 +26,10 @@
     },
     {
       "label": "Imatges de la notícia:",
-      "tag": "input",
+      "tag": "collection-inputs-file",
       "attributes": {
-        "is": "input-file",
-        "type": "file",
-        "class": "form-control-file",
-        "id": "addNewImages",
-        "name": "images",
-        "placeholder": "Entra les imatges de la noticia"
+        "class": "collection-controls-file",
+        "id": "collection-controls-file"
       }
     }
   ]
