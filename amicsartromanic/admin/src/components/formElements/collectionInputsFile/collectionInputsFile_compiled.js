@@ -3,7 +3,8 @@ const templateCss = document.createElement("template");templateCss.innerHTML = `
   display: block; }
 </style>`;
 const templateHTML = document.createElement("template");
-           templateHTML.innerHTML = `<input is="input-file" type="file" class="form-control-file" id="addNewImages" name="images" placeholder="Entra les imatges de la noticia">`;
+           templateHTML.innerHTML = `<!-- import cat-foreach -->
+<input cat-foreach="file in files" is="input-file" type="file" class="form-control-file" id="addNewImages" name="images" placeholder="Entra les imatges de la noticia">`;
 
 export default class CollectionInputsFileElement extends HTMLElement {
   /* static get observedAttributes() {

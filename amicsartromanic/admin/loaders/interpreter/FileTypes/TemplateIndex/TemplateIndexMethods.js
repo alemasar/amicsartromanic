@@ -10,7 +10,6 @@ class TemplateIndexMethods {
   
   writeJs(inputs, output){
     const options = loader_utils.getOptions(inputs.webpack);
-    console.log("PASO PER WRITE JS ", inputs.json);
     let js ="";
     if (inputs.json.hasOwnProperty("js")){
       fs.readFileSync(options.context + '/' + inputs.json.basePath + '/' + inputs.json.js, "utf8").toString();

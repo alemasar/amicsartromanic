@@ -31,7 +31,7 @@ class ParseStatement {
         return ({
           method: method +
           parameter.substring(0, 1).toUpperCase() +
-          parameter.substring(1),
+          parameter.substring(1).replace("-",""),
           output: parameter,
           argument: argument,
           data: data
