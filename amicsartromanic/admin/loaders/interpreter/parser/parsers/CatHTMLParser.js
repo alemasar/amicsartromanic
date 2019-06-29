@@ -2,7 +2,7 @@
 const Parser = require('../Parser');
 const Dictionary = require('../../dictionaries/Dictionary');
 
-class HTMLParser extends Parser {
+class CatHTMLParser extends Parser {
   constructor(file, config) {
     super(config);
 
@@ -10,9 +10,9 @@ class HTMLParser extends Parser {
     this.close = '-->';
     this.dictionaryClass = Dictionary;
     this.template = file;
-    this.replaceCode = true;
+    this.replaceCode = false;
     this.initCompilation();
   }
 }
 
-module.exports = HTMLParser;
+module.exports = CatHTMLParser;

@@ -1,6 +1,6 @@
 /* eslint-disable */
 const loader_utils = require('loader-utils');
-const HTMLParser = require("../../parser/parsers/HTMLParser");
+const CatHTMLParser = require("../../parser/parsers/CatHTMLParser");
 const CATTemplateFunctionsCompiler = require("../CATTemplateFunctions/CATTemplateFunctionsCompiler");
 const Process = require("../../compiler/CompilerProcess");
 const sass = require('node-sass');
@@ -25,12 +25,13 @@ class WebComponentJSMethods {
       const templatePath = options.context + '/' + inputs.json.basePath + '/' + inputs.json.template;
       let template = fs.readFileSync(templatePath, 'utf8');
       inputs.webpack.addDependency(templatePath);
-      console.log(templatePath)
-      const compilerProcess = new Process(template, HTMLParser, CATTemplateFunctionsCompiler)
-      const promise = compilerProcess.process(inputs.json, inputs.webpack)
-      inputs.json.HTML = new Promise((resolve, reject) =>{
+      console.log(CatHTMLParser)
+      const compilerProcess = new Process(template, CatHTMLParser, CATTemplateFunctionsCompiler)
+      const promise = compilerProcess.process(inputs.json, inputs.webpack);
+      inputs.json.HTML = promise; 
+      /*new Promise((resolve, reject) =>{
         resolve(template);
-      });
+      });*/
     }
     return inputs.json;
   }

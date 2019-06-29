@@ -22,8 +22,8 @@ function getFiles (dir, files_){
 
 let p = {}
 p['./js/main'] = './public/index.js';
-p['./js/components'] = getFiles('./src/components');
 p['./js/templates'] = getFiles('./src/app/templates');
+p['./js/components'] = getFiles('./src/components');
 p['./css/style'] = './src/scss/main.scss';
 global.WEBComponentsTags = [];
 const commonConfig = merge({
@@ -88,8 +88,8 @@ const developmentConfig = merge([
         use: ["css-loader", "sass-loader"]
     }, true),
     parts.loadImages({}),
+    parts.loadCatFile(),
     parts.loadTemplateFile({}),
-	parts.loadCatFile(),
 	parts.onFinished()
 ]);
 

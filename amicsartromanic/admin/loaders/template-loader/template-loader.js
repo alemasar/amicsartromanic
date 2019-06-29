@@ -31,7 +31,6 @@ module.exports = function(input) {
     let template = "";
     console.log(json.hasOwnProperty("compilerTemplate")+'    '+json)
     if (json.hasOwnProperty("compilerTemplate")) {
-      console.log("------------------------ no hay router ---------------------------------------")
       template = fs.readFileSync(path.join(__dirname, './tpl/' + json.compilerTemplate), 'utf8').toString();
     } else {
       template = fs.readFileSync(path.join(__dirname, './tpl/template.js'), 'utf8').toString();

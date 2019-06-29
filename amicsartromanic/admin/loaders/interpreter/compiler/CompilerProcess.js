@@ -16,7 +16,7 @@ class CompilerProcess {
     compiler.initCompilation(methods);
     const methodsPromise = [];
     methods.forEach(method => {
-      methodsPromise.push(compiler.callMethods(method, { json, webpack }));
+      methodsPromise.push(compiler.callMethods(method, { json, webpack, template: this.template }));
     });
     let compiledCodes = [];
     compiledCodes = methodsPromise.map(methodPromise => {
@@ -32,7 +32,11 @@ class CompilerProcess {
     return new Promise((resolve, reject) => {
       Promise.all(compiledCodes).then(compiledCode => {
         compiledCode.forEach((code, index) => {
-          this.template = this.template.replace(methods[index].comment, code);
+          if (root_parser.replaceCode) {
+            this.template = this.template.replace(methods[index].comment, code);
+          } else {
+            this.template = code;
+          }
         });
         resolve(this.template);
       });

@@ -10,6 +10,7 @@ class JSParser extends Parser {
     this.close = '*/';
     this.dictionaryClass = Dictionary;
     this.template = file;
+    this.replaceCode = true;
     this.initCompilation();
   }
 }

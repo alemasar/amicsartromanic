@@ -25,10 +25,13 @@ class RootIndexMethods {
     inputs.webpack.addDependency(pathFile)
     let template = fs.readFileSync(pathFile, "utf8").toString();
     const compilerProcess = new Process(template, JSParser, WebComponentJSCompiler)
-    const promise = compilerProcess.process(inputs.json, inputs.webpack)
+    const promise = compilerProcess.process(inputs.json, inputs.webpack);
     promise.then((compiledTemplate)=>{
       const completeCompiledPath = options.context + "/" + inputs.json.basePath + "/" + compiledFilePath;
-      fs.writeFileSync(completeCompiledPath, compiledTemplate);
+      if (fs.readFileSync(completeCompiledPath, "utf8").toString().indexOf("/* not to rewrite the file */") == -1){
+        console.log("REESCRIBO EL ARCHIVO!!!!!!");
+        fs.writeFileSync(completeCompiledPath, compiledTemplate);
+      }
     })
     return inputs.json;
   }

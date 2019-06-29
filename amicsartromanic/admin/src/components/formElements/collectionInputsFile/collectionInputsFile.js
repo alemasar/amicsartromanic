@@ -8,6 +8,7 @@ export default class CollectionInputsFileElement extends HTMLElement {
 
   constructor() {
     super();
+    this.files = ['HOLA', 'ADEU'];
     console.log('paso input file element');
     if (templateCss) {
       this.appendChild(templateCss.content.cloneNode(true));
@@ -34,4 +35,5 @@ export default class CollectionInputsFileElement extends HTMLElement {
     this.innerHTML = templateHTML.innerHTML;*/
    // console.log(this.shadowRoot);
   }
+
 }
