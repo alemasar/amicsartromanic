@@ -67,12 +67,13 @@ const commonConfig = merge({
 
 const PATHS = {
   app: path.join(__dirname, 'src'),
-  build: path.join(__dirname, 'dist')
+  build: path.join(__dirname, 'dist'),
+  compiledJs: path.join(__dirname, 'src/**/*_compiled.js')
 };
 
 const productionConfig = merge([
-  parts.clean(PATHS.build),
-  parts.loadTemplateFile({}),
+  parts.clean([PATHS.build, PATHS.compiledJs]),
+/*  parts.loadTemplateFile({}),*/
   parts.loadCatFile(),
   parts.loadHTML({}),
   parts.extractCSS(
@@ -103,6 +104,7 @@ const productionConfig = merge([
 ]);
 
 const developmentConfig = merge([
+  parts.clean([PATHS.compiledJs]),
   parts.devServer({
     // Customize host/port here if needed
     host: process.env.HOST,
@@ -117,8 +119,8 @@ const developmentConfig = merge([
   ),
   parts.loadCSS(),
   parts.loadImages({}),
-  parts.loadTemplateFile({}),
-  parts.loadCatFile(),
+  /*parts.loadTemplateFile({}),
+  parts.loadCatFile(),*/
   //    parts.nodemon(),
   parts.onFinished()
 ]);

@@ -59,7 +59,7 @@ exports.extractCSS = ({ include, exclude, use, hot = [] }) => {
 };
 
 exports.clean = path => ({
-  plugins: [new CleanWebpackPlugin([path])]
+  plugins: [new CleanWebpackPlugin(path)]
 });
 exports.nodemon = () => ({
   plugins: [new NodemonPlugin()]

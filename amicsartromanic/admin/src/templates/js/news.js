@@ -1,3 +1,0 @@
-submitForm() {
-    console.log(this)
-}

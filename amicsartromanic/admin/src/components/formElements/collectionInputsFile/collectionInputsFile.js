@@ -1,5 +1,5 @@
 /* compile scss then write css */
-/* compile HTML then write HTML */
+/* compile HTML then compile js then write HTML */
 
 export default class CollectionInputsFileElement extends HTMLElement {
   /* static get observedAttributes() {
@@ -9,7 +9,7 @@ export default class CollectionInputsFileElement extends HTMLElement {
   constructor() {
     super();
     this.files = ['HOLA', 'ADEU'];
-    console.log('paso input file element');
+    console.log('paso input file element: ' + this.files);
     if (templateCss) {
       this.appendChild(templateCss.content.cloneNode(true));
     }

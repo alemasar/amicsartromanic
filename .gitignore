@@ -1,5 +1,6 @@
 /amicsartromanic/app/node_modules
 /amicsartromanic/admin/node_modules
+/amicsartromanic/admin_old
 /amicsartromanic/database/db
 node_modules
 linux_signing_key.pub

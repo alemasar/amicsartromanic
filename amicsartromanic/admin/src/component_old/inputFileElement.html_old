@@ -1,8 +1,0 @@
-<input
-  is="input-file"
-  type="file"
-  class="form-control-file"
-  id="addFormComponentName"
-  name="component_name"
-  placeholder="Enter component name"
-/>

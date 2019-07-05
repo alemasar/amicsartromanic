@@ -1,11 +1,11 @@
 /* eslint-disable */
 const loader_utils = require('loader-utils');
-const JSParser = require('../interpreter/parser/parsers/JSParser');
 const path = require('path');
-const RootIndexCompiler = require('../interpreter/FileTypes/RootIndex/RootIndexCompiler');
 const fs = require('fs');
-const Process = require('../interpreter/compiler/CompilerProcess');
 const Ajv = require('ajv');
+const Parser = require('../Parser/Parser');
+const JSType = require('../Parser/FileType/JSParser');
+const RootIndexMethods = require('../Parser/Methods/RootIndexMethods')
 
 module.exports = function(input) {
   const webpack = this;
@@ -29,11 +29,12 @@ module.exports = function(input) {
     webpack.clearDependencies();
 
     let template = fs.readFileSync(path.join(__dirname, './tpl/index.js'), 'utf8').toString();
-    const compilerProcess = new Process(template, JSParser, RootIndexCompiler);
-    const promise = compilerProcess.process(json, webpack);
-    promise.then(compiledTemplate => {
-      callback(null, compiledTemplate);
-    });
+    const parser = new Parser(template, JSType, RootIndexMethods);
+    //const compilerProcess = new Process(template, JSParser, RootIndexCompiler);
+    //const promise = compilerProcess.process(json, webpack);
+    //promise.then(compiledTemplate => {
+      callback(null, template);
+    //});
   }
 
   return;
