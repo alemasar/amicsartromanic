@@ -51,7 +51,7 @@ class Parser {
     let initialPos = 0;
     const keywordPosition = [];
     let methodWithArgument = false;
-    this.methods.sequenceKeywords.map(keyword => {
+    this.type.sequenceKeywords.forEach(keyword => {
       rawStatementSplitted = rawStatement.split(' ');
       let lastIndexOf = rawStatementSplitted.indexOf(keyword);
       while (lastIndexOf != -1) {
@@ -67,29 +67,33 @@ class Parser {
       }
     });
     sequencedMethods.push(rawStatementSplitted.slice(initialPos, rawStatementSplitted.length));
-    sequencedMethods.map(sequencedMethod => {
+    sequencedMethods.forEach(sequencedMethod => {
       methodWithArgument = false;
-      this.methods.argumentKeywords.forEach(keyword => {
+      this.type.argumentKeywords.forEach(keyword => {
         const position = sequencedMethod.indexOf(keyword);
         if (position != -1) {
-          // console.log('METHOD: ', sequencedMethod.slice(0, position));
-          // console.log('ARGUMENT: ', sequencedMethod.slice(position + 1));
-          methods.push({
-            method: this.formatMethod(sequencedMethod.slice(0, position)),
-            arguments: sequencedMethod.slice(position + 1)
-          });
+          const formattedMethod = this.formatMethod(sequencedMethod.slice(0, position));
+          if (Object.getPrototypeOf(this.methods).hasOwnProperty(formattedMethod)) {
+            methods.push({
+              method: formattedMethod,
+              arguments: sequencedMethod.slice(position + 1)
+            });
+          }
           methodWithArgument = true;
         }
       });
       if (!methodWithArgument) {
-        methods.push({
-          method: this.formatMethod(sequencedMethod),
-          arguments: []
-        });
+        const formattedMethod = this.formatMethod(sequencedMethod);
+        console.log(Object.getPrototypeOf(this.methods).hasOwnProperty(formattedMethod));
+        if (Object.getPrototypeOf(this.methods).hasOwnProperty(formattedMethod)) {
+          console.log(formattedMethod);
+          methods.push({
+            method: formattedMethod,
+            arguments: []
+          });
+        }
       }
     });
-    //    methods.push(rawStatementSplitted.slice(initialPos, rawStatementSplitted.length));
-    //    console.log("KEYWORD POSITION: ", keywordPosition);
     console.log('METHODS: ', methods);
   }
 }
