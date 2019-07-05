@@ -17,11 +17,21 @@ class Parser {
           pos_ini_comment,
           pos_fi_comment - pos_ini_comment + this.type.close.length
         );
-        this.checkComment(statement_with_comments);
-        // console.log(statement_with_comments);
+        const checkedComment = this.checkComment(statement_with_comments);
+        if (checkedComment.length > 0) {
+          if (Object.keys(checkedComment).indexOf("error") === -1){
+            this.statements.push({
+              statement: statement_with_comments,
+              methods: checkedComment
+            });
+          } else {
+            console.log("ERROR!!!!!")
+          }
+        }
       }
       pos_ini_comment = this.template.indexOf(this.type.open, pos_fi_comment);
     } while (pos_ini_comment != -1);
+    console.log('STATEMENTS: ', this.statements);
   }
 
   formatMethod(methodArray) {
@@ -40,6 +50,36 @@ class Parser {
     return methodFormatted.join('');
   }
 
+  parseMethods(sequencedMethods){
+    let methodWithArgument = false;
+    let methods = [];
+    sequencedMethods.forEach(sequencedMethod => {
+      methodWithArgument = false;
+      this.type.argumentKeywords.forEach(keyword => {
+        const position = sequencedMethod.indexOf(keyword);
+        if (position != -1) {
+          const formattedMethod = this.formatMethod(sequencedMethod.slice(0, position));
+          if (Object.getPrototypeOf(this.methods).hasOwnProperty(formattedMethod)) {
+            methods.push({
+              method: this.methods[formattedMethod],
+              arguments: sequencedMethod.slice(position + 1)
+            });
+          }
+          methodWithArgument = true;
+        }
+      });
+      if (!methodWithArgument) {
+        const formattedMethod = this.formatMethod(sequencedMethod);
+        if (Object.getPrototypeOf(this.methods).hasOwnProperty(formattedMethod)) {
+          methods.push({
+            method: this.methods[formattedMethod],
+            arguments: []
+          });
+        }
+      }
+    });
+    return methods;
+  }
   checkComment(comment) {
     let rawStatement = comment
       .replace(this.type.open, '')
@@ -50,7 +90,6 @@ class Parser {
     const sequencedMethods = [];
     let initialPos = 0;
     const keywordPosition = [];
-    let methodWithArgument = false;
     this.type.sequenceKeywords.forEach(keyword => {
       rawStatementSplitted = rawStatement.split(' ');
       let lastIndexOf = rawStatementSplitted.indexOf(keyword);
@@ -67,34 +106,11 @@ class Parser {
       }
     });
     sequencedMethods.push(rawStatementSplitted.slice(initialPos, rawStatementSplitted.length));
-    sequencedMethods.forEach(sequencedMethod => {
-      methodWithArgument = false;
-      this.type.argumentKeywords.forEach(keyword => {
-        const position = sequencedMethod.indexOf(keyword);
-        if (position != -1) {
-          const formattedMethod = this.formatMethod(sequencedMethod.slice(0, position));
-          if (Object.getPrototypeOf(this.methods).hasOwnProperty(formattedMethod)) {
-            methods.push({
-              method: formattedMethod,
-              arguments: sequencedMethod.slice(position + 1)
-            });
-          }
-          methodWithArgument = true;
-        }
-      });
-      if (!methodWithArgument) {
-        const formattedMethod = this.formatMethod(sequencedMethod);
-        console.log(Object.getPrototypeOf(this.methods).hasOwnProperty(formattedMethod));
-        if (Object.getPrototypeOf(this.methods).hasOwnProperty(formattedMethod)) {
-          console.log(formattedMethod);
-          methods.push({
-            method: formattedMethod,
-            arguments: []
-          });
-        }
-      }
-    });
-    console.log('METHODS: ', methods);
+    methods = this.parseMethods(sequencedMethods);
+    if (methods.length > 0 && methods.length != sequencedMethods.length){
+      methods["error"] = "Not all methods defined";
+    }
+    return methods;
   }
 }
 
