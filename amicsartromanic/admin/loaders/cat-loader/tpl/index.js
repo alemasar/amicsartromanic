@@ -4,7 +4,7 @@ class Prova {
   }
   loadComponent(){
    
-    return import(/* webpackMode: "eager" */ `/* compile component then write path */`);
+    return import(/* webpackMode: "eager" */ `/* compile component then write test then write path */`);
   }
 }
 const i = new Prova();

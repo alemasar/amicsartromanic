@@ -1,17 +1,29 @@
 /* eslint-disable */
 
 class RootIndexMethods {
-  writeTag() {
+  writeTag(inputs, args) {
     console.log('PASO PER WRITETAG!!!!');
-    return "HOLA";
+    return new Promise((resolve, reject) => {
+      resolve('WRITETAG');
+    });
   }
-  compileComponent() {
+  compileComponent(inputs, args) {
     console.log('PASO PER COMPILECOMPONENT!!!!');
-    return "HOLA";
+    return new Promise((resolve, reject) => {
+      resolve('COMPILECOMPONENT');
+    });
   }
-  writePath() {
-    console.log('PASO PER WRITEPATH!!!!');
-    return "HOLA";
+  writePath(inputs, args, promise) {
+    console.log('PASO PER WRITEPATH!!!!', promise);
+    return new Promise((resolve, reject) => {
+      resolve('WRITEPATH');
+    });
+  }
+  writeTest(inputs, args, promise) {
+    console.log('PASO PER WRITETEST!!!!', promise);
+    return new Promise((resolve, reject) => {
+      resolve('WRITETEST');
+    });
   }
 }
 

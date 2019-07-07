@@ -31,7 +31,7 @@ class Parser {
       }
       pos_ini_comment = this.template.indexOf(this.type.open, pos_fi_comment);
     } while (pos_ini_comment != -1);
-    console.log('STATEMENTS: ', this.statements);
+    //console.log('STATEMENTS: ', this.statements);
   }
 
   formatMethod(methodArray) {

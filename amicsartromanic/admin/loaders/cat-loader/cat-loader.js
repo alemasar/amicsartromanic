@@ -5,8 +5,10 @@ const fs = require('fs');
 const Ajv = require('ajv');
 const Parser = require('../Parser/Parser');
 const JSType = require('../Parser/FileType/JSParser');
-const RootIndexMethods = require('../Parser/Methods/RootIndexMethods')
+const RootIndexMethods = require('../Parser/Methods/RootIndexMethods');
 const Compiler = require('../Compiler/Compiler');
+const getCode = require('../helpers/processArray');
+
 module.exports = function(input) {
   const webpack = this;
   const callback = this.async();
@@ -31,12 +33,12 @@ module.exports = function(input) {
     let template = fs.readFileSync(path.join(__dirname, './tpl/index.js'), 'utf8').toString();
     const parser = new Parser(template, JSType, RootIndexMethods);
     const compiler = new Compiler(template, parser.statements, parser.methods);
-    compiler.compile();
-    //const compilerProcess = new Process(template, JSParser, RootIndexCompiler);
-    //const promise = compilerProcess.process(json, webpack);
-    //promise.then(compiledTemplate => {
+
+    compiler.compile(json).then(async code => {
+      const compiledTemplate = await getCode(code, template);
+      console.log('Done! ', compiledTemplate);
       callback(null, template);
-    //});
+    });
   }
 
   return;
