@@ -11,6 +11,7 @@ const getCode = require('../helpers/processArray');
 
 module.exports = function(input) {
   const webpack = this;
+  const options = loader_utils.getOptions(webpack);
   const callback = this.async();
 
   const config_string = loader_utils.stringifyRequest(webpack, input);
@@ -34,9 +35,9 @@ module.exports = function(input) {
     const parser = new Parser(template, JSType, RootIndexMethods);
     const compiler = new Compiler(template, parser.statements, parser.methods);
 
-    compiler.compile(json).then(async code => {
+    compiler.compile({json, options, webpack}).then(async code => {
       const compiledTemplate = await getCode(code, template);
-      console.log('Done! ', compiledTemplate);
+      //console.log('Done! ', compiledTemplate);
       callback(null, template);
     });
   }

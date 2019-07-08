@@ -61,8 +61,9 @@ class Parser {
           const formattedMethod = this.formatMethod(sequencedMethod.slice(0, position));
           if (Object.getPrototypeOf(this.methods).hasOwnProperty(formattedMethod)) {
             methods.push({
-              method: this.methods[formattedMethod],
-              arguments: sequencedMethod.slice(position + 1)
+              method: this.methods[formattedMethod].bind(this.methods),
+              arguments: sequencedMethod.slice(position + 1),
+              this: this.methods
             });
           }
           methodWithArgument = true;
@@ -72,8 +73,9 @@ class Parser {
         const formattedMethod = this.formatMethod(sequencedMethod);
         if (Object.getPrototypeOf(this.methods).hasOwnProperty(formattedMethod)) {
           methods.push({
-            method: this.methods[formattedMethod],
-            arguments: []
+            method: this.methods[formattedMethod].bind(this.methods),
+            arguments: [],
+            this: this.methods
           });
         }
       }

@@ -1,5 +1,5 @@
 /* compile scss then write css */
-/* compile HTML then compile js then write HTML */
+/* compile HTML then write HTML */
 
 export default class CollectionInputsFileElement extends HTMLElement {
   /* static get observedAttributes() {

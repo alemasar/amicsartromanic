@@ -12,7 +12,10 @@ class Compiler {
         resultsPromise.push(
           new Promise((resolve, reject) => {
             resolve({
-              code: statement.methods[0].method(inputs, statement.methods[0].arguments),
+              code: statement.methods[0].method(
+                inputs,
+                statement.methods[0].arguments
+              ),
               statement: statement.statement
             });
           })
@@ -25,16 +28,25 @@ class Compiler {
             resultsPromise.push(
               new Promise((resolve, reject) => {
                 resolve({
-                  code: method.method(inputs, method.arguments, previousMethod.method),
+                  code: method.method(
+                    inputs,
+                    method.arguments,
+                    previousMethod.method
+                  ),
                   statement: statement.statement
                 });
               })
             );
           } else {
+            console.log("THIS EN COMPILER ", method.this)
             if (previousMethodPromise.length > 0) {
               const previousMethod = previousMethodPromise.pop();
               previousMethodPromise.push({
-                method: method.method(inputs, method.arguments, previousMethod.method),
+                method: method.method(
+                  inputs,
+                  method.arguments,
+                  previousMethod.method
+                ),
                 arguments: method.arguments
               });
             } else {
