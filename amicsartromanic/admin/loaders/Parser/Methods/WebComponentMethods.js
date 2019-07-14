@@ -3,6 +3,11 @@ const path = require('path');
 const Ajv = require('ajv');
 const sass = require('node-sass');
 const fs = require('fs');
+const Parser = require('../Parser');
+const Compiler = require('../../Compiler/Compiler');
+const HTMLType = require('../FileType/HTMLParser');
+const WebComponentHtmlMethods = require('./WebComponentHtmlMethods');
+const getCode = require('../../helpers/processArray');
 
 class WebComponentMethods {
   compileHTML(inputs, args) {
@@ -12,38 +17,47 @@ class WebComponentMethods {
     const valid = ajv.validate('template-loader', inputs.json);
 
     if (!valid) {
-      inputs.json.HTML = new Promise((resolve, reject) => {
-        reject(ajv.errorsText());
-      });
+      return Promise.reject(ajv.errorsText());
     } else {
       const templatePath =
         inputs.options.context + '/' + inputs.json.basePath + '/' + inputs.json.template;
       let template = fs.readFileSync(templatePath, 'utf8');
       inputs.webpack.addDependency(templatePath);
-      const compileHTMLPromise = new Promise((resolve, reject) => {
+      const parser = new Parser(template, HTMLType, WebComponentHtmlMethods);
+      /*const compiler = new Compiler(template, parser.statements, parser.methods);
+
+     return compiler
+        .compile({ json: inputs.json, options: inputs.options, webpack: inputs.webpack })*/
+      /*  .then(compiledHTML => {
+          //console.log("compiledHTML", compiledHTML)
+          const compiledTemplate = getCode(compiledHTML, template).catch(e => {
+            console.log("ERROR WEBCOMPONENTMETHODS")
+          });
+          console.log("COMPILED TEMPLATE", compiledTemplate)
+          return compiledTemplate;
+        });*/
+
+      /*const compileHTMLPromise = new Promise((resolve, reject) => {
+        console.log('COMPILEHTML: ', template);
         resolve(template);
       });
       //console.log("COMPILE HTML ",compileHTMLPromise);
-      return compileHTMLPromise;
+      return compileHTMLPromise;*/
+      return new Promise((resolve, reject)=>{
+        resolve("COMPILE HTML")
+      })
     }
   }
   writeHTML(inputs, args, promise) {
     const getHTML = async () => {
-      try {
-        const html = await promise;
-        console.log("WRITEHTML", promise);
-        return new Promise((resolve, reject) => {
-          resolve(
-            `const templateHTML = document.createElement("template");
+      const html = await promise;
+//      console.log('WRITEHTML: ', html);
+      return new Promise((resolve, reject) => {
+        resolve(
+          `const templateHTML = document.createElement("template");
            templateHTML.innerHTML = \`${html}\`;`
-          );
-        });
-      } catch (error) {
-        // return new Error(error);
-        return new Promise((resolve, reject) => {
-          reject('/* ' + error + ' */');
-        });
-      }
+        );
+      });
     };
     return getHTML();
   }
@@ -87,7 +101,6 @@ class WebComponentMethods {
           (err, result) => {
             // console.log(err)
             const css = result.css.toString();
-            console.log('ESTO ES THIS: ', this);
             this.searchImages(css, inputs.json.basePath, inputs.webpack);
             resolve(css);
           }
@@ -99,28 +112,16 @@ class WebComponentMethods {
     return promise;
   }
 
-  writeCss(inputs, args, promise) {
-    const getCss = async () => {
-      try {
-        const css = await promise;
-        return new Promise((resolve, reject) => {
-          resolve(
-            `const templateCss = document.createElement("template");` +
-              'templateCss.innerHTML = `' +
-              '<style>' +
-              `${css}` +
-              '</style>' +
-              '`;'
-          );
-        });
-      } catch (error) {
-        // return new Error(error);
-        return new Promise((resolve, reject) => {
-          reject('/* ' + error + ' */');
-        });
-      }
-    };
-    return getCss();
+  async writeCss(inputs, args, promise) {
+    const css = await promise;
+    return new Promise((resolve, reject) => {
+      resolve(`const templateCss = document.createElement("template");` +
+      'templateCss.innerHTML = `' +
+      '<style>' +
+      `${css}` +
+      '</style>' +
+      '`;');
+    });
   }
 }
 

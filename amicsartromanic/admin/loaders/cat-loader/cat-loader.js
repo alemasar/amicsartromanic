@@ -7,9 +7,9 @@ const Parser = require('../Parser/Parser');
 const JSType = require('../Parser/FileType/JSParser');
 const RootIndexMethods = require('../Parser/Methods/RootIndexMethods');
 const Compiler = require('../Compiler/Compiler');
-const getCode = require('../helpers/processArray');
+const replaceCode = require('../helpers/processArray');
 
-module.exports = function(input) {
+module.exports = async function(input) {
   const webpack = this;
   const options = loader_utils.getOptions(webpack);
   const callback = this.async();
@@ -21,7 +21,7 @@ module.exports = function(input) {
   const catLoaderSchema = require('./cat-loader.schema');
   ajv.addSchema(catLoaderSchema, 'cat-loader');
   const valid = ajv.validate('cat-loader', json);
-
+  webpack.clearDependencies();
   if (!valid) {
     const return_string = `document.addEventListener("DOMContentLoaded", () =>{
       document.body.innerHTML += "${webpack.resourcePath}: ${ajv.errorsText()}";
@@ -29,18 +29,29 @@ module.exports = function(input) {
     callback(null, return_string);
   } else {
     global.WEBComponentsTags.push(json.tag);
-    webpack.clearDependencies();
+
 
     let template = fs.readFileSync(path.join(__dirname, './tpl/index.js'), 'utf8').toString();
     const parser = new Parser(template, JSType, RootIndexMethods);
-    const compiler = new Compiler(template, parser.statements, parser.methods);
-
-    compiler.compile({json, options, webpack}).then(async code => {
-      const compiledTemplate = await getCode(code, template);
-      //console.log('Done! ', compiledTemplate);
-      callback(null, template);
+    const compiler = new Compiler(parser.statements);
+    let return_string = template;
+    const compilerResult = await compiler.compile({ json, options, webpack }).catch(e => {
+      console.log('ERROR EN CAT LOADER');
+      return_string = `document.addEventListener("DOMContentLoaded", () =>{
+        document.body.innerHTML += "${webpack.resourcePath}: ${e}";
+      })`;
     });
+    const compiledTemplate = await replaceCode(compilerResult, template);
+    console.log('LLAMO AL CALLBACK CON: ', compiledTemplate);
+    callback(null, compiledTemplate);
   }
-
+  console.log("PASOOOOOOO");
   return;
 };
+/* .catch(e => {
+  console.log('ERROR EN CATLOADER', e);
+  const return_string = `document.addEventListener("DOMContentLoaded", () =>{
+    document.body.innerHTML += "${webpack.resourcePath}: ${e}";
+  })`;
+  callback(null, return_string);
+}); */

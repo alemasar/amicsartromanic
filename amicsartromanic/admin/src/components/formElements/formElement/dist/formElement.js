@@ -1,5 +1,5 @@
 import serialize from 'form-serialize';
-/* compile scss then write css */
+const templateCss = document.createElement("template");templateCss.innerHTML = `<style></style>`;
 
 export default class FormElement extends HTMLFormElement {
   /* static get observedAttributes() {

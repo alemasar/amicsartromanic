@@ -62,8 +62,7 @@ class Parser {
           if (Object.getPrototypeOf(this.methods).hasOwnProperty(formattedMethod)) {
             methods.push({
               method: this.methods[formattedMethod].bind(this.methods),
-              arguments: sequencedMethod.slice(position + 1),
-              this: this.methods
+              arguments: sequencedMethod.slice(position + 1)
             });
           }
           methodWithArgument = true;
@@ -74,8 +73,7 @@ class Parser {
         if (Object.getPrototypeOf(this.methods).hasOwnProperty(formattedMethod)) {
           methods.push({
             method: this.methods[formattedMethod].bind(this.methods),
-            arguments: [],
-            this: this.methods
+            arguments: []
           });
         }
       }

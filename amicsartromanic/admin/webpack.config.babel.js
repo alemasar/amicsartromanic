@@ -68,7 +68,7 @@ const commonConfig = merge({
 const PATHS = {
   app: path.join(__dirname, 'src'),
   build: path.join(__dirname, 'dist'),
-  compiledJs: path.join(__dirname, 'src/**/*_compiled.js')
+  compiledJs: path.join(__dirname, 'src/components/**/dist')
 };
 
 const productionConfig = merge([
@@ -119,8 +119,8 @@ const developmentConfig = merge([
   ),
   parts.loadCSS(),
   parts.loadImages({}),
-  /*parts.loadTemplateFile({}),
-  parts.loadCatFile(),*/
+  /*parts.loadTemplateFile({}),*/
+  parts.loadCatFile(),
   //    parts.nodemon(),
   parts.onFinished()
 ]);

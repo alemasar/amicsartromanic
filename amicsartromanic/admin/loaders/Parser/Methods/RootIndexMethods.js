@@ -4,8 +4,8 @@ const JSType = require('../FileType/JSParser');
 const WebComponentMethods = require('./WebComponentMethods');
 const Compiler = require('../../Compiler/Compiler');
 const fs = require('fs');
-const getCode = require('../../helpers/processArray');
-
+const replaceCode = require('../../helpers/processArray');
+const path = require('path');
 class RootIndexMethods {
   writeTag(inputs, args) {
     //console.log('PASO PER WRITETAG!!!!');
@@ -25,33 +25,50 @@ class RootIndexMethods {
     });
   }
 
-  compileComponent(inputs, args) {
+  async compileComponent(inputs, args) {
     const pathFile = inputs.options.context + '/' + inputs.json.basePath + '/' + inputs.json.js;
     inputs.webpack.addDependency(pathFile);
     let template = fs.readFileSync(pathFile, 'utf8').toString();
     const parser = new Parser(template, JSType, WebComponentMethods);
-    const compiler = new Compiler(template, parser.statements, parser.methods);
-    compiler
+    const compiler = new Compiler(parser.statements);
+    let return_string = template;
+    const compilerResult = await compiler
       .compile({ json: inputs.json, options: inputs.options, webpack: inputs.webpack })
-      .then(async code => {
-        const compiledTemplate = await getCode(code, template);
-        //console.log('COMPILECOMPONENT: ', compiledTemplate);
-        //callback(null, template);
+      .catch(e => {
+        console.log('ERROR EN CAT LOADER');
+        return_string = `document.addEventListener("DOMContentLoaded", () =>{
+        document.body.innerHTML += "${inputs.webpack.resourcePath}: ${e}";
+      })`;
       });
+    const compiledTemplate = await replaceCode(compilerResult, template);
+    const joinedFilePath = inputs.json.js.split('/');
+    const compiledFilePath = joinedFilePath[0] + '/' + 'dist' + '/' + joinedFilePath[1];
+    console.log(compiledFilePath);
+    const completeCompiledPath =
+      inputs.options.context + '/' + inputs.json.basePath + '/' + compiledFilePath;
 
+    fs.mkdirSync(
+      inputs.options.context + '/' + inputs.json.basePath + '/' + joinedFilePath[0] + '/' + 'dist',
+      { recursive: true },
+      e => {
+        if (e) {
+          console.error(e);
+        } else {
+          console.log('Success');
+        }
+      }
+    );
+    fs.writeFileSync(completeCompiledPath, compiledTemplate);
     return new Promise((resolve, reject) => {
-      resolve(pathFile);
+      resolve(compiledFilePath);
     });
   }
-  writePath(inputs, args, promise) {
-//    console.log('PASO PER WRITEPATH!!!!', promise);
-    const getPath = async () => {
-      const path = await promise;
-      return new Promise((resolve, reject) => {
-        resolve(path);
-      });
-    }
-    return getPath();
+  async writePath(inputs, args, promise) {
+    const path = await promise.catch(e => {
+      reject(e);
+    });
+    console.log('EJECUTO WRITE PATH', './' + path);
+    return './' + path;
   }
 }
 

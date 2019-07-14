@@ -1,5 +1,4 @@
 /* compile scss then write css */
-/* compile HTML then write HTML */
 
 export default class InputFileElement extends HTMLInputElement {
   /* static get observedAttributes() {

@@ -1,13 +1,13 @@
-/* compile scss then write css */
+const templateCss = document.createElement("template");templateCss.innerHTML = `<style></style>`;
 
-export default class InputElement extends HTMLInputElement {
+export default class InputFileElement extends HTMLInputElement {
   /* static get observedAttributes() {
     return ['checked', 'disabled'];
   } */
 
   constructor() {
     super();
-    console.log('paso input element');
+    console.log('paso input file element');
     //this.attachShadow({ mode: 'open' });
     // console.log(this.cat)
     // this.shadowRoot.appendChild(templateCss.content.cloneNode(true));

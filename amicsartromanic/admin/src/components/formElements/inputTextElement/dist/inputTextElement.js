@@ -1,4 +1,4 @@
-/* compile scss then write css */
+const templateCss = document.createElement("template");templateCss.innerHTML = `<style></style>`;
 
 export default class InputElement extends HTMLInputElement {
   /* static get observedAttributes() {

@@ -1,67 +1,66 @@
 /* eslint-disable */
+
+class CompilerError extends Error{
+  constructor(message){
+    super();
+    this.name = 'CompilerError';
+    this.message = message || '';
+  }
+}
+
 class Compiler {
-  constructor(template, statements) {
-    this.template = template;
+  constructor(statements) {
     this.statements = statements;
   }
 
-  compile(inputs) {
-    const resultsPromise = [];
-    this.statements.forEach(statement => {
-      if (statement.methods.length === 1) {
-        resultsPromise.push(
-          new Promise((resolve, reject) => {
-            resolve({
-              code: statement.methods[0].method(
-                inputs,
-                statement.methods[0].arguments
-              ),
-              statement: statement.statement
+  async compile(inputs) {
+    let statement = this.statements.pop();
+    const returnValues = [];
+    while (statement) {
+      //console.log(statement.methods);
+      let firstIndex = true;
+      const lastMethods = [];
+      const promises = statement.methods.map(method => {
+        let result = {};
+        if (!firstIndex) {
+          // const recursiveMethod = lastMethods.pop();
+          const lastMethod = lastMethods.pop();
+          const returnMethod = method.method(inputs, method.arguments, lastMethod).catch(e => {
+            return new Promise((resolve, reject) => {
+              reject(e);
             });
-          })
-        );
-      } else {
-        let previousMethodPromise = [];
-        statement.methods.forEach((method, index) => {
-          if (index === statement.methods.length - 1) {
-            const previousMethod = previousMethodPromise.pop();
-            resultsPromise.push(
-              new Promise((resolve, reject) => {
-                resolve({
-                  code: method.method(
-                    inputs,
-                    method.arguments,
-                    previousMethod.method
-                  ),
-                  statement: statement.statement
-                });
-              })
-            );
-          } else {
-            console.log("THIS EN COMPILER ", method.this)
-            if (previousMethodPromise.length > 0) {
-              const previousMethod = previousMethodPromise.pop();
-              previousMethodPromise.push({
-                method: method.method(
-                  inputs,
-                  method.arguments,
-                  previousMethod.method
-                ),
-                arguments: method.arguments
-              });
-            } else {
-              previousMethodPromise.push({
-                method: method.method(inputs, method.arguments),
-                arguments: method.arguments
-              });
-            }
-          }
+          });
+          lastMethods.push({
+            method: returnMethod
+          });
+          result = returnMethod;
+        } else {
+          result = method.method(inputs, method.arguments);
+          /*.catch(e => {
+            return new Promise((resolve, reject) => {
+              console.log("PASO PER AQUI ", e)
+              reject(e);
+            });
+          });*/
+          lastMethods.push(result);
+          firstIndex = false;
+        }
+        return result;
+      });
+      const results = await Promise.all(promises).catch(e =>{
+        const errors = [];
+        errors.push(new CompilerError(e));
+        return errors;
+      });
+      if (results) {
+        returnValues.push({
+          statement: statement.statement,
+          code: results
         });
       }
-    });
-    return Promise.all(resultsPromise).then(result => {
-      return result;
-    });
+      statement = this.statements.pop();
+    }
+    return returnValues;
   }
 }
 
