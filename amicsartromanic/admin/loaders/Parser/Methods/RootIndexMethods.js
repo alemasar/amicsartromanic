@@ -54,10 +54,11 @@ class RootIndexMethods {
         if (e) {
           console.error(e);
         } else {
-          console.log('Success');
+          //console.log('Success');
         }
       }
     );
+    console.log("COMPILED TEMPLATE", compiledTemplate)
     fs.writeFileSync(completeCompiledPath, compiledTemplate);
     return new Promise((resolve, reject) => {
       resolve(compiledFilePath);
@@ -68,7 +69,9 @@ class RootIndexMethods {
       reject(e);
     });
     console.log('EJECUTO WRITE PATH', './' + path);
-    return './' + path;
+    return new Promise((resolve, reject) => {
+      resolve('./' + path);
+    });
   }
 }
 

@@ -24,7 +24,7 @@ module.exports = async function(input) {
   webpack.clearDependencies();
   if (!valid) {
     const return_string = `document.addEventListener("DOMContentLoaded", () =>{
-      document.body.innerHTML += "${webpack.resourcePath}: ${ajv.errorsText()}";
+      document.body.innerHTML += '${webpack.resourcePath}: ${ajv.errorsText()}';
     })`;
     callback(null, return_string);
   } else {
@@ -36,7 +36,7 @@ module.exports = async function(input) {
     const compiler = new Compiler(parser.statements);
     let return_string = template;
     const compilerResult = await compiler.compile({ json, options, webpack }).catch(e => {
-      console.log('ERROR EN CAT LOADER');
+      // console.log('ERROR EN CAT LOADER');
       return_string = `document.addEventListener("DOMContentLoaded", () =>{
         document.body.innerHTML += "${webpack.resourcePath}: ${e}";
       })`;
@@ -45,7 +45,7 @@ module.exports = async function(input) {
     console.log('LLAMO AL CALLBACK CON: ', compiledTemplate);
     callback(null, compiledTemplate);
   }
-  console.log("PASOOOOOOO");
+  // console.log("PASOOOOOOO");
   return;
 };
 /* .catch(e => {

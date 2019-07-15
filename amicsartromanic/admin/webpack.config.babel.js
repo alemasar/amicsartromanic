@@ -33,11 +33,11 @@ p['./js/main'] = [
 p['./css/main'] = [
   './src/css/main.scss'
 ];
-const components_dir = getFiles('./src/components', 'cat');
+let components_dir = getFiles('./src/components', 'cat');
 if (components_dir.length > 0) {
   p['./components/components'] = components_dir;
 }
-template_dir = getFiles('./src/templates', 'template');
+let template_dir = getFiles('./src/templates', 'template');
 if (template_dir.length > 0) {
   p['./templates/templates'] = template_dir;
 }
@@ -66,14 +66,14 @@ const commonConfig = merge({
 });
 
 const PATHS = {
-  app: path.join(__dirname, 'src'),
+/*  app: path.join(__dirname, 'src'),*/
   build: path.join(__dirname, 'dist'),
   compiledJs: path.join(__dirname, 'src/components/**/dist')
 };
 
 const productionConfig = merge([
   parts.clean([PATHS.build, PATHS.compiledJs]),
-/*  parts.loadTemplateFile({}),*/
+  parts.loadTemplateFile({}),
   parts.loadCatFile(),
   parts.loadHTML({}),
   parts.extractCSS(
@@ -119,7 +119,7 @@ const developmentConfig = merge([
   ),
   parts.loadCSS(),
   parts.loadImages({}),
-  /*parts.loadTemplateFile({}),*/
+  parts.loadTemplateFile({}),
   parts.loadCatFile(),
   //    parts.nodemon(),
   parts.onFinished()

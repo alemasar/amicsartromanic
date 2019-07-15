@@ -20,6 +20,7 @@ class Compiler {
       //console.log(statement.methods);
       let firstIndex = true;
       const lastMethods = [];
+      console.log("STATEMENT:", statement)
       const promises = statement.methods.map(method => {
         let result = {};
         if (!firstIndex) {
@@ -30,12 +31,15 @@ class Compiler {
               reject(e);
             });
           });
+          console.log("RETURN METHOD: ",returnMethod)
           lastMethods.push({
             method: returnMethod
           });
           result = returnMethod;
         } else {
+
           result = method.method(inputs, method.arguments);
+          console.log("RETURN METHOD: ",result)
           /*.catch(e => {
             return new Promise((resolve, reject) => {
               console.log("PASO PER AQUI ", e)
@@ -53,6 +57,7 @@ class Compiler {
         return errors;
       });
       if (results) {
+        
         returnValues.push({
           statement: statement.statement,
           code: results
@@ -60,6 +65,7 @@ class Compiler {
       }
       statement = this.statements.pop();
     }
+    console.log("HAY RESULTADOS: ",returnValues)
     return returnValues;
   }
 }
