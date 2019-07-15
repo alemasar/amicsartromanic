@@ -37,7 +37,7 @@ class Compiler {
         } else {
 
           result = method.method(inputs, method.arguments);
-          console.log("RETURN METHOD: ",result)
+          // console.log("RETURN METHOD: ",result)
           /*.catch(e => {
             return new Promise((resolve, reject) => {
               console.log("PASO PER AQUI ", e)

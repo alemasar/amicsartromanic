@@ -7,10 +7,12 @@ const sass = require('node-sass');
 
 class HTMLTemplateMethods {
 
-  compileTemplate(inputs, args, argumentURL, dataURL) {
-   /* const options = loader_utils.getOptions(inputs.webpack);
-    const template = fs.readFileSync(options.context + '/' + argumentURL, "utf8").toString();
-    const dataJSON = JSON.parse(fs.readFileSync(options.context + '/' + inputs.json.basePath + '/' + dataURL, "utf8").toString());
+  compileTemplate(inputs, args) {
+    const argumentURL = args[0];
+    const dataURL = args[1];
+
+    const template = fs.readFileSync(inputs.options.context + '/' + argumentURL, "utf8").toString();
+    const dataJSON = JSON.parse(fs.readFileSync(inputs.options.context + '/' + inputs.json.basePath + '/' + dataURL, "utf8").toString());
     let compiledTemplate = "";
     let posOpenIndexComment = 0;
     let posCloseIndexComment = 0;
@@ -34,10 +36,8 @@ class HTMLTemplateMethods {
       compiledTemplate += templateBetweenElements + compiledPartialTemplate;
     })
     compiledTemplate += template.substr(posCloseIndexComment);
-    return compiledTemplate;*/
-    console.log("PASO PER COMPILE TEMPLATE!!!", args)
     return new Promise((resolve, reject) => {
-      resolve("PASO PER COMPILE TEMPLATE!!!");
+      resolve(compiledTemplate);
     });
   }
   importTemplateStyles(inputs, args) {

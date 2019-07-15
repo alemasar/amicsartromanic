@@ -35,15 +35,13 @@ class RootIndexMethods {
     const compilerResult = await compiler
       .compile({ json: inputs.json, options: inputs.options, webpack: inputs.webpack })
       .catch(e => {
-        console.log('ERROR EN CAT LOADER');
         return_string = `document.addEventListener("DOMContentLoaded", () =>{
         document.body.innerHTML += "${inputs.webpack.resourcePath}: ${e}";
       })`;
       });
-    const compiledTemplate = await replaceCode(compilerResult, template);
+    const compiledTemplate = await replaceCode(compilerResult, return_string);
     const joinedFilePath = inputs.json.js.split('/');
     const compiledFilePath = joinedFilePath[0] + '/' + 'dist' + '/' + joinedFilePath[1];
-    console.log(compiledFilePath);
     const completeCompiledPath =
       inputs.options.context + '/' + inputs.json.basePath + '/' + compiledFilePath;
 
@@ -58,7 +56,6 @@ class RootIndexMethods {
         }
       }
     );
-    console.log("COMPILED TEMPLATE", compiledTemplate)
     fs.writeFileSync(completeCompiledPath, compiledTemplate);
     return new Promise((resolve, reject) => {
       resolve(compiledFilePath);
@@ -68,7 +65,6 @@ class RootIndexMethods {
     const path = await promise.catch(e => {
       reject(e);
     });
-    console.log('EJECUTO WRITE PATH', './' + path);
     return new Promise((resolve, reject) => {
       resolve('./' + path);
     });
