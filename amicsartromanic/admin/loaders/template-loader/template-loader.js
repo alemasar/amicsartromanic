@@ -47,7 +47,9 @@ module.exports = async function(input) {
       })`;
     });
     const compiledTemplate = await replaceCode(compilerResult, template);
-    console.log("COMPILED TEMPLATE", compiledTemplate)
+    console.log("******************************************************");
+    console.log(compiledTemplate);
+    console.log("******************************************************")
     callback(null, compiledTemplate);
   }
   return;

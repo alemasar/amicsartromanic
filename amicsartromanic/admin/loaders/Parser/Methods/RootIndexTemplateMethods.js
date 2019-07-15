@@ -2,6 +2,11 @@
 const fs = require("fs");
 const path = require("path");
 const createDirectory = require('../../helpers/createDirectory');
+const Parser = require('../Parser');
+const HTMLType = require('../FileType/HTMLParser');
+const HTMLTemplateMethods = require('./HTMLTemplateMethods');
+const Compiler = require('../../Compiler/Compiler');
+const replaceCode = require('../../helpers/processArray');
 
 class RootIndexTemplateMethods {
   writeJs(inputs, args) {
@@ -17,18 +22,42 @@ class RootIndexTemplateMethods {
     });
   }
 
-  writeTemplate(inputs, args) {
-    // console.log("WRITE PATH: ", inputs.json.templatePath)
-    console.log("PASO PER WRITE TEMPLATE", fs.readFileSync(inputs.options.context + '/' + inputs.json.basePath + '/' + inputs.json.template, 'utf8').toString())
-    const template = fs.readFileSync(inputs.options.context + '/' + inputs.json.basePath + '/' + inputs.json.template, 'utf8').toString();
+  async writeTemplate(inputs, args, promise) {
+    const path = await promise.catch(e => {
+      reject(e);
+    });
+
+    const template = fs.readFileSync(path, 'utf8').toString();
     return new Promise((resolve, reject) => {
+      console.log("WRITE TEMPLATE", template)
       resolve(template);
     });
   }
-  compileTemplate(inputs, args) {
+  async compileTemplate(inputs, args) {
     
-    createDirectory(inputs.options.context + '/' + inputs.json.basePath + '/' + 'dist');
-
+   // createDirectory(inputs.options.context + '/' + inputs.json.basePath + '/' + 'dist');
+   const pathFile = inputs.options.context + "/" + inputs.json.basePath + "/" + inputs.json.template;
+    let template = fs.readFileSync(pathFile, "utf8").toString();
+    const parser = new Parser(template, HTMLType, HTMLTemplateMethods);
+    const compiler = new Compiler(parser.statements);
+    let return_string = template;
+    const compilerResult = await compiler
+      .compile({ json: inputs.json, options: inputs.options, webpack: inputs.webpack })
+      .catch(e => {
+        console.log('ERROR EN CAT LOADER');
+        return_string = `document.addEventListener("DOMContentLoaded", () =>{
+        document.body.innerHTML += "${inputs.webpack.resourcePath}: ${e}";
+      })`;
+      });
+    const compiledTemplate = await replaceCode(compilerResult, template);
+    const splitedPath = inputs.json.template.split('/');
+    const distPath = inputs.options.context + '/' + inputs.json.basePath + '/' + 'dist/' + splitedPath[0];
+    const fileName = splitedPath[splitedPath.length-1];
+    createDirectory(distPath);
+    distPath + '/' + inputs.json.template
+    fs.writeFileSync(distPath + '/' + fileName, compiledTemplate);
+   // inputs.webpack.addDependency(distPath + '/' + fileName);
+    // console.log("COMPILE TEMPLATE: ", compiledTemplate);
    /* const options = loader_utils.getOptions(inputs.webpack);
 
     const compiledFilePath = inputs.json.template.replace(".html", "_compiled.html");
@@ -45,9 +74,8 @@ class RootIndexTemplateMethods {
       fs.writeFileSync(completeCompiledPath, compiledTemplate);
      // inputs.webpack.addDependency(completeCompiledPath);
     })*/
-    console.log("PASO PER COMPILE TEMPLATE")
     return new Promise((resolve, reject) => {
-      resolve(inputs.json);
+      resolve(distPath + '/' + fileName);
     });
   }
 

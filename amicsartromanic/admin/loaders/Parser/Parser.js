@@ -55,25 +55,34 @@ class Parser {
     let methods = [];
     sequencedMethods.forEach(sequencedMethod => {
       methodWithArgument = false;
-      this.type.argumentKeywords.forEach(keyword => {
-        const position = sequencedMethod.indexOf(keyword);
+      let formattedMethod = '';
+      const args = []
+      this.type.argumentKeywords.forEach((keyword) => {
+        const position = sequencedMethod.indexOf(keyword);      
         if (position != -1) {
-          const formattedMethod = this.formatMethod(sequencedMethod.slice(0, position));
+          if (!methodWithArgument){
+            formattedMethod = this.formatMethod(sequencedMethod.slice(0, position));
+          }
           if (Object.getPrototypeOf(this.methods).hasOwnProperty(formattedMethod)) {
-            methods.push({
-              method: this.methods[formattedMethod].bind(this.methods),
-              arguments: sequencedMethod.slice(position + 1)
-            });
+            console.log("DATA ARGUMENT KEYWORDS: ",this.type.argumentKeywords)
+            args.push(sequencedMethod.slice(position + 1, position + 2)[0]);
           }
           methodWithArgument = true;
         }
       });
       if (!methodWithArgument) {
-        const formattedMethod = this.formatMethod(sequencedMethod);
+        formattedMethod = this.formatMethod(sequencedMethod);
         if (Object.getPrototypeOf(this.methods).hasOwnProperty(formattedMethod)) {
           methods.push({
             method: this.methods[formattedMethod].bind(this.methods),
             arguments: []
+          });
+        }
+      }else{
+        if (Object.getPrototypeOf(this.methods).hasOwnProperty(formattedMethod)) {
+          methods.push({
+            method: this.methods[formattedMethod].bind(this.methods),
+            arguments: args
           });
         }
       }

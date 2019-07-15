@@ -20,7 +20,6 @@ class Compiler {
       //console.log(statement.methods);
       let firstIndex = true;
       const lastMethods = [];
-      console.log("STATEMENT:", statement)
       const promises = statement.methods.map(method => {
         let result = {};
         if (!firstIndex) {
@@ -31,7 +30,6 @@ class Compiler {
               reject(e);
             });
           });
-          console.log("RETURN METHOD: ",returnMethod)
           lastMethods.push({
             method: returnMethod
           });
@@ -65,7 +63,6 @@ class Compiler {
       }
       statement = this.statements.pop();
     }
-    console.log("HAY RESULTADOS: ",returnValues)
     return returnValues;
   }
 }
