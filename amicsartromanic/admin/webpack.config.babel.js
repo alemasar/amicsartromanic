@@ -33,14 +33,17 @@ p['./js/main'] = [
 p['./css/main'] = [
   './src/css/main.scss'
 ];
-let components_dir = getFiles('./src/components', 'cat');
-if (components_dir.length > 0) {
-  p['./components/components'] = components_dir;
-}
 let template_dir = getFiles('./src/templates', 'template');
 if (template_dir.length > 0) {
   p['./templates/templates'] = template_dir;
 }
+
+let components_dir = getFiles('./src/components', 'cat');
+if (components_dir.length > 0) {
+  p['./components/components'] = components_dir;
+}
+
+// console.log(p)
 
 global.WEBComponentsTags = [];
 const commonConfig = merge({
@@ -73,8 +76,9 @@ const PATHS = {
 
 const productionConfig = merge([
   parts.clean([PATHS.build, PATHS.compiledJs]),
-  parts.loadTemplateFile({}),
+  parts.order(),
   parts.loadCatFile(),
+  parts.loadTemplateFile({}),
   parts.loadHTML({}),
   parts.extractCSS(
     {
@@ -119,14 +123,15 @@ const developmentConfig = merge([
   ),
   parts.loadCSS(),
   parts.loadImages({}),
-  parts.loadTemplateFile({}),
   parts.loadCatFile(),
+  parts.loadTemplateFile({}),
   //    parts.nodemon(),
   parts.onFinished()
 ]);
 
 module.exports = mode => {
   if (mode === 'production') {
+    console.log("PRODUCTION: ",merge(commonConfig, productionConfig, { mode }).module.rules)
     return merge(commonConfig, productionConfig, { mode });
   }
   return merge(commonConfig, developmentConfig, { mode });

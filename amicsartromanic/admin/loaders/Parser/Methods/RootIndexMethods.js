@@ -5,7 +5,8 @@ const WebComponentMethods = require('./WebComponentMethods');
 const Compiler = require('../../Compiler/Compiler');
 const fs = require('fs');
 const replaceCode = require('../../helpers/processArray');
-const path = require('path');
+const createDirectory = require('../../helpers/createDirectory');
+
 class RootIndexMethods {
   writeTag(inputs, args) {
     //console.log('PASO PER WRITETAG!!!!');
@@ -39,23 +40,15 @@ class RootIndexMethods {
         document.body.innerHTML += "${inputs.webpack.resourcePath}: ${e}";
       })`;
       });
+    console.log(return_string);
     const compiledTemplate = await replaceCode(compilerResult, return_string);
-    const joinedFilePath = inputs.json.js.split('/');
-    const compiledFilePath = joinedFilePath[0] + '/' + 'dist' + '/' + joinedFilePath[1];
+    const splittedFilePath = inputs.json.js.split('/');
+    const compiledFilePath = splittedFilePath[0] + '/' + 'dist' + '/' + splittedFilePath[1];
     const completeCompiledPath =
       inputs.options.context + '/' + inputs.json.basePath + '/' + compiledFilePath;
-
-    fs.mkdirSync(
-      inputs.options.context + '/' + inputs.json.basePath + '/' + joinedFilePath[0] + '/' + 'dist',
-      { recursive: true },
-      e => {
-        if (e) {
-          console.error(e);
-        } else {
-          //console.log('Success');
-        }
-      }
-    );
+    const distPath =
+      inputs.options.context + '/' + inputs.json.basePath + '/' + splittedFilePath[0] + '/' + 'dist';
+    createDirectory(distPath);
     fs.writeFileSync(completeCompiledPath, compiledTemplate);
     return new Promise((resolve, reject) => {
       resolve(compiledFilePath);

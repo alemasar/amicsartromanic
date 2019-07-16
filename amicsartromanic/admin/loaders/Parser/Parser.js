@@ -64,7 +64,7 @@ class Parser {
             formattedMethod = this.formatMethod(sequencedMethod.slice(0, position));
           }
           if (Object.getPrototypeOf(this.methods).hasOwnProperty(formattedMethod)) {
-            console.log("DATA ARGUMENT KEYWORDS: ",this.type.argumentKeywords)
+            // console.log("DATA ARGUMENT KEYWORDS: ",this.type.argumentKeywords)
             args.push(sequencedMethod.slice(position + 1, position + 2)[0]);
           }
           methodWithArgument = true;

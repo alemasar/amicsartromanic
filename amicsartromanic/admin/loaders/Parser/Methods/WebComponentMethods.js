@@ -7,10 +7,10 @@ const Parser = require('../Parser');
 const Compiler = require('../../Compiler/Compiler');
 const HTMLType = require('../FileType/HTMLParser');
 const WebComponentHtmlMethods = require('./WebComponentHtmlMethods');
-const getCode = require('../../helpers/processArray');
+const replaceCode = require('../../helpers/processArray');
 
 class WebComponentMethods {
-  compileHTML(inputs, args) {
+  async compileHTML(inputs, args) {
     const ajv = Ajv({ allErrors: true });
     const scssSchema = require('./schema/template.schema');
     ajv.addSchema(scssSchema, 'template-loader');
@@ -24,6 +24,18 @@ class WebComponentMethods {
       let template = fs.readFileSync(templatePath, 'utf8');
       inputs.webpack.addDependency(templatePath);
       const parser = new Parser(template, HTMLType, WebComponentHtmlMethods);
+      const compiler = new Compiler(parser.statements);
+      const compilerResult = await compiler
+      .compile({ json: inputs.json, options: inputs.options, webpack: inputs.webpack })
+      .catch(e => {
+        console.log('ERROR EN CAT LOADER');
+        return_string = `document.addEventListener("DOMContentLoaded", () =>{
+        document.body.innerHTML += "${inputs.webpack.resourcePath}: ${e}";
+      })`;
+      });
+      console.log("COMPILER RESULT ", compilerResult);
+      //const compiledTemplate = await replaceCode(compilerResult, template);
+
       /*const compiler = new Compiler(template, parser.statements, parser.methods);
 
      return compiler

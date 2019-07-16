@@ -42,7 +42,7 @@ module.exports = async function(input) {
       })`;
     });
     const compiledTemplate = await replaceCode(compilerResult, template);
-    console.log('LLAMO AL CALLBACK CON: ', compiledTemplate);
+    // console.log('LLAMO AL CALLBACK CON: ', compiledTemplate);
     callback(null, compiledTemplate);
   }
   // console.log("PASOOOOOOO");

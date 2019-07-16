@@ -7,9 +7,9 @@ const replaceCode = (items, template) => {
         console.log('ERROR', c.message);
         console.log('-------------------------------');
       } else {
-        console.log('-------------------------------');
+        /* console.log('-------------------------------');
         console.log('BIEN', c);
-        console.log('-------------------------------');
+        console.log('-------------------------------'); */
       }
       returnString = returnString.replace(item.statement, item.code[item.code.length - 1]);
     });
