@@ -3,7 +3,14 @@ const templateCss = document.createElement("template");templateCss.innerHTML = `
   display: block; }
 </style>`;
 const templateHTML = document.createElement("template");
-           templateHTML.innerHTML = `COMPILE HTML`;
+           templateHTML.innerHTML = `<!-- import cat-foreach -->
+<input cat-foreach="file in files" is="input-file" type="file" class="form-control-file" id="addNewImages" name="images" placeholder="Entra les imatges de la noticia" />
+<div class="test">
+  <div class="test1">
+      Esto es una prueba
+  </div>
+
+`;
 
 export default class CollectionInputsFileElement extends HTMLElement {
   /* static get observedAttributes() {
@@ -13,6 +20,12 @@ export default class CollectionInputsFileElement extends HTMLElement {
   constructor() {
     super();
     this.files = ['HOLA', 'ADEU'];
+        this.files = new Proxy (this.files, {
+            get (target, key, proxy) {
+                // console.log("TEMPLATE: " + templateHTML.innerHTML);
+                return Reflect.get(target, key, proxy);
+            }
+        });
     console.log('paso input file element: ' + this.files);
     if (templateCss) {
       this.appendChild(templateCss.content.cloneNode(true));

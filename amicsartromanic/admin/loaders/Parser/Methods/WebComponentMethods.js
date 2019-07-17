@@ -26,14 +26,25 @@ class WebComponentMethods {
       const parser = new Parser(template, HTMLType, WebComponentHtmlMethods);
       const compiler = new Compiler(parser.statements);
       const compilerResult = await compiler
-      .compile({ json: inputs.json, options: inputs.options, webpack: inputs.webpack })
-      .catch(e => {
-        console.log('ERROR EN CAT LOADER');
-        return_string = `document.addEventListener("DOMContentLoaded", () =>{
+        .compile({ json: inputs.json, options: inputs.options, webpack: inputs.webpack })
+        .catch(e => {
+          console.log('ERROR EN WEBCOMPONENTMETHODS', e);
+          /*return_string = `document.addEventListener("DOMContentLoaded", () =>{
         document.body.innerHTML += "${inputs.webpack.resourcePath}: ${e}";
-      })`;
-      });
-      console.log("COMPILER RESULT ", compilerResult);
+      })`;*/
+        });
+      //const compiledTemplate = await replaceCode(compilerResult, template);
+      console.log('COMPILED TEMPLATE ', compilerResult);
+      /*if (compilerResult.length > 0) {
+        compilerResult.forEach(result => {
+          console.log("COMPILER RESULT ",result.code[0])
+          result.code.forEach(code => {
+            if (code.afterResolve) {
+
+            }
+          });
+        });
+      }*/
       //const compiledTemplate = await replaceCode(compilerResult, template);
 
       /*const compiler = new Compiler(template, parser.statements, parser.methods);
@@ -55,24 +66,26 @@ class WebComponentMethods {
       });
       //console.log("COMPILE HTML ",compileHTMLPromise);
       return compileHTMLPromise;*/
-      return new Promise((resolve, reject)=>{
-        resolve("COMPILE HTML")
-      })
+      return new Promise((resolve, reject) => {
+        resolve(compilerResult);
+      });
     }
   }
-  writeHTML(inputs, args, promise) {
-    const getHTML = async () => {
-      const html = await promise;
-//      console.log('WRITEHTML: ', html);
-      return new Promise((resolve, reject) => {
-        resolve(
-          `const templateHTML = document.createElement("template");
-           templateHTML.innerHTML = \`${html}\`;`
-        );
-      });
-    };
-    return getHTML();
+  async writeHTML(inputs, args, promise) {
+    // const getHTML = async () => {
+      const templatePath =
+      inputs.options.context + '/' + inputs.json.basePath + '/' + inputs.json.template;
+    let template = fs.readFileSync(templatePath, 'utf8');
+    //console.log('WRITEHTML: ', promise);
+    return new Promise((resolve, reject) => {
+      resolve(
+        `const templateHTML = document.createElement("template");
+           templateHTML.innerHTML = \`${template}\`;`
+      );
+    });
+    // return html;
   }
+
   searchImages(css, basePath) {
     const lines = css.split('\n');
     lines.forEach(line => {
@@ -127,12 +140,14 @@ class WebComponentMethods {
   async writeCss(inputs, args, promise) {
     const css = await promise;
     return new Promise((resolve, reject) => {
-      resolve(`const templateCss = document.createElement("template");` +
-      'templateCss.innerHTML = `' +
-      '<style>' +
-      `${css}` +
-      '</style>' +
-      '`;');
+      resolve(
+        `const templateCss = document.createElement("template");` +
+          'templateCss.innerHTML = `' +
+          '<style>' +
+          `${css}` +
+          '</style>' +
+          '`;'
+      );
     });
   }
 }

@@ -40,7 +40,7 @@ class RootIndexMethods {
         document.body.innerHTML += "${inputs.webpack.resourcePath}: ${e}";
       })`;
       });
-    console.log(return_string);
+    console.log("COMPILER RESULT IN ROOTINDEX METHODS", compilerResult);
     const compiledTemplate = await replaceCode(compilerResult, return_string);
     const splittedFilePath = inputs.json.js.split('/');
     const compiledFilePath = splittedFilePath[0] + '/' + 'dist' + '/' + splittedFilePath[1];
