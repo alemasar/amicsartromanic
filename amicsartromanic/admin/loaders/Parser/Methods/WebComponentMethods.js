@@ -24,66 +24,36 @@ class WebComponentMethods {
       let template = fs.readFileSync(templatePath, 'utf8');
       inputs.webpack.addDependency(templatePath);
       const parser = new Parser(template, HTMLType, WebComponentHtmlMethods);
+      let statement = '';
+      console.log(parser.statements)
+      if (parser.statements.length > 0) {
+        console.log("COMPILE HTML", parser.statements[0])
+        statement = parser.statements[0].statement;
+      }
       const compiler = new Compiler(parser.statements);
       const compilerResult = await compiler
         .compile({ json: inputs.json, options: inputs.options, webpack: inputs.webpack })
         .catch(e => {
           console.log('ERROR EN WEBCOMPONENTMETHODS', e);
-          /*return_string = `document.addEventListener("DOMContentLoaded", () =>{
+          return_string = `document.addEventListener("DOMContentLoaded", () =>{
         document.body.innerHTML += "${inputs.webpack.resourcePath}: ${e}";
-      })`;*/
+      })`;
         });
-      //const compiledTemplate = await replaceCode(compilerResult, template);
-      console.log('COMPILED TEMPLATE ', compilerResult);
-      /*if (compilerResult.length > 0) {
-        compilerResult.forEach(result => {
-          console.log("COMPILER RESULT ",result.code[0])
-          result.code.forEach(code => {
-            if (code.afterResolve) {
 
-            }
-          });
-        });
-      }*/
-      //const compiledTemplate = await replaceCode(compilerResult, template);
-
-      /*const compiler = new Compiler(template, parser.statements, parser.methods);
-
-     return compiler
-        .compile({ json: inputs.json, options: inputs.options, webpack: inputs.webpack })*/
-      /*  .then(compiledHTML => {
-          //console.log("compiledHTML", compiledHTML)
-          const compiledTemplate = getCode(compiledHTML, template).catch(e => {
-            console.log("ERROR WEBCOMPONENTMETHODS")
-          });
-          console.log("COMPILED TEMPLATE", compiledTemplate)
-          return compiledTemplate;
-        });*/
-
-      /*const compileHTMLPromise = new Promise((resolve, reject) => {
-        console.log('COMPILEHTML: ', template);
-        resolve(template);
-      });
-      //console.log("COMPILE HTML ",compileHTMLPromise);
-      return compileHTMLPromise;*/
       return new Promise((resolve, reject) => {
-        resolve(compilerResult);
+        resolve({ compilerResult, template, statement });
       });
     }
   }
   async writeHTML(inputs, args, promise) {
-    // const getHTML = async () => {
-      const templatePath =
-      inputs.options.context + '/' + inputs.json.basePath + '/' + inputs.json.template;
-    let template = fs.readFileSync(templatePath, 'utf8');
-    //console.log('WRITEHTML: ', promise);
+    const html = await promise;
+    console.log('WRITE HTML', html.template.replace(html.statement, ''));
     return new Promise((resolve, reject) => {
       resolve(
         `const templateHTML = document.createElement("template");
-           templateHTML.innerHTML = \`${template}\`;`
+           templateHTML.innerHTML = \`${html.template.replace(html.statement, '')}\`;`
       );
     });
-    // return html;
   }
 
   searchImages(css, basePath) {

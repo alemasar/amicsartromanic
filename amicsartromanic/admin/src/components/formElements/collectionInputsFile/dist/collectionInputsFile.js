@@ -3,7 +3,7 @@ const templateCss = document.createElement("template");templateCss.innerHTML = `
   display: block; }
 </style>`;
 const templateHTML = document.createElement("template");
-           templateHTML.innerHTML = `<!-- import cat-foreach -->
+           templateHTML.innerHTML = `
 <input cat-foreach="file in files" is="input-file" type="file" class="form-control-file" id="addNewImages" name="images" placeholder="Entra les imatges de la noticia" />
 <div class="test">
   <div class="test1">

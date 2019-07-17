@@ -12,18 +12,17 @@ const replaceCode = (items, template) => {
         console.log('BIEN', c);
         console.log('-------------------------------'); */
       }
-      if (
-        times !== item.code.length - 1 &&
-        item.code.length > 1 &&
-        typeof item.code[0] === 'object'
-      ) {
-        if (item.code[0].length > 0) {
-          console.log('Process Array', item.code[0][0]);
-          item.code[0][0].code.forEach(code => {
-            if (Object.prototype.hasOwnProperty.call(code, 'afterResolve')) {
-              console.log('PROCESS ARRAY: ', code);
-              returnString = code.afterResolve(returnString);
-            }
+      if (times !== item.code.length - 1 && item.code.length > 1) {
+        if (
+          typeof item.code[0] === 'object' &&
+          Object.prototype.hasOwnProperty.call(item.code[0], 'compilerResult')
+        ) {
+          item.code[0].compilerResult.forEach(result =>{
+            result.code.forEach(code => {
+              if (Object.prototype.hasOwnProperty.call(code, 'afterResolve')) {
+                returnString = code.afterResolve(returnString);
+              }
+            });
           });
         }
       }

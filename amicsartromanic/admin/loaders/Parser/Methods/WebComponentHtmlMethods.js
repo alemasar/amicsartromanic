@@ -1,8 +1,8 @@
 /* eslint-disable */
 const fs = require('fs');
+
 class WebComponentHtmlMethods {
   insertJSBind(jsFile, property) {
-    console.log("JS FILE", jsFile)
     const propertyPosition = jsFile.indexOf('this.' + property);
     const equalPosition = jsFile.indexOf('=', propertyPosition);
     const semicolonPosition = jsFile.indexOf(';', equalPosition + 1);
@@ -39,13 +39,11 @@ class WebComponentHtmlMethods {
           .trim();
         HTMLtemplate = HTMLtemplate.replace(tag, '<cat-foreach>' + tag + '</cat-foreach>');
         const returnTemplate = this.insertJSBind(template, mainPropertyName);
-        console.log('ESTOY EN CAT FOREACH!!!!', HTMLtemplate);
         return returnTemplate;
       }
     };
     return new Promise((resolve, reject) => {
       resolve({
-        code: 'ESTOY EN CAT FOREACH!!!!',
         afterResolve: func.bind(this)
       });
     });
