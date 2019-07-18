@@ -4,3 +4,4 @@
 /amicsartromanic/database/db
 node_modules
 linux_signing_key.pub
+/amicsartromanic/api/__pycache__
