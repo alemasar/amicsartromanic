@@ -59,10 +59,14 @@ exports.extractCSS = ({ include, exclude, use, hot = [] }) => {
 };
 
 exports.clean = path => ({
-  plugins: [new CleanWebpackPlugin([path])]
+  plugins: [new CleanWebpackPlugin(path)]
 });
 exports.nodemon = () => ({
   plugins: [new NodemonPlugin()]
+});
+
+exports.order = () => ({
+  plugins: [new webpack.optimize.OccurrenceOrderPlugin()]
 });
 
 exports.attachRevision = () => ({
@@ -82,6 +86,28 @@ exports.onFinished = () => ({
     })
   ]
 });
+exports.loadCatFile = ({ include, exclude } = {}) => ({
+  module: {
+    rules: [
+      {
+        test: /\.(cat)$/,
+        include,
+        exclude,
+        use: {
+          loader: path.resolve('./loaders/cat-loader/cat-loader.js'),
+          options: {
+            context: path.join(__dirname, 'src'),
+            public: path.join(__dirname, 'public')
+            //			  name: '[name].[ext]',
+            //			  useRelativePath: true,
+            //			  outputPath: '../dist/',
+            //			  publicPath: '../images/'
+          }
+        }
+      }
+    ]
+  }
+});
 
 exports.loadTemplateFile = ({ include, exclude } = {}) => ({
   module: {
@@ -96,29 +122,6 @@ exports.loadTemplateFile = ({ include, exclude } = {}) => ({
             context: path.join(__dirname, 'src'),
             public: path.join(__dirname, 'public'),
             dist: path.join(__dirname, 'dist')
-            //			  name: '[name].[ext]',
-            //			  useRelativePath: true,
-            //			  outputPath: '../dist/',
-            //			  publicPath: '../images/'
-          }
-        }
-      }
-    ]
-  }
-});
-
-exports.loadCatFile = ({ include, exclude } = {}) => ({
-  module: {
-    rules: [
-      {
-        test: /\.(cat)$/,
-        include,
-        exclude,
-        use: {
-          loader: path.resolve('./loaders/cat-loader/cat-loader.js'),
-          options: {
-            context: path.join(__dirname, 'src'),
-            public: path.join(__dirname, 'public')
             //			  name: '[name].[ext]',
             //			  useRelativePath: true,
             //			  outputPath: '../dist/',

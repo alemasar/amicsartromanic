@@ -4,7 +4,7 @@ class Prova {
   }
   loadComponent(){
    
-    return import(/* webpackMode: "eager" */ `/* compile js then write path */`);
+    return import(/* webpackMode: "eager" */ `/* compile component then write path */`);
   }
 }
 const i = new Prova();
@@ -15,9 +15,7 @@ function defineListener(e) {
 
   i.loadComponent().then((componentInstance)=>{
     console.log(componentInstance.default);
-    //if (typeof window.customElements.get("/* write tag */")==="undefined"){
-      window.customElements.define("/* write tag */", componentInstance.default /* write extends */);
-    //}
+    window.customElements.define("/* write tag */", componentInstance.default /* write extends */);
   })
 
  // i.loadComponent().then(componentInstance => {

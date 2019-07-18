@@ -5,3 +5,4 @@ fastavro
 flask-sqlalchemy>=1.0.13
 pymysql
 flask-cors
+Pillow

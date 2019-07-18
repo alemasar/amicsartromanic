@@ -31,6 +31,59 @@ paths:
       responses:
         200:
           description: OK
+  /addNew:
+    post:
+      operationId: "app.news.addNew"
+      consumes:
+        - "application/json"
+      tags:
+        - "New"
+      summary: "The people data structure supported by the server application"
+      description: "Read the list of people"
+      parameters:
+        - name: new
+          in: body
+          description: Component to create
+          schema:
+            $ref: '#/definitions/News'
+
+      responses:
+        200:
+          description: OK
+
+  /addImage:
+    post:
+      operationId: "app.news.addImage"
+      consumes:
+        - "multipart/form-data"
+      tags:
+        - "Image"
+      summary: "The people data structure supported by the server application"
+      description: "Read the list of people"
+      parameters:
+        - name: image
+          in: formData
+          description: Component to create
+#          required: false
+          type: file
+#        - name: news_image
+#          in: body
+#          description: Additional data to pass to server
+#          required: false
+#          type: array
+#          items:
+#            image:
+#              type: string
+#            type: object
+#            properties:
+#              image:
+#                type: string
+#              footer:
+#                type: file
+
+      responses:
+        200:
+          description: OK
 
 definitions:
   Component:
@@ -54,3 +107,21 @@ definitions:
       component_template_path:
         type: string
         description: First name of person to create
+  News:
+    type: object
+    properties:
+      news_summary:
+        type: string
+        description: Summary of the new to create
+      news_body:
+        type: string
+        description: Body of the new to create
+      news_image:
+        type: array
+        items:
+          type: object
+          properties:
+            images_path:
+              type: string
+            images_footer:
+              type: string

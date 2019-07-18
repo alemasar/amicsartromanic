@@ -1,0 +1,64 @@
+{
+  "form": [
+    {
+      "label": "Component name:",
+      "tag": "input",
+      "attributes": {
+        "is": "input-text",
+        "type": "text",
+        "class": "form-control",
+        "id": "addFormComponentName",
+        "name": "component_name",
+        "placeholder": "Enter component name"
+      }
+    },
+    {
+      "label": "Component tag:",
+      "tag": "input",
+      "attributes": {
+        "is": "input-text",
+        "type": "text",
+        "class": "form-control",
+        "id": "addFormComponentTag",
+        "name": "component_tag",
+        "placeholder": "Enter component tag"
+      }
+    },
+    {
+      "label": "Component scss path:",
+      "tag": "input",
+      "attributes": {
+        "is": "input-text",
+        "type": "text",
+        "class": "form-control",
+        "id": "addFormComponentScssPath",
+        "name": "component_scss_path",
+        "placeholder": "Enter component scss path"
+      }
+    },
+    {
+      "label": "Component js path:",
+      "tag": "input",
+      "attributes": {
+        "is": "input-text",
+        "type": "text",
+        "class": "form-control",
+        "id": "addFormComponentJSPath",
+        "name": "component_js_path",
+        "placeholder": "Enter component js path"
+      }
+    },
+    {
+      "label": "Component template path:",
+      "tag": "input",
+      "attributes": {
+        "is": "input-text",
+        "type": "text",
+        "class": "form-control",
+        "id": "addFormComponentTemplatePath",
+        "name": "component_template_path",
+        "placeholder": "Enter component template path"
+      }
+    }
+  ]
+}

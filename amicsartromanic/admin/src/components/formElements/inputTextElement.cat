@@ -1,0 +1,7 @@
+{
+  "tag": "input-text",
+  "basePath": "components/formElements",
+  "js": "inputTextElement/inputTextElement.js",
+  "scss":  "inputTextElement/inputTextElement.scss",
+  "extends": "input"
+}

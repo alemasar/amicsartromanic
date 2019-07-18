@@ -1,5 +1,6 @@
 {
-  "rootTag": "app",
+  "routerTag": "app",
+  "tag": "index-template",
   "className": "IndexTemplate",
   "path": "/",
   "basePath": "templates",

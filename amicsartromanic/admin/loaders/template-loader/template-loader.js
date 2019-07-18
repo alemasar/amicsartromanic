@@ -1,15 +1,18 @@
 /* eslint-disable */
 const loader_utils = require('loader-utils');
-const JSParser = require('../interpreter/parser/parsers/JSParser');
 const path = require('path');
-const TemplateIndexCompiler = require('../interpreter/FileTypes/TemplateIndex/TemplateIndexCompiler');
 const fs = require('fs');
-const Process = require('../interpreter/compiler/CompilerProcess');
 const Ajv = require('ajv');
+const Parser = require('../Parser/Parser');
+const JSType = require('../Parser/FileType/JSParser');
+const RootIndexTemplateMethods = require('../Parser/Methods/RootIndexTemplateMethods');
+const Compiler = require('../Compiler/Compiler');
+const replaceCode = require('../helpers/processArray');
 
-module.exports = function(input) {
+module.exports = async function(input) {
   const webpack = this;
   const callback = this.async();
+  const options = loader_utils.getOptions(webpack);
 
   const config_string = loader_utils.stringifyRequest(webpack, input);
   const json = JSON.parse(JSON.parse(config_string));
@@ -28,17 +31,26 @@ module.exports = function(input) {
     callback(null, return_string);
   } else {
     //console.log("TEMPLATE LOADER: ", global.WEBComponentsTags)
-    let template = fs.readFileSync(path.join(__dirname, './tpl/template.js'), 'utf8').toString();
-    const compilerProcess = new Process(template, JSParser, TemplateIndexCompiler);
-    const promise = compilerProcess.process(json, webpack);
-    promise
-      .then(compiledTemplate => {
-        callback(null, compiledTemplate);
-      })
-      .catch(error => {
-        console.log('TEMPLATE LOADER: ', error);
-        throw new Error(error);
-      });
+    let template = "";
+    if (json.hasOwnProperty("compilerTemplate")) {
+      template = fs.readFileSync(path.join(__dirname, './tpl/' + json.compilerTemplate), 'utf8').toString();
+    } else {
+      template = fs.readFileSync(path.join(__dirname, './tpl/template.js'), 'utf8').toString();
+    }
+
+    const parser = new Parser(template, JSType, RootIndexTemplateMethods);
+    const compiler = new Compiler(parser.statements);
+    const compilerResult = await compiler.compile({ json, options, webpack }).catch(e => {
+      // console.log('ERROR EN CAT LOADER');
+      return_string = `document.addEventListener("DOMContentLoaded", () =>{
+        document.body.innerHTML += "${webpack.resourcePath}: ${e}";
+      })`;
+    });
+    const compiledTemplate = await replaceCode(compilerResult, template);
+    /* console.log("******************************************************");
+    console.log(compiledTemplate);
+    console.log("******************************************************") */
+    callback(null, compiledTemplate);
   }
   return;
   //callback(null, "compiledTemplate");

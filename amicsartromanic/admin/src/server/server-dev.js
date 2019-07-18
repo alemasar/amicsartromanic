@@ -9,17 +9,20 @@ import config from '../../webpack.config.babel.js';
 const c = config();
 const app = express(),
   DIST_DIR = __dirname,
-  HTML_FILE = path.join(DIST_DIR, 'index.html'),
+  HTML_FILE = path.join(DIST_DIR, 'dist/index.html'),
   compiler = webpack(c);
 
 app.use(
   webpackDevMiddleware(compiler, {
-   // publicPath: ''
+    // publicPath: ''
   })
 );
 
 app.use(webpackHotMiddleware(compiler));
+
 app.get('*', (req, res, next) => {
+  console.log(HTML_FILE)
+
   compiler.outputFileSystem.readFile(HTML_FILE, (err, result) => {
     if (err) {
       return next(err);

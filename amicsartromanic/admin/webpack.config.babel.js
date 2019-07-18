@@ -33,14 +33,17 @@ p['./js/main'] = [
 p['./css/main'] = [
   './src/css/main.scss'
 ];
-const components_dir = getFiles('./src/components', 'cat');
-if (components_dir.length > 0) {
-  p['./components/components'] = components_dir;
-}
-template_dir = getFiles('./src/templates', 'template');
+let template_dir = getFiles('./src/templates', 'template');
 if (template_dir.length > 0) {
   p['./templates/templates'] = template_dir;
 }
+
+let components_dir = getFiles('./src/components', 'cat');
+if (components_dir.length > 0) {
+  p['./components/components'] = components_dir;
+}
+
+// console.log(p)
 
 global.WEBComponentsTags = [];
 const commonConfig = merge({
@@ -66,14 +69,16 @@ const commonConfig = merge({
 });
 
 const PATHS = {
-  app: path.join(__dirname, 'src'),
-  build: path.join(__dirname, 'dist')
+/*  app: path.join(__dirname, 'src'),*/
+  build: path.join(__dirname, 'dist'),
+  compiledJs: path.join(__dirname, 'src/components/**/dist')
 };
 
 const productionConfig = merge([
-  parts.clean(PATHS.build),
-  parts.loadTemplateFile({}),
+  parts.clean([PATHS.build, PATHS.compiledJs]),
+  parts.order(),
   parts.loadCatFile(),
+  parts.loadTemplateFile({}),
   parts.loadHTML({}),
   parts.extractCSS(
     {
@@ -103,6 +108,7 @@ const productionConfig = merge([
 ]);
 
 const developmentConfig = merge([
+  parts.clean([PATHS.compiledJs]),
   parts.devServer({
     // Customize host/port here if needed
     host: process.env.HOST,
@@ -117,14 +123,15 @@ const developmentConfig = merge([
   ),
   parts.loadCSS(),
   parts.loadImages({}),
-  parts.loadTemplateFile({}),
   parts.loadCatFile(),
+  parts.loadTemplateFile({}),
   //    parts.nodemon(),
   parts.onFinished()
 ]);
 
 module.exports = mode => {
   if (mode === 'production') {
+    console.log("PRODUCTION: ",merge(commonConfig, productionConfig, { mode }).module.rules)
     return merge(commonConfig, productionConfig, { mode });
   }
   return merge(commonConfig, developmentConfig, { mode });
