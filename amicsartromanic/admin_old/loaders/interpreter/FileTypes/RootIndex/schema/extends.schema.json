@@ -1,0 +1,12 @@
+{
+    "title": "extends from which element",
+    "description": "describes properties required to create a cat file",
+    "type": "object",
+    "properties": {
+      "extends": {
+        "type": "string",
+        "description": "which html element extends the web component"
+      }
+    }
+  }
+  

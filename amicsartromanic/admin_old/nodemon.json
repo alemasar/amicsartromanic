@@ -1,0 +1,4 @@
+{
+    "watch": ["server.js", "loaders/"],
+    "ignore": ["src", "node_modules", "*.svg"]
+}

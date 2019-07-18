@@ -1,0 +1,12 @@
+{
+  "title": "scss file",
+  "description": "describes properties required to create a cat file",
+  "type": "object",
+  "properties": {
+    "scss": {
+      "type": "string",
+      "description": "path of the scss of the web component"
+    }
+  },
+  "required": ["scss"]
+}

@@ -1,0 +1,7 @@
+{
+  "tag": "howto-checkbox-twitter",
+  "basePath": "components/componentB",
+  "scss": "scss/componentB.scss",
+  "js": "js/componentB.js",
+  "template": "html/componentB.html"
+}

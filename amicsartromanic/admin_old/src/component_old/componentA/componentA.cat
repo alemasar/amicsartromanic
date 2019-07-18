@@ -1,0 +1,7 @@
+{
+  "tag": "howto-checkbox",
+  "basePath": "components/componentA",
+  "scss": "scss/componentA.scss",
+  "js": "js/componentA.js",
+  "template": "html/componentA.html"
+}

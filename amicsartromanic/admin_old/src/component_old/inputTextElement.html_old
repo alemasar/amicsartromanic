@@ -1,0 +1,8 @@
+<input
+  is="input-text"
+  type="text"
+  class="form-control"
+  id="addFormComponentName"
+  name="component_name"
+  placeholder="Enter component name"
+/>
