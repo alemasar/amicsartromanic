@@ -15,7 +15,6 @@ class App {
     /* const templateNews = "news.template"; */
     // import(/* webpackMode: "eager" */ `COMPONENTS/componentB/componentB.cat`)
     WebComponents.waitFor(() => {
-      console.log('Paso waitFor');
 
       const event = new Event('event-webcomponents-polyfill-loaded');
       window.dispatchEvent(event);

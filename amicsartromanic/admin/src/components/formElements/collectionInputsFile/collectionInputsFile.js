@@ -9,7 +9,14 @@ export default class CollectionInputsFileElement extends HTMLElement {
   constructor() {
     super();
     this.files = ['HOLA', 'ADEU'];
-    console.log('paso input file element: ' + this.files);
+    this.bar = ['HOLA', 'ADEU'];
+    //console.log('paso input collection file element: ', this.files[0]);
+    this.files.push({
+      id: 'addNewImage',
+      name: 'addNewImage',
+      placeholder: 'Entra una nova imatge per la noticia'
+    });
+    this.bar.push({qualsevol: "QUALSEVOL COSA"});
     if (templateCss) {
       this.appendChild(templateCss.content.cloneNode(true));
     }
@@ -29,11 +36,10 @@ export default class CollectionInputsFileElement extends HTMLElement {
     else css.appendChild(document.createTextNode(styles));
     templateHTML.content.appendChild(css); */
     // const template = document.createElement("template");
-   // template.appendChild(templateCss.content.cloneNode(true));
+    // template.appendChild(templateCss.content.cloneNode(true));
     /*template.appendChild(templateHTML.content.cloneNode(true));
     console.log(templateHTML)
     this.innerHTML = templateHTML.innerHTML;*/
-   // console.log(this.shadowRoot);
+    // console.log(this.shadowRoot);
   }
-
 }

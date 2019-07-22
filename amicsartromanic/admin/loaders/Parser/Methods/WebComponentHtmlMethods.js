@@ -1,44 +1,35 @@
 /* eslint-disable */
 const fs = require('fs');
+const getTagProperties = require('../../helpers/catForeachHelper');
+const getProxyObj = require('../../helpers/getProxyObj');
 
 class WebComponentHtmlMethods {
-  insertJSBind(jsFile, property) {
-    const propertyPosition = jsFile.indexOf('this.' + property);
-    const equalPosition = jsFile.indexOf('=', propertyPosition);
-    const semicolonPosition = jsFile.indexOf(';', equalPosition + 1);
-    const codeBeforeProxy = jsFile.substring(0, semicolonPosition + 1);
-    const codeAfterProxy = jsFile.substring(semicolonPosition + 1);
-    const insertedProxyString = `
-        this.${property} = new Proxy (this.${property}, {
-            get (target, key, proxy) {
-                // console.log("TEMPLATE: " + templateHTML.innerHTML);
-                return Reflect.get(target, key, proxy);
-            }
-        });`;
-    return codeBeforeProxy + insertedProxyString + codeAfterProxy;
+  insertJSBind(jsFile, catForeachProperties) {
+    const codeImports = `import getComment from '../../../cat-elements/helper/getComments.js';\n`;
+    let template = jsFile;
+    catForeachProperties.forEach(properties => {
+      const mainPropertyName = properties.mainPropertyName;
+      const propertyPosition = template.indexOf('this.' + mainPropertyName);
+      const equalPosition = template.indexOf('=', propertyPosition);
+      const semicolonPosition = template.indexOf(';', equalPosition + 1);
+      const codeBeforeProxy = template.substring(0, semicolonPosition + 1);
+      const codeAfterProxy = template.substring(semicolonPosition + 1);
+      const insertedProxyString = `
+      this.${mainPropertyName} = new Proxy (this.${mainPropertyName}, ${getProxyObj(properties)});`;
+      template = codeBeforeProxy + insertedProxyString + codeAfterProxy;
+    });
+    return codeImports + template;
   }
 
   importCatforeach(inputs, args) {
+    const HTMLTemplatePath =
+      inputs.options.context + '/' + inputs.json.basePath + '/' + inputs.json.template;
+    let HTMLtemplate = fs.readFileSync(HTMLTemplatePath, 'utf8').toString();
+    HTMLtemplate = HTMLtemplate.replace('<!-- import cat-foreach -->', '');
+    const catForEachObj = getTagProperties(HTMLtemplate);
     const func = template => {
-      const HTMLTemplatePath =  inputs.options.context + '/' + inputs.json.basePath + '/' + inputs.json.template;
-      let HTMLtemplate = fs.readFileSync(HTMLTemplatePath, 'utf8').toString();
-      HTMLtemplate = HTMLtemplate.replace('<!-- import cat-foreach -->', '');
-      const indexCatForEach = HTMLtemplate.indexOf('cat-foreach');
-      if (indexCatForEach > -1) {
-        const tag = HTMLtemplate.substring(
-          HTMLtemplate.lastIndexOf('<', indexCatForEach),
-          HTMLtemplate.indexOf('>', indexCatForEach) + 1
-        );
-        const mainPropertyName = tag
-          .substring(
-            tag.indexOf('=', tag.indexOf('cat-foreach')) + 2,
-            tag.indexOf('"', tag.indexOf('=') + 3)
-          )
-          .trim()
-          .split('in')[1]
-          .trim();
-        HTMLtemplate = HTMLtemplate.replace(tag, '<cat-foreach>' + tag + '</cat-foreach>');
-        const returnTemplate = this.insertJSBind(template, mainPropertyName);
+      if (catForEachObj.length > 0) {
+        const returnTemplate = this.insertJSBind(template, catForEachObj);
         return returnTemplate;
       }
     };

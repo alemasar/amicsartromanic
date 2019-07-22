@@ -1,7 +1,9 @@
 <!-- import cat-foreach -->
-<input cat-foreach="file in files" is="input-file" type="file" class="form-control-file" id="addNewImages" name="images" placeholder="Entra les imatges de la noticia" />
-<div class="test">
+<input cat-foreach="file in files" is="input-file" type="file" class="form-control-file" id="{{file.id}}" name="{{file.name}}" placeholder="{{file.placeholder}}" />
+<div cat-foreach="foo in bar" class="test">
+  <div>Esto es una prueba</div>
   <div class="test1">
-      Esto es una prueba
+    <div>Esto es una prueba</div>
   </div>
-
+  <span>Esto es una prueba</span>
+</div>

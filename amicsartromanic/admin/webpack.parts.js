@@ -65,10 +65,6 @@ exports.nodemon = () => ({
   plugins: [new NodemonPlugin()]
 });
 
-exports.order = () => ({
-  plugins: [new webpack.optimize.OccurrenceOrderPlugin()]
-});
-
 exports.attachRevision = () => ({
   plugins: [
     new webpack.BannerPlugin({
@@ -188,6 +184,23 @@ exports.loadCSS = ({} = {}) => ({
           },
           'resolve-url-loader'
         ]
+      }
+    ]
+  }
+});
+
+exports.loadJS = ({} = {}) => ({
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
       }
     ]
   }

@@ -49,9 +49,9 @@ class RootIndexTemplateMethods {
       })`;
       });
     const compiledTemplate = await replaceCode(compilerResult, template);
-    const splitedPath = inputs.json.template.split('/');
-    const distPath = inputs.options.context + '/' + inputs.json.basePath + '/' + 'dist/' + splitedPath[0];
-    const fileName = splitedPath[splitedPath.length-1];
+    const splittedPath = inputs.json.template.split('/');
+    const distPath = inputs.options.context + '/' + inputs.json.basePath + '/' + 'dist/' + splittedPath[0];
+    const fileName = splittedPath[splittedPath.length-1];
     createDirectory(distPath);
     fs.writeFileSync(distPath + '/' + fileName, compiledTemplate);
     return new Promise((resolve, reject) => {

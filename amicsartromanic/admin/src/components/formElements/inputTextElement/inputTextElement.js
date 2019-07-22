@@ -7,7 +7,6 @@ export default class InputElement extends HTMLInputElement {
 
   constructor() {
     super();
-    console.log('paso input element');
     //this.attachShadow({ mode: 'open' });
     // console.log(this.cat)
     // this.shadowRoot.appendChild(templateCss.content.cloneNode(true));

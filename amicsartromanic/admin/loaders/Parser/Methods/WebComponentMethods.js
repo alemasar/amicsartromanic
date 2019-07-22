@@ -8,6 +8,7 @@ const Compiler = require('../../Compiler/Compiler');
 const HTMLType = require('../FileType/HTMLParser');
 const WebComponentHtmlMethods = require('./WebComponentHtmlMethods');
 const replaceCode = require('../../helpers/processArray');
+const getTagProperties = require('../../helpers/catForeachHelper');
 
 class WebComponentMethods {
   async compileHTML(inputs, args) {
@@ -25,9 +26,8 @@ class WebComponentMethods {
       inputs.webpack.addDependency(templatePath);
       const parser = new Parser(template, HTMLType, WebComponentHtmlMethods);
       let statement = '';
-      console.log(parser.statements)
       if (parser.statements.length > 0) {
-        console.log("COMPILE HTML", parser.statements[0])
+        // console.log('COMPILE HTML', parser.statements[0]);
         statement = parser.statements[0].statement;
       }
       const compiler = new Compiler(parser.statements);
@@ -47,11 +47,39 @@ class WebComponentMethods {
   }
   async writeHTML(inputs, args, promise) {
     const html = await promise;
-    console.log('WRITE HTML', html.template.replace(html.statement, ''));
+    console.log('WRITE HTML', inputs.webpack.resource);
+    const jsPath = inputs.options.context + '/' + inputs.json.basePath + '/' + inputs.json.js;
+    const jsFile = fs.readFileSync(jsPath, 'utf8');
+    let HTMLtemplate = html.template;
+    HTMLtemplate = HTMLtemplate.replace('<!-- import cat-foreach -->', '');
+    const catForEachObj = getTagProperties(HTMLtemplate);
+
+    if (catForEachObj.length > 0) {
+
+      catForEachObj.forEach(catForEach => {
+        const mainPropertyName = catForEach.mainPropertyName;
+        const propertyPosition = jsFile.indexOf('this.' + mainPropertyName);
+        const equalPosition = jsFile.indexOf('=', propertyPosition);
+        const semicolonPosition = jsFile.indexOf(';', equalPosition + 1);
+        let values = jsFile.substring(equalPosition + 1, semicolonPosition).trim();
+        values = values.replace(/'/g, '"');
+        const json = JSON.parse(values);
+        console.log("VALUES:", json[0])
+        HTMLtemplate = HTMLtemplate.replace(
+          catForEach.tag,
+          `<!-- cat-foreach ${catForEach.mainPropertyName}, ${catForEach.mainObjName} -->
+         ${catForEach.tag}
+         <!-- end cat-foreach ${catForEach.mainPropertyName}, ${catForEach.mainObjName} -->`
+        );
+        
+      });
+      console.log('HTML', HTMLtemplate);
+    }
+
     return new Promise((resolve, reject) => {
       resolve(
         `const templateHTML = document.createElement("template");
-           templateHTML.innerHTML = \`${html.template.replace(html.statement, '')}\`;`
+           templateHTML.innerHTML = \`${HTMLtemplate}\`;`
       );
     });
   }

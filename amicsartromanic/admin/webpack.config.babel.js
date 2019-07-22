@@ -76,7 +76,7 @@ const PATHS = {
 
 const productionConfig = merge([
   parts.clean([PATHS.build, PATHS.compiledJs]),
-  parts.order(),
+  //parts.loadJS({}),
   parts.loadCatFile(),
   parts.loadTemplateFile({}),
   parts.loadHTML({}),
@@ -123,15 +123,17 @@ const developmentConfig = merge([
   ),
   parts.loadCSS(),
   parts.loadImages({}),
+  //parts.loadJS({}),
   parts.loadCatFile(),
   parts.loadTemplateFile({}),
+
   //    parts.nodemon(),
   parts.onFinished()
 ]);
 
 module.exports = mode => {
   if (mode === 'production') {
-    console.log("PRODUCTION: ",merge(commonConfig, productionConfig, { mode }).module.rules)
+   // console.log("PRODUCTION: ",merge(commonConfig, productionConfig, { mode }).module.rules)
     return merge(commonConfig, productionConfig, { mode });
   }
   return merge(commonConfig, developmentConfig, { mode });

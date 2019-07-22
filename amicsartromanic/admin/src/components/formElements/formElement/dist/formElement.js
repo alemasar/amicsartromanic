@@ -8,7 +8,6 @@ export default class FormElement extends HTMLFormElement {
 
   constructor() {
     super();
-    console.log('paso form element');
     this.onsubmit = e => {
       e.preventDefault();
       //console.log("Faig submit!!! ", this.values);
@@ -35,7 +34,7 @@ export default class FormElement extends HTMLFormElement {
           }
         ]
       };
-      console.log(data);
+
       //const headers = new Headers({ 'content-type': 'multipart/form-data' });
       const headers = new Headers({ 'content-type': 'application/json' });
       const requestOptions = {

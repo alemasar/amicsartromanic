@@ -36,10 +36,9 @@ class Prova {
 const i = new Prova();
 
 export default i;
-console.log('anado el listener');
+
 function defineListener(e) {
   // i.loadComponent().then(componentInstance => {
-    console.log('/* write tag */');
   //  if (typeof window.customElements.get('/* write rootTag */-template')==="undefined"){
       window.customElements.define('/* write tag */', i.loadComponent());
   //  }
