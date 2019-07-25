@@ -41,7 +41,7 @@ export default class CollectionInputsFileElement extends HTMLElement {
       }
     ]);
     console.log('DESPUES DEL CONCAT ', this.files);
-    // this.files.pop();
+    this.files.pop();
     console.log('DESPUES DEL POP ', this.files);
     //this.bar.push({ qualsevol: 'QUALSEVOL COSA' });
 

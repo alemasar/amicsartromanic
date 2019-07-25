@@ -60,7 +60,8 @@ const getProxyObj = properties => {
             }
           }
           console.log("PROPIEDAD: ",prop);
-          console.log("ARGUMENTS: ",arguments);
+          Array.prototype[prop].apply(arrayNodes);
+          insertNodes(arrayNodes, firstElem, lastElem);
           return Array.prototype[prop].apply(obj, arguments);
       }
 

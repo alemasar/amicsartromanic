@@ -107,7 +107,8 @@ export default class CollectionInputsFileElement extends HTMLElement {
             }
           }
           console.log("PROPIEDAD: ",prop);
-          console.log("ARGUMENTS: ",arguments);
+          Array.prototype[prop].apply(arrayNodes);
+          insertNodes(arrayNodes, firstElem, lastElem);
           return Array.prototype[prop].apply(obj, arguments);
       }
 
@@ -203,7 +204,8 @@ export default class CollectionInputsFileElement extends HTMLElement {
             }
           }
           console.log("PROPIEDAD: ",prop);
-          console.log("ARGUMENTS: ",arguments);
+          Array.prototype[prop].apply(arrayNodes);
+          insertNodes(arrayNodes, firstElem, lastElem);
           return Array.prototype[prop].apply(obj, arguments);
       }
 
@@ -243,7 +245,7 @@ export default class CollectionInputsFileElement extends HTMLElement {
       }
     ]);
     console.log('DESPUES DEL CONCAT ', this.files);
-    // this.files.pop();
+    this.files.pop();
     console.log('DESPUES DEL POP ', this.files);
     //this.bar.push({ qualsevol: 'QUALSEVOL COSA' });
 
