@@ -8,15 +8,49 @@ export default class CollectionInputsFileElement extends HTMLElement {
 
   constructor() {
     super();
-    this.files = ['HOLA', 'ADEU'];
+    this.files = [
+      {
+        id: 'addNewImage1',
+        name: 'addNewImage',
+        placeholder: 'Entra una nova \'imatge per la noticia'
+      },
+      {
+        id: 'addNewImage2',
+        name: 'addNewImage',
+        placeholder: 'Entra una nova imatge per la noticia'
+      }
+    ];
     this.bar = ['HOLA', 'ADEU'];
     //console.log('paso input collection file element: ', this.files[0]);
     this.files.push({
-      id: 'addNewImage',
+      id: 'addNewImage3',
       name: 'addNewImage',
       placeholder: 'Entra una nova imatge per la noticia'
     });
-    this.bar.push({qualsevol: "QUALSEVOL COSA"});
+    console.log('DESPUES DEL PUSH ', this.files);
+    this.files = this.files.concat([
+      {
+        id: 'addNewImage4',
+        name: 'addNewImage',
+        placeholder: 'Entra una nova imatge per la noticia'
+      },
+      {
+        id: 'addNewImage5',
+        name: 'addNewImage',
+        placeholder: 'Entra una nova imatge per la noticia'
+      }
+    ]);
+    console.log('DESPUES DEL CONCAT ', this.files);
+    // this.files.pop();
+    console.log('DESPUES DEL POP ', this.files);
+    //this.bar.push({ qualsevol: 'QUALSEVOL COSA' });
+
+    /* this.files[1] = {
+      id: 'CambioelID',
+      name: 'addNewImage',
+      placeholder: 'Entra una nova imatge per la noticia'
+    }; */
+    console.log('DESPUES DE LA ASIGNACION ', this.files);
     if (templateCss) {
       this.appendChild(templateCss.content.cloneNode(true));
     }

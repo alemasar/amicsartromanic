@@ -62,13 +62,33 @@ class WebComponentMethods {
         const equalPosition = jsFile.indexOf('=', propertyPosition);
         const semicolonPosition = jsFile.indexOf(';', equalPosition + 1);
         let values = jsFile.substring(equalPosition + 1, semicolonPosition).trim();
-        values = values.replace(/'/g, '"');
+        if (values.indexOf("{") > -1){
+          values = values.replace(/(?<!\\)'/g, '"');
+          values = values.replace(/\'/g, "\\'");
+          values = values.replace(/\n/g, '');
+          values = values.replace(/\s+(?=([^"]*"[^"]*")*[^"]*$)/g, '');
+          values = values.replace(/,/g, ',"');
+          values = values.replace(/"{/g, '{');
+          values = values.replace(/{/g, '{"');
+          values = values.replace(/:/g, '":');
+        } else {
+          values = values.replace(/'/g, '"');
+        }
+        console.log("VALUES", JSON.stringify(values));
         const json = JSON.parse(values);
-        console.log("VALUES:", json[0])
+        console.log("VALUES:", json[0]);
+        let replacedCode = '';
+        json.forEach(tagProperties => {
+          let templateTags = catForEach.tag.replace('cat-foreach="'+catForEach.mainObjName+' in '+catForEach.mainPropertyName+'"', '');
+          Object.keys(tagProperties).forEach(key => {
+            templateTags = templateTags.replace('{{'+catForEach.mainObjName+'.'+key+'}}', tagProperties[key], 'gi');
+          });
+          replacedCode += templateTags;
+        });
         HTMLtemplate = HTMLtemplate.replace(
           catForEach.tag,
           `<!-- cat-foreach ${catForEach.mainPropertyName}, ${catForEach.mainObjName} -->
-         ${catForEach.tag}
+         ${replacedCode}
          <!-- end cat-foreach ${catForEach.mainPropertyName}, ${catForEach.mainObjName} -->`
         );
         
