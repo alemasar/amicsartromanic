@@ -5,7 +5,9 @@ const getProxyObj = require('../../helpers/getProxyObj');
 
 class WebComponentHtmlMethods {
   insertJSBind(jsFile, catForeachProperties) {
-    const codeImports = `import getComment from '../../../cat-elements/helper/getComments.js';\nimport insertNodes from '../../../cat-elements/helper/insertNodes.js';\n`;
+    const codeImports = `import getProxyFunction from '../../../cat-elements/helper/getProxyFunction.js';\n
+                         import proxyHandlerObj from '../../../cat-elements/helper/getProxyHandler.js';\n
+                         import getNodes from '../../../cat-elements/helper/getNodes.js';\n`;
     let template = jsFile;
     catForeachProperties.forEach(properties => {
       const mainPropertyName = properties.mainPropertyName;
@@ -16,10 +18,7 @@ class WebComponentHtmlMethods {
       const codeAfterProxy = template.substring(semicolonPosition + 1);
       const insertedProxyString = `
       const handler${mainPropertyName} = ${getProxyObj(properties)};
-      this.${mainPropertyName} = new Proxy (Object.assign(this.${mainPropertyName}, {
-        _originalHandler: handler${mainPropertyName},
-        _originalTarget: this.${mainPropertyName}
-      }), handler${mainPropertyName});`;
+      this.${mainPropertyName} = handler${mainPropertyName}(this.${mainPropertyName})`;
       template = codeBeforeProxy + insertedProxyString + codeAfterProxy;
     });
     return codeImports + template;

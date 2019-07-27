@@ -45,11 +45,11 @@ export default class CollectionInputsFileElement extends HTMLElement {
     console.log('DESPUES DEL POP ', this.files);
     //this.bar.push({ qualsevol: 'QUALSEVOL COSA' });
 
-    /* this.files[1] = {
+    this.files[1] = {
       id: 'CambioelID',
       name: 'addNewImage',
       placeholder: 'Entra una nova imatge per la noticia'
-    }; */
+    };
     console.log('DESPUES DE LA ASIGNACION ', this.files);
     if (templateCss) {
       this.appendChild(templateCss.content.cloneNode(true));

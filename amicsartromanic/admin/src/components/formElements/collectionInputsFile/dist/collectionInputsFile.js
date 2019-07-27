@@ -1,5 +1,8 @@
-import getComment from '../../../cat-elements/helper/getComments.js';
-import insertNodes from '../../../cat-elements/helper/insertNodes.js';
+import getProxyFunction from '../../../cat-elements/helper/getProxyFunction.js';
+
+                         import proxyHandlerObj from '../../../cat-elements/helper/getProxyHandler.js';
+
+                         import getNodes from '../../../cat-elements/helper/getNodes.js';
 const templateCss = document.createElement("template");templateCss.innerHTML = `<style>collection-inputs-file {
   border: 1px solid #000;
   display: block; }
@@ -7,7 +10,7 @@ const templateCss = document.createElement("template");templateCss.innerHTML = `
 const templateHTML = document.createElement("template");
            templateHTML.innerHTML = `
 <!-- cat-foreach files, file -->
-         <input  is="input-file" type="file" class="form-control-file" id="addNewImage1" id="{{file.id}}" name="addNewImage" placeholder="Entra una nova \'imatge per la noticia" /><input  is="input-file" type="file" class="form-control-file" id="addNewImage2" id="{{file.id}}" name="addNewImage" placeholder="Entra una nova imatge per la noticia" />
+         <input  is="input-text" type="text" class="form-control-file" id="addNewImage1" id="{{file.id}}" name="addNewImage" placeholder="Entra una nova \'imatge per la noticia" /><input  is="input-text" type="text" class="form-control-file" id="addNewImage2" id="{{file.id}}" name="addNewImage" placeholder="Entra una nova imatge per la noticia" />
          <!-- end cat-foreach files, file -->
 <!-- cat-foreach bar, foo -->
          <div  class="test">
@@ -47,184 +50,31 @@ export default class CollectionInputsFileElement extends HTMLElement {
       }
     ];
       const handlerfiles = 
-  {
-    get(obj, prop, proxy) {
-      console.log(prop)
-      if (typeof obj[prop] === 'function') {
-        return function (el) {
-          const rootElement = templateHTML.content;
-          const firstElem = getComment(
-            rootElement,
-            `cat-foreach files, file`
-          );
-          const lastElem = getComment(
-            rootElement,
-            `end cat-foreach files, file`
-          );
-          let firstNode = firstElem.nextSibling;
-          let arrayNodes = [];
-          console.log(firstNode)
-
-          while (firstNode !== lastElem){
-            if (firstNode.nodeType !== 3){
-              arrayNodes.push(firstNode);
-            }
-            firstNode = firstNode.nextSibling;
-          }
-          console.log("ARRAY NODES: ",arrayNodes);
-          let returnArray = [];
-          if (Object.values(arguments).length > 0){
-            let replacedTag = '';
-            if (Object.values(arguments)[0].length > 0){
-              console.log("PROPIEDAD: ", prop);
-              Object.values(arguments)[0].forEach(argument => {
-                let tempTag = `<input cat-foreach="file in files" is="input-file" type="file" class="form-control-file" id="{{file.id}}" id="{{file.id}}" name="{{file.name}}" placeholder="{{file.placeholder}}" />`;
-                Object.keys(argument).forEach(key => {
-                  const regAttributte = new RegExp('{{file.'+key+'}}', 'gi')
-                  tempTag = tempTag.replace(regAttributte, argument[key]);
-                });
-                replacedTag += tempTag;
-              });
-              const domObj = new DOMParser().parseFromString(replacedTag, "text/html");
-              console.log("ARRAY NODES: ",arrayNodes);
-              arrayNodes = Array.prototype[prop].apply(arrayNodes, domObj.body.childNodes);
-              insertNodes(arrayNodes, firstElem, lastElem);
-              return new Proxy (Object.assign(Array.prototype[prop].apply(obj, Object.values(arguments)[0]), {
-                _originalHandler: obj._originalHandler,
-                _originalTarget: obj._originalTarget
-              }), obj._originalHandler);
-            } else {
-              let tempTag = `<input cat-foreach="file in files" is="input-file" type="file" class="form-control-file" id="{{file.id}}" id="{{file.id}}" name="{{file.name}}" placeholder="{{file.placeholder}}" />`;
-              const insertElement = Object.values(arguments)[0];
-              Object.keys(insertElement).forEach(key => {
-                const regAttributte = new RegExp('{{file.'+key+'}}', 'gi')
-                tempTag = tempTag.replace(regAttributte, insertElement[key]);
-              });
-              const domObj = new DOMParser().parseFromString(tempTag, "text/html");
-              Array.prototype[prop].apply(arrayNodes, domObj.body.childNodes);
-              insertNodes(arrayNodes, firstElem, lastElem);
-              return Array.prototype[prop].apply(obj, Object.values(arguments));
-            }
-          }
-          console.log("PROPIEDAD: ",prop);
-          Array.prototype[prop].apply(arrayNodes);
-          insertNodes(arrayNodes, firstElem, lastElem);
-          return Array.prototype[prop].apply(obj, arguments);
-      }
-
-    }
-    return obj[prop];
-    },
-    set(obj, prop, value) {
-      console.log("PASO PER AQUI", prop)
-      return true;
-    },
-    deleteProperty: function (obj, prop) {
-      console.log("PASO PER AQUI ????????", prop)
-    }
+  (originalObj) => {
+    let t = originalObj;
+    const arrayNodes = getNodes(templateHTML.content, 'files', 'file');
+    console.log(arrayNodes)
+    return new Proxy(t, proxyHandlerObj(arrayNodes, `<input  is="input-text" type="text" class="form-control-file" id="{{file.id}}" id="{{file.id}}" name="{{file.name}}" placeholder="{{file.placeholder}}" />`));
   }
   ;
-      this.files = new Proxy (Object.assign(this.files, {
-        _originalHandler: handlerfiles,
-        _originalTarget: this.files
-      }), handlerfiles);
+      this.files = handlerfiles(this.files)
     this.bar = ['HOLA', 'ADEU'];
       const handlerbar = 
-  {
-    get(obj, prop, proxy) {
-      console.log(prop)
-      if (typeof obj[prop] === 'function') {
-        return function (el) {
-          const rootElement = templateHTML.content;
-          const firstElem = getComment(
-            rootElement,
-            `cat-foreach bar, foo`
-          );
-          const lastElem = getComment(
-            rootElement,
-            `end cat-foreach bar, foo`
-          );
-          let firstNode = firstElem.nextSibling;
-          let arrayNodes = [];
-          console.log(firstNode)
-
-          while (firstNode !== lastElem){
-            if (firstNode.nodeType !== 3){
-              arrayNodes.push(firstNode);
-            }
-            firstNode = firstNode.nextSibling;
-          }
-          console.log("ARRAY NODES: ",arrayNodes);
-          let returnArray = [];
-          if (Object.values(arguments).length > 0){
-            let replacedTag = '';
-            if (Object.values(arguments)[0].length > 0){
-              console.log("PROPIEDAD: ", prop);
-              Object.values(arguments)[0].forEach(argument => {
-                let tempTag = `<div cat-foreach="foo in bar" class="test">
+  (originalObj) => {
+    let t = originalObj;
+    const arrayNodes = getNodes(templateHTML.content, 'bar', 'foo');
+    console.log(arrayNodes)
+    return new Proxy(t, proxyHandlerObj(arrayNodes, `<div  class="test">
   <div>Esto es una prueba</div>
   <div class="test1">
     <div>Esto es una prueba</div>
   </div>
   <span>Esto es una prueba</span>
 </div>
-`;
-                Object.keys(argument).forEach(key => {
-                  const regAttributte = new RegExp('{{foo.'+key+'}}', 'gi')
-                  tempTag = tempTag.replace(regAttributte, argument[key]);
-                });
-                replacedTag += tempTag;
-              });
-              const domObj = new DOMParser().parseFromString(replacedTag, "text/html");
-              console.log("ARRAY NODES: ",arrayNodes);
-              arrayNodes = Array.prototype[prop].apply(arrayNodes, domObj.body.childNodes);
-              insertNodes(arrayNodes, firstElem, lastElem);
-              return new Proxy (Object.assign(Array.prototype[prop].apply(obj, Object.values(arguments)[0]), {
-                _originalHandler: obj._originalHandler,
-                _originalTarget: obj._originalTarget
-              }), obj._originalHandler);
-            } else {
-              let tempTag = `<div cat-foreach="foo in bar" class="test">
-  <div>Esto es una prueba</div>
-  <div class="test1">
-    <div>Esto es una prueba</div>
-  </div>
-  <span>Esto es una prueba</span>
-</div>
-`;
-              const insertElement = Object.values(arguments)[0];
-              Object.keys(insertElement).forEach(key => {
-                const regAttributte = new RegExp('{{foo.'+key+'}}', 'gi')
-                tempTag = tempTag.replace(regAttributte, insertElement[key]);
-              });
-              const domObj = new DOMParser().parseFromString(tempTag, "text/html");
-              Array.prototype[prop].apply(arrayNodes, domObj.body.childNodes);
-              insertNodes(arrayNodes, firstElem, lastElem);
-              return Array.prototype[prop].apply(obj, Object.values(arguments));
-            }
-          }
-          console.log("PROPIEDAD: ",prop);
-          Array.prototype[prop].apply(arrayNodes);
-          insertNodes(arrayNodes, firstElem, lastElem);
-          return Array.prototype[prop].apply(obj, arguments);
-      }
-
-    }
-    return obj[prop];
-    },
-    set(obj, prop, value) {
-      console.log("PASO PER AQUI", prop)
-      return true;
-    },
-    deleteProperty: function (obj, prop) {
-      console.log("PASO PER AQUI ????????", prop)
-    }
+`));
   }
   ;
-      this.bar = new Proxy (Object.assign(this.bar, {
-        _originalHandler: handlerbar,
-        _originalTarget: this.bar
-      }), handlerbar);
+      this.bar = handlerbar(this.bar)
     //console.log('paso input collection file element: ', this.files[0]);
     this.files.push({
       id: 'addNewImage3',
@@ -249,11 +99,11 @@ export default class CollectionInputsFileElement extends HTMLElement {
     console.log('DESPUES DEL POP ', this.files);
     //this.bar.push({ qualsevol: 'QUALSEVOL COSA' });
 
-    /* this.files[1] = {
+    this.files[1] = {
       id: 'CambioelID',
       name: 'addNewImage',
       placeholder: 'Entra una nova imatge per la noticia'
-    }; */
+    };
     console.log('DESPUES DE LA ASIGNACION ', this.files);
     if (templateCss) {
       this.appendChild(templateCss.content.cloneNode(true));
