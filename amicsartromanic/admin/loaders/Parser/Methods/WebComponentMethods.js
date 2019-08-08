@@ -9,6 +9,7 @@ const HTMLType = require('../FileType/HTMLParser');
 const WebComponentHtmlMethods = require('./WebComponentHtmlMethods');
 const replaceCode = require('../../helpers/processArray');
 const getTagProperties = require('../../helpers/catForeachHelper');
+const proxyHelper = require('../../helpers/proxyHelper');
 
 class WebComponentMethods {
   async compileHTML(inputs, args) {
@@ -45,6 +46,7 @@ class WebComponentMethods {
       });
     }
   }
+
   async writeHTML(inputs, args, promise) {
     const html = await promise;
     console.log('WRITE HTML', inputs.webpack.resource);
@@ -52,31 +54,14 @@ class WebComponentMethods {
     const jsFile = fs.readFileSync(jsPath, 'utf8');
     let HTMLtemplate = html.template;
     HTMLtemplate = HTMLtemplate.replace('<!-- import cat-foreach -->', '');
-    const catForEachObj = getTagProperties(HTMLtemplate);
-
+    /*const catForEachObj = getTagProperties(HTMLtemplate);
+    let catForEachTemplates = '';
     if (catForEachObj.length > 0) {
-
       catForEachObj.forEach(catForEach => {
-        const mainPropertyName = catForEach.mainPropertyName;
-        const propertyPosition = jsFile.indexOf('this.' + mainPropertyName);
-        const equalPosition = jsFile.indexOf('=', propertyPosition);
-        const semicolonPosition = jsFile.indexOf(';', equalPosition + 1);
-        let values = jsFile.substring(equalPosition + 1, semicolonPosition).trim();
-        if (values.indexOf("{") > -1){
-          values = values.replace(/(?<!\\)'/g, '"');
-          values = values.replace(/\'/g, "\\'");
-          values = values.replace(/\n/g, '');
-          values = values.replace(/\s+(?=([^"]*"[^"]*")*[^"]*$)/g, '');
-          values = values.replace(/,/g, ',"');
-          values = values.replace(/"{/g, '{');
-          values = values.replace(/{/g, '{"');
-          values = values.replace(/:/g, '":');
-        } else {
-          values = values.replace(/'/g, '"');
-        }
-        console.log("VALUES", JSON.stringify(values));
-        const json = JSON.parse(values);
-        console.log("VALUES:", json[0]);
+      
+        const objString = proxyHelper.getInitialObjectString(catForEach.mainPropertyName, jsFile);
+        const obj = proxyHelper.escapeInitialCatForeachObject(objString);
+        const json = JSON.parse(obj);
         let replacedCode = '';
         json.forEach(tagProperties => {
           let templateTags = catForEach.tag.replace('cat-foreach="'+catForEach.mainObjName+' in '+catForEach.mainPropertyName+'"', '');
@@ -89,16 +74,19 @@ class WebComponentMethods {
           catForEach.tag,
           `<!-- cat-foreach ${catForEach.mainPropertyName}, ${catForEach.mainObjName} -->
          ${replacedCode}
-         <!-- end cat-foreach ${catForEach.mainPropertyName}, ${catForEach.mainObjName} -->`
+         <!-- end cat-foreach ${catForEach.mainPropertyName}, ${catForEach.mainObjName} -->
+         `
         );
-        
+        catForEachTemplates += `const templateHTML${catForEach.mainPropertyName} = document.createElement("template");
+        templateHTML${catForEach.mainPropertyName}.innerHTML = \`${catForEach.tag}\`;`
       });
       console.log('HTML', HTMLtemplate);
-    }
+    }*/
 
     return new Promise((resolve, reject) => {
       resolve(
-        `const templateHTML = document.createElement("template");
+        `
+        const templateHTML = document.createElement("template");
            templateHTML.innerHTML = \`${HTMLtemplate}\`;`
       );
     });

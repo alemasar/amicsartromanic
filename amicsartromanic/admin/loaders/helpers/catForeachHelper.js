@@ -48,6 +48,7 @@ const getTagProperties = HTMLtemplate => {
       )
       .trim()
       .split('in');
+    console.log(splittedMainPropertyName);
     returnObj.push({
       mainPropertyName: splittedMainPropertyName[1].trim(),
       mainObjName: splittedMainPropertyName[0].trim(),
