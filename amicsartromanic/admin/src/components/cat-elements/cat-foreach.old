@@ -1,7 +1,0 @@
-{
-  "tag": "cat-foreach",
-  "basePath": "components/cat-elements",
-  "js": "cat-foreach/cat-foreach.js",
-  "template": "cat-foreach/cat-foreach.html",
-  "scss": "cat-foreach/cat-foreach.scss"
-}
