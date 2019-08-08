@@ -1,7 +1,0 @@
-{
-  "tag": "input-file",
-  "basePath": "components/formElements",
-  "js": "inputFileElement/inputFileElement.js",
-  "scss": "inputFileElement/inputFileElement.scss",
-  "extends": "input"
-}

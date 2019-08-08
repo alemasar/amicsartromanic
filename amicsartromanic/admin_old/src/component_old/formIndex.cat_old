@@ -1,7 +1,0 @@
-{
-  "tag": "form-element",
-  "basePath": "components/formElements",
-  "js": "formIndex/formIndex.js",
-  "template": "formIndex/formIndex.html",
-  "scss": "formIndex/formIndex.scss"
-}

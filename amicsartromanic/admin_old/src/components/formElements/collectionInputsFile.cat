@@ -1,7 +1,0 @@
-{
-  "tag": "collection-inputs-file",
-  "basePath": "components/formElements",
-  "js": "collectionInputsFile/collectionInputsFile.js",
-  "scss": "collectionInputsFile/collectionInputsFile.scss",
-  "template": "collectionInputsFile/collectionInputsFile.html"
-}
