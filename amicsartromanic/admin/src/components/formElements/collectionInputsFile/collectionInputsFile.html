@@ -1,0 +1,12 @@
+<!-- import cat-foreach -->
+<input cat-foreach="file in files" is="input-text" type="text" class="form-control-file" id="{{file.id}}" name="{{file.name}}" placeholder="{{file.placeholder}}" checked />
+<div cat-foreach="foo in bar" class="test">
+  <div>{{foo.message}}</div>
+  <div class="test1" cat-foreach="foobar in foo.messages">
+    <div>{{foobar.message}}</div>
+    <div class="test1" cat-foreach="child in foobar.childs">
+      {{child.test}}
+    </div>
+  </div>
+  <span>{{foo.description}}</span>
+</div>

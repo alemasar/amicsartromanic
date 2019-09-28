@@ -1,4 +1,8 @@
 swagger: "2.0"
+securityDefinitions:
+  basic:
+    type: basic
+    x-basicInfoFunc: app.components.basic_auth
 info:
   description: This is the swagger file that goes with our server code
   version: "1.0.0"
@@ -12,6 +16,58 @@ basePath: "/api"
 
 # Paths supported by the server application
 paths:
+  /getToken:
+    get:
+      operationId: "app.components.getToken"
+      consumes:
+        - "application/json"
+      tags:
+        - "getToken"
+      summary: "Get the user logged token"
+      description: "Get the user logged token"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: string
+  /getRole:
+    get:
+      operationId: "app.components.getRole"
+      consumes:
+        - "application/json"
+      tags:
+        - "GetRole"
+      summary: "Get the user logged role"
+      description: "Get the user logged role"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: string
+  /login:
+    post:
+      security:
+        - basic: []
+      operationId: "app.components.login"
+      consumes:
+        - "application/json"
+      tags:
+        - "Login"
+      summary: "Login to aplication"
+      description: "Login to aplication"
+      parameters:
+        - name: login
+          in: body
+          description: Login to aplication
+          schema:
+            $ref: '#/definitions/Login'
+      responses:
+        200:
+          description: OK
+          schema:
+            type: string
+        401:
+          $ref: '#/responses/UnauthorizedError'
   /add:
     post:
       operationId: "app.components.hello_world"
@@ -31,8 +87,34 @@ paths:
       responses:
         200:
           description: OK
+        401:
+          $ref: '#/responses/UnauthorizedError'
+  /addUser:
+    post:
+      security:
+        - basic: []
+      operationId: "app.users.addUser"
+      consumes:
+        - "application/json"
+      tags:
+        - "User"
+      summary: "The people data structure supported by the server application"
+      description: "Read the list of people"
+      parameters:
+        - name: user
+          in: body
+          description: User to create
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        200:
+          description: OK
+        401:
+          $ref: '#/responses/UnauthorizedError'
   /addNew:
     post:
+      security:
+        - basic: []
       operationId: "app.news.addNew"
       consumes:
         - "application/json"
@@ -46,10 +128,11 @@ paths:
           description: Component to create
           schema:
             $ref: '#/definitions/News'
-
       responses:
         200:
           description: OK
+        401:
+          $ref: '#/responses/UnauthorizedError'
 
   /addImage:
     post:
@@ -80,11 +163,16 @@ paths:
 #                type: string
 #              footer:
 #                type: file
-
       responses:
         200:
           description: OK
 
+responses:
+  UnauthorizedError:
+    description: Authentication information is missing or invalid
+    headers:
+      WWW_Authenticate:
+        type: string
 definitions:
   Component:
     type: object
@@ -125,3 +213,32 @@ definitions:
               type: string
             images_footer:
               type: string
+
+  User:
+    type: object
+    properties:
+      users_email:
+        type: string
+        description: Summary of the new to create
+      users_password:
+        type: string
+        description: Summary of the new to create
+      users_name:
+        type: string
+        description: Body of the new to create
+      users_surname:
+        type: string
+        description: Summary of the new to create
+      users_role:
+        type: string
+        description: Body of the new to create
+
+  Login:
+    type: object
+    properties:
+      username:
+        type: string
+        description: Username trying to do login
+      password:
+        type: string
+        description: Password of this username

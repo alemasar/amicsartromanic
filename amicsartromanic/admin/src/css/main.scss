@@ -1,0 +1,17 @@
+@import "node_modules/bootstrap/scss/functions";
+@import "./customVariables";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+html {
+    font-family: sans-serif;
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -ms-overflow-style: scrollbar;
+    -webkit-tap-highlight-color: transparent; 
+}
+
+header {
+    background-color: $teal;
+}

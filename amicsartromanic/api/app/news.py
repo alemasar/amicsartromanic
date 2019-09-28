@@ -11,16 +11,17 @@ from PIL import Image
 
 def addNew(new=None):
 
-  newsImage = list()
-  for image in new.get('news_image'):
-    logging.info("FILES: %s" % image.get("images_path"))
-    tempImage = orm.Images(image_path = image.get("images_path"), image_footer = image.get("images_footer"))
-    newsImage.append(tempImage)
+#  newsImage = list()
+#  for image in new.get('news_image'):
+#    logging.info("FILES: %s" % image.get("images_path"))
+#    tempImage = orm.Images(image_path = image.get("images_path"), image_footer = image.get("images_footer"))
+#    newsImage.append(tempImage)
+#news_image = newsImage
 
-  newNew = orm.News(news_summary = new.get('news_summary'), news_body = new.get('news_body'), news_image = newsImage)
+  newNew = orm.News(news_summary = new.get('news_summary'), news_body = new.get('news_body'))
 
   logging.info("FILES: %s" % newNew)
-  db_session.add_all(newsImage)
+  #db_session.add_all(newsImage)
   db_session.add(newNew)
   db_session.commit()
 

@@ -18,7 +18,10 @@ app.add_api('my_super_app.yaml')
 # uwsgi --http :8080 -w app
 application = app.app
 application.config['UPLOAD_FOLDER'] = Config.NEWS_IMAGE_UPLOAD_FOLDER
-CORS(application)
+CORS(application, supports_credentials = True)
+
+application.secret_key = Config.SECRET_KEY
+
 
 @application.teardown_appcontext
 def shutdown_session(exception=None):

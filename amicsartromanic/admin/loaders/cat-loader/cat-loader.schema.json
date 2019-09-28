@@ -1,0 +1,20 @@
+{
+  "title": "cat file",
+  "description": "describes properties required to create a cat file",
+  "type": "object",
+  "properties": {
+    "tag": {
+      "type": "string",
+      "description": "tag for the web component"
+    },
+    "basePath": {
+      "type": "string",
+      "description": "base path of the web component"
+    },
+    "js": {
+      "type": "string",
+      "description": "path of the js of the web component"
+    }
+  },
+  "required": ["tag", "basePath", "js"]
+}

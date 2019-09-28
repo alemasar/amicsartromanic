@@ -1,0 +1,7 @@
+{
+  "tag": "form-element",
+  "basePath": "components/formElements",
+  "js": "formElement/formElement.js",
+  "scss": "formElement/formElement.scss",
+  "extends": "form"
+}
